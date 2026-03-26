@@ -5,3 +5,4 @@ __pycache__/
 *.pyc
 data/raw/
 data/processed/X_encoded.csv
+models/random_forest_model.pkl
