@@ -15,6 +15,24 @@ st.write(
     """
 )
 
+st.header("Project overview")
+
+st.write(
+    """
+    The goal of this project is to predict whether a hotel booking
+    is likely to be cancelled, using historical booking data.
+    """
+)
+
+st.write(
+    """
+    The dataset used for this project contains booking information
+    for both a city hotel and a resort hotel. The workflow includes
+    exploratory data analysis, data cleaning, feature engineering,
+    model training, and final model selection.
+    """
+)
+
 st.subheader("Project sections")
 st.write("- Business problem and project overview")
 st.write("- Exploratory data analysis findings")
