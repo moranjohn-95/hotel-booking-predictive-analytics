@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 
 st.set_page_config(
@@ -62,6 +63,11 @@ st.write(
     "- Market segment and distribution channel showed clear "
     "differences in cancellation behaviour."
 )
+
+st.header("Model comparison")
+
+model_results = pd.read_csv("outputs/model_comparison_results.csv")
+st.dataframe(model_results)
 
 st.subheader("Project sections")
 st.write("- Business problem and project overview")
