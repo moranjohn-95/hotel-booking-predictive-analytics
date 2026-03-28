@@ -33,6 +33,36 @@ st.write(
     """
 )
 
+st.header("Key EDA findings")
+
+st.write(
+    """
+    Exploratory data analysis showed that several features were
+    strongly related to cancellation behaviour.
+    """
+)
+
+st.write(
+    """
+    Important findings included:
+    """
+)
+
+st.write("- Longer lead times were associated with more cancellations.")
+st.write("- Non refund deposits had extremely high cancellation rates.")
+st.write(
+    "- Repeat guests were much less likely to cancel than "
+    "first time guests."
+)
+st.write(
+    "- Bookings with more special requests were less likely "
+    "to cancel."
+)
+st.write(
+    "- Market segment and distribution channel showed clear "
+    "differences in cancellation behaviour."
+)
+
 st.subheader("Project sections")
 st.write("- Business problem and project overview")
 st.write("- Exploratory data analysis findings")
