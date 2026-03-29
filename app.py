@@ -1,3 +1,4 @@
+import joblib
 import pandas as pd
 import streamlit as st
 
@@ -16,6 +17,11 @@ try:
         model_available = True
 except FileNotFoundError:
     model_available = False
+
+model = None
+
+if model_available:
+    model = joblib.load(model_path)
 
 st.title("Hotel Booking Cancellation Analytics")
 
