@@ -6,6 +6,17 @@ st.set_page_config(
     layout="wide",
 )
 
+model_results = pd.read_csv("outputs/model_comparison_results.csv")
+model_path = "models/random_forest_model.pkl"
+
+model_available = False
+
+try:
+    with open(model_path, "rb"):
+        model_available = True
+except FileNotFoundError:
+    model_available = False
+
 st.title("Hotel Booking Cancellation Analytics")
 
 st.write(
@@ -15,6 +26,14 @@ st.write(
     Demand dataset.
     """
 )
+
+if model_available:
+    st.success("Final Random Forest model file detected.")
+else:
+    st.warning(
+        "Final model file not found locally. Prediction features "
+        "will be limited until the model file is available."
+    )
 
 st.header("Project overview")
 
