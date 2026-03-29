@@ -93,6 +93,19 @@ st.write(
     """
 )
 
+st.header("Placeholder- prediction interface")
+
+st.write(
+    """
+    This section will allow users to enter selected booking details
+    and view a cancellation prediction from the final Random Forest
+    model.
+    """
+)
+
+st.info(
+    "Interactive prediction inputs will be added in the next step."
+)
 st.subheader("Project sections")
 st.write("- Business problem and project overview")
 st.write("- Exploratory data analysis findings")
