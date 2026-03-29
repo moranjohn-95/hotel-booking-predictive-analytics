@@ -69,6 +69,30 @@ st.header("Model comparison")
 model_results = pd.read_csv("outputs/model_comparison_results.csv")
 st.dataframe(model_results)
 
+st.header("Final model selection")
+
+st.write(
+    """
+    Random Forest was selected as the final model because
+    it achieved the strongest overall performance across
+    the main evaluation metrics.
+    """
+)
+
+st.write("Final Random Forest test performance:")
+st.write("- Accuracy: 0.8526")
+st.write("- Precision: 0.7787")
+st.write("- Recall: 0.6491")
+st.write("- F1 Score: 0.7080")
+st.write("- ROC-AUC: 0.9108")
+
+st.write(
+    """
+    Although Gradient Boosting also performed strongly, Random Forest
+    produced the best overall balance and the highest ROC-AUC score.
+    """
+)
+
 st.subheader("Project sections")
 st.write("- Business problem and project overview")
 st.write("- Exploratory data analysis findings")
