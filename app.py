@@ -197,12 +197,12 @@ if predict_clicked:
 
         if prediction == 1:
             st.error(
-                f"Predicted cancellation risk: "
+                f"High predicted cancellation risk: "
                 f"{prediction_probability:.2%}"
             )
         else:
             st.success(
-                f"Predicted cancellation risk: "
+                f"Lower predicted cancellation risk: "
                 f"{prediction_probability:.2%}"
             )
     else:
