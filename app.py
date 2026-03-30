@@ -174,7 +174,15 @@ predict_clicked = st.button("Predict cancellation risk")
 
 if predict_clicked:
     input_row = pd.DataFrame(0, index=[0], columns=feature_columns)
-    st.write("Encoded input row created successfully.")
+
+    input_row.at[0, "lead_time"] = lead_time
+    input_row.at[0, "adr"] = adr
+    input_row.at[0, "total_of_special_requests"] = (
+        total_of_special_requests
+    )
+    input_row.at[0, "is_repeated_guest"] = is_repeated_guest
+
+    st.write("Numeric inputs mapped successfully.")
 
 st.subheader("Project sections")
 st.write("- Business problem and project overview")
