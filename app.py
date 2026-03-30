@@ -12,7 +12,7 @@ feature_columns = pd.read_csv(
     "data/processed/X_encoded.csv",
     nrows=0,
 ).columns.tolist()
-model_path = "models/random_forest_model.pkl"
+model_path = "models/random_forest_model_deploy.pkl"
 
 model_available = False
 
