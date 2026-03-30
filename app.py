@@ -118,19 +118,54 @@ st.write(
     """
 )
 
-st.header("Placeholder- prediction interface")
+st.header("Initial prediction interface")
 
 st.write(
     """
-    This section will allow users to enter selected booking details
-    and view a cancellation prediction from the final Random Forest
-    model.
+    Enter a small set of booking details below to explore how the
+    final model can be used in practice.
     """
 )
 
-st.info(
-    "Interactive prediction inputs will be added in the next step."
-)
+col1, col2 = st.columns(2)
+
+with col1:
+    lead_time = st.number_input(
+        "Lead time",
+        min_value=0,
+        max_value=800,
+        value=69,
+        step=1,
+    )
+    adr = st.number_input(
+        "Average daily rate (ADR)",
+        min_value=0.0,
+        max_value=6000.0,
+        value=95.0,
+        step=1.0,
+    )
+    total_of_special_requests = st.number_input(
+        "Total special requests",
+        min_value=0,
+        max_value=10,
+        value=0,
+        step=1,
+    )
+
+with col2:
+    deposit_type = st.selectbox(
+        "Deposit type",
+        ["No Deposit", "Non Refund", "Refundable"],
+    )
+    customer_type = st.selectbox(
+        "Customer type",
+        ["Transient", "Transient-Party", "Contract", "Group"],
+    )
+    is_repeated_guest = st.selectbox(
+        "Is repeated guest?",
+        [0, 1],
+    )
+
 st.subheader("Project sections")
 st.write("- Business problem and project overview")
 st.write("- Exploratory data analysis findings")
