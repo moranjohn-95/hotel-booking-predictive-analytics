@@ -205,6 +205,13 @@ if predict_clicked:
                 f"Lower predicted cancellation risk: "
                 f"{prediction_probability:.2%}"
             )
+
+            st.caption(
+              "This is a model based estimate using the selected "
+              "booking inputs. "
+              "It should be used to support decision making, not treated "
+              "as certainty."
+            )
     else:
         st.warning(
             "Model file is not available locally, so no prediction "
