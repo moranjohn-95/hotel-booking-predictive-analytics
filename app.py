@@ -8,6 +8,10 @@ st.set_page_config(
 )
 
 model_results = pd.read_csv("outputs/model_comparison_results.csv")
+feature_columns = pd.read_csv(
+    "data/processed/X_encoded.csv",
+    nrows=0,
+).columns.tolist()
 model_path = "models/random_forest_model.pkl"
 
 model_available = False
@@ -169,9 +173,8 @@ with col2:
 predict_clicked = st.button("Predict cancellation risk")
 
 if predict_clicked:
-    st.info(
-        "Prediction logic will be added after."
-    )
+    input_row = pd.DataFrame(0, index=[0], columns=feature_columns)
+    st.write("Encoded input row created successfully.")
 
 st.subheader("Project sections")
 st.write("- Business problem and project overview")
