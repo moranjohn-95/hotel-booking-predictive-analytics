@@ -182,7 +182,16 @@ if predict_clicked:
     )
     input_row.at[0, "is_repeated_guest"] = is_repeated_guest
 
-    st.write("Numeric inputs mapped successfully.")
+    deposit_col = f"deposit_type_{deposit_type}"
+    customer_col = f"customer_type_{customer_type}"
+
+    if deposit_col in input_row.columns:
+        input_row.at[0, deposit_col] = 1
+
+    if customer_col in input_row.columns:
+        input_row.at[0, customer_col] = 1
+
+    st.write("Numeric and categorical inputs are mapped successfully.")
 
 st.subheader("Project sections")
 st.write("- Business problem and project overview")
