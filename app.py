@@ -166,6 +166,13 @@ with col2:
         [0, 1],
     )
 
+predict_clicked = st.button("Predict cancellation risk")
+
+if predict_clicked:
+    st.info(
+        "Prediction logic will be added after."
+    )
+
 st.subheader("Project sections")
 st.write("- Business problem and project overview")
 st.write("- Exploratory data analysis findings")
