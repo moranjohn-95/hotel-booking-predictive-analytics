@@ -191,7 +191,25 @@ if predict_clicked:
     if customer_col in input_row.columns:
         input_row.at[0, customer_col] = 1
 
-    st.write("Numeric and categorical inputs are mapped successfully.")
+    if model is not None:
+        prediction = model.predict(input_row)[0]
+        prediction_probability = model.predict_proba(input_row)[0][1]
+
+        if prediction == 1:
+            st.error(
+                f"Predicted cancellation risk: "
+                f"{prediction_probability:.2%}"
+            )
+        else:
+            st.success(
+                f"Predicted cancellation risk: "
+                f"{prediction_probability:.2%}"
+            )
+    else:
+        st.warning(
+            "Model file is not available locally, so no prediction "
+            "can be generated."
+        )
 
 st.subheader("Project sections")
 st.write("- Business problem and project overview")
