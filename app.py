@@ -191,6 +191,19 @@ if predict_clicked:
     if customer_col in input_row.columns:
         input_row.at[0, customer_col] = 1
 
+    st.subheader("Entered booking details")
+
+    st.write(
+        {
+            "Lead time": lead_time,
+            "ADR": adr,
+            "Total special requests": total_of_special_requests,
+            "Deposit type": deposit_type,
+            "Customer type": customer_type,
+            "Is repeated guest": is_repeated_guest,
+        }
+    )
+
     if model is not None:
         prediction = model.predict(input_row)[0]
         prediction_probability = model.predict_proba(input_row)[0][1]
@@ -206,12 +219,11 @@ if predict_clicked:
                 f"{prediction_probability:.2%}"
             )
 
-            st.caption(
-              "This is a model based estimate using the selected "
-              "booking inputs. "
-              "It should be used to support decision making, not treated "
-              "as certainty."
-            )
+        st.caption(
+            "This is a model based estimate using the selected "
+            "booking inputs. It should be used to support "
+            "decision making, not treated as certainty."
+        )
     else:
         st.warning(
             "Model file is not available locally, so no prediction "
