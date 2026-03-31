@@ -94,8 +94,6 @@ st.write(
 )
 
 st.header("Model comparison")
-
-model_results = pd.read_csv("outputs/model_comparison_results.csv")
 st.dataframe(model_results)
 
 st.header("Final model selection")
