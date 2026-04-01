@@ -128,6 +128,37 @@ with chart_col:
 st.header("Model comparison")
 st.dataframe(model_results)
 
+st.subheader("ROC-AUC comparison across models")
+
+st.write(
+    """
+    This chart highlights that Random Forest achieved the highest
+    ROC-AUC score, which supported its selection as the final model.
+    """
+)
+
+chart_col, _ = st.columns([1, 1])
+
+with chart_col:
+    fig, ax = plt.subplots(figsize=(5, 3))
+    model_results.sort_values(
+        by="ROC-AUC",
+        ascending=False,
+    ).plot(
+        kind="bar",
+        x="Model",
+        y="ROC-AUC",
+        ax=ax,
+        legend=False,
+    )
+    ax.set_title("Model ROC-AUC Scores", fontsize=12)
+    ax.set_xlabel("Model", fontsize=10)
+    ax.set_ylabel("ROC-AUC", fontsize=10)
+    ax.tick_params(axis="x", rotation=20, labelsize=9)
+    ax.tick_params(axis="y", labelsize=9)
+    plt.tight_layout()
+    st.pyplot(fig)
+
 st.header("Final model selection")
 
 st.write(
