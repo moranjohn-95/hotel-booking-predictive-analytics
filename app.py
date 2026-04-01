@@ -1,4 +1,5 @@
 import joblib
+import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 
@@ -12,6 +13,7 @@ feature_columns = pd.read_csv(
     "data/processed/X_encoded.csv",
     nrows=0,
 ).columns.tolist()
+cleaned_df = pd.read_csv("data/processed/cleaned_hotel_bookings.csv")
 model_path = "models/random_forest_model_deploy.pkl"
 
 model_available = False
@@ -92,6 +94,36 @@ st.write(
     "- Market segment and distribution channel showed clear "
     "differences in cancellation behaviour."
 )
+
+st.subheader("Hotel type and cancellation rate")
+
+st.write(
+    """
+    This chart shows that cancellation rates were higher for City Hotel
+    bookings than for Resort Hotel bookings, supporting the earlier EDA
+    finding that hotel type is related to cancellation behaviour.
+    """
+)
+
+hotel_cancel_rate = (
+    cleaned_df.groupby("hotel")["is_canceled"]
+    .mean()
+    .sort_values(ascending=False)
+    * 100
+)
+
+chart_col, _ = st.columns([1, 1])
+
+with chart_col:
+    fig, ax = plt.subplots(figsize=(4.5, 3))
+    hotel_cancel_rate.plot(kind="bar", ax=ax)
+    ax.set_title("Cancellation Rate by Hotel Type", fontsize=12)
+    ax.set_xlabel("Hotel Type", fontsize=10)
+    ax.set_ylabel("Cancellation Rate (%)", fontsize=10)
+    ax.tick_params(axis="x", rotation=0, labelsize=9)
+    ax.tick_params(axis="y", labelsize=9)
+    plt.tight_layout()
+    st.pyplot(fig)
 
 st.header("Model comparison")
 st.dataframe(model_results)
