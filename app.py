@@ -264,6 +264,13 @@ with col2:
         "Is repeated guest?",
         [0, 1],
     )
+    previous_bookings_not_canceled = st.number_input(
+        "Previous non-cancelled bookings",
+        min_value=0,
+        max_value=80,
+        value=0,
+        step=1,
+    )
 
 predict_clicked = st.button("Predict cancellation risk")
 
@@ -277,6 +284,9 @@ if predict_clicked:
     )
     input_row.at[0, "booking_changes"] = booking_changes
     input_row.at[0, "previous_cancellations"] = previous_cancellations
+    input_row.at[0, "previous_bookings_not_canceled"] = (
+        previous_bookings_not_canceled
+    )
     input_row.at[0, "is_repeated_guest"] = is_repeated_guest
 
     deposit_col = f"deposit_type_{deposit_type}"
@@ -309,6 +319,9 @@ if predict_clicked:
             "Total special requests": total_of_special_requests,
             "Booking changes": booking_changes,
             "Previous cancellations": previous_cancellations,
+            "Previous non-cancelled bookings": (
+                previous_bookings_not_canceled
+            ),
             "Hotel": hotel,
             "Deposit type": deposit_type,
             "Customer type": customer_type,
