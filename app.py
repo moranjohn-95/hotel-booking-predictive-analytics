@@ -220,6 +220,13 @@ with col1:
         value=0,
         step=1,
     )
+    booking_changes = st.number_input(
+        "Booking changes",
+        min_value=0,
+        max_value=20,
+        value=0,
+        step=1,
+    )
 
 with col2:
     deposit_type = st.selectbox(
@@ -261,6 +268,7 @@ if predict_clicked:
     input_row.at[0, "total_of_special_requests"] = (
         total_of_special_requests
     )
+    input_row.at[0, "booking_changes"] = booking_changes
     input_row.at[0, "is_repeated_guest"] = is_repeated_guest
 
     deposit_col = f"deposit_type_{deposit_type}"
@@ -291,6 +299,7 @@ if predict_clicked:
             "Lead time": lead_time,
             "ADR": adr,
             "Total special requests": total_of_special_requests,
+            "Booking changes": booking_changes,
             "Hotel": hotel,
             "Deposit type": deposit_type,
             "Customer type": customer_type,
