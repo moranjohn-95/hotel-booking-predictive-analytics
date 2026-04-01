@@ -202,6 +202,10 @@ with col1:
         value=69,
         step=1,
     )
+    hotel = st.selectbox(
+        "Hotel",
+        ["City Hotel", "Resort Hotel"],
+    )
     adr = st.number_input(
         "Average daily rate (ADR)",
         min_value=0.0,
@@ -226,6 +230,22 @@ with col2:
         "Customer type",
         ["Transient", "Transient-Party", "Contract", "Group"],
     )
+    meal = st.selectbox(
+        "Meal",
+        ["BB", "HB", "SC", "Undefined", "FB"],
+    )
+    market_segment = st.selectbox(
+        "Market segment",
+        [
+            "Online TA",
+            "Offline TA/TO",
+            "Groups",
+            "Direct",
+            "Corporate",
+            "Complementary",
+            "Aviation",
+        ],
+    )
     is_repeated_guest = st.selectbox(
         "Is repeated guest?",
         [0, 1],
@@ -245,12 +265,24 @@ if predict_clicked:
 
     deposit_col = f"deposit_type_{deposit_type}"
     customer_col = f"customer_type_{customer_type}"
+    hotel_col = f"hotel_{hotel}"
+    meal_col = f"meal_{meal}"
+    market_segment_col = f"market_segment_{market_segment}"
 
     if deposit_col in input_row.columns:
         input_row.at[0, deposit_col] = 1
 
     if customer_col in input_row.columns:
         input_row.at[0, customer_col] = 1
+
+    if hotel_col in input_row.columns:
+        input_row.at[0, hotel_col] = 1
+
+    if meal_col in input_row.columns:
+        input_row.at[0, meal_col] = 1
+
+    if market_segment_col in input_row.columns:
+        input_row.at[0, market_segment_col] = 1
 
     st.subheader("Entered booking details")
 
@@ -259,8 +291,11 @@ if predict_clicked:
             "Lead time": lead_time,
             "ADR": adr,
             "Total special requests": total_of_special_requests,
+            "Hotel": hotel,
             "Deposit type": deposit_type,
             "Customer type": customer_type,
+            "Meal": meal,
+            "Market segment": market_segment,
             "Is repeated guest": is_repeated_guest,
         }
     )
