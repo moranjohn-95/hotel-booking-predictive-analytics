@@ -335,16 +335,30 @@ if predict_clicked:
         prediction = model.predict(input_row)[0]
         prediction_probability = model.predict_proba(input_row)[0][1]
 
-        if prediction == 1:
+        if prediction_probability < 0.33:
+            risk_band = "Low"
+        elif prediction_probability < 0.66:
+            risk_band = "Medium"
+        else:
+            risk_band = "High"
+
+        if risk_band == "High":
             st.error(
-                f"High predicted cancellation risk: "
+                f"Predicted cancellation risk: "
+                f"{prediction_probability:.2%}"
+            )
+        elif risk_band == "Medium":
+            st.warning(
+                f"Predicted cancellation risk: "
                 f"{prediction_probability:.2%}"
             )
         else:
             st.success(
-                f"Lower predicted cancellation risk: "
+                f"Predicted cancellation risk: "
                 f"{prediction_probability:.2%}"
             )
+
+        st.write(f"Risk band: {risk_band}")
 
         st.caption(
             "This is a model based estimate using the selected "
