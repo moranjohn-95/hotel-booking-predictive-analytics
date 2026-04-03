@@ -64,111 +64,257 @@ if page == "Quick Project Summary":
 
     st.header("Project overview")
 
-    st.write(
-        """
-        The goal of this project is to predict whether a hotel booking
-        is likely to be cancelled, using historical booking data.
-        """
-    )
-
-    st.write(
-        """
-        The dataset used for this project contains booking information
-        for both a city hotel and a resort hotel. The workflow includes
-        exploratory data analysis, data cleaning, feature engineering,
-        model training, and final model selection.
-        """
+    st.info(
+        "The goal of this project is to predict whether a hotel booking "
+        "is likely to be cancelled, using historical booking data.\n\n"
+        "The dataset used for this project contains booking information "
+        "for both a city hotel and a resort hotel. The workflow includes "
+        "exploratory data analysis, data cleaning, feature engineering, "
+        "model training, and final model selection."
     )
 
 if page == "EDA Insights":
     st.header("Key EDA findings")
 
-    st.write(
+    st.success(
         """
-        Exploratory data analysis showed that several features were
-        strongly related to cancellation behaviour.
-        """
-    )
-
-    st.write(
-        """
-        Important findings included:
+        This page brings together the main findings from the exploratory
+        data analysis and highlights the booking features most closely
+        associated with cancellation behaviour. The aim is to show which
+        patterns stood out most clearly in the dataset before modelling,
+        and to support each finding with an optional chart that can be
+        expanded when needed.
         """
     )
 
-    st.write("- Longer lead times were associated with more cancellations.")
-    st.write("- Non refund deposits had extremely high cancellation rates.")
-    st.write(
-        "- Repeat guests were much less likely to cancel than "
-        "first time guests."
-    )
-    st.write(
-        "- Bookings with more special requests were less likely "
-        "to cancel."
-    )
-    st.write(
-        "- Market segment and distribution channel showed clear "
-        "differences in cancellation behaviour."
-    )
+    st.write("Key patterns identified during EDA included:")
 
-    st.subheader("Hotel type and cancellation rate")
-
-    st.write(
+    st.markdown(
         """
-        This chart shows that cancellation rates were higher for
-        City Hotel bookings than for Resort Hotel bookings, supporting
-        the earlier EDA finding that hotel type is related to
-        cancellation behaviour.
+        - **Longer lead times** were associated with higher cancellation risk.
+        - **Non-refund deposits** showed much higher cancellation rates than
+          other deposit types.
+        - **Repeat guests** were noticeably less likely to cancel.
+        - **Bookings with more special requests** tended to be less likely
+          to cancel.
+        - **Hotel type** and **market segment** also showed meaningful
+          differences in cancellation behaviour.
         """
     )
 
-    hotel_cancel_rate = (
-        cleaned_df.groupby("hotel")["is_canceled"]
-        .mean()
-        .sort_values(ascending=False)
-        * 100
+    st.subheader("Lead time and cancellation")
+    st.info(
+        "Bookings made further in advance tend to have higher "
+        "cancellation rates, which suggests uncertainty increases with "
+        "longer planning horizons."
     )
-
-    chart_col, _ = st.columns([1, 1])
-
-    with chart_col:
-        fig, ax = plt.subplots(figsize=(4.5, 3))
-        hotel_cancel_rate.plot(kind="bar", ax=ax)
-        ax.set_title("Cancellation Rate by Hotel Type", fontsize=12)
-        ax.set_xlabel("Hotel Type", fontsize=10)
-        ax.set_ylabel("Cancellation Rate (%)", fontsize=10)
-        ax.tick_params(axis="x", rotation=0, labelsize=9)
-        ax.tick_params(axis="y", labelsize=9)
-        plt.tight_layout()
-        st.pyplot(fig)
-
-    st.subheader("Deposit type and cancellation rate")
-
     st.write(
-        "Non-refund deposits had much higher cancellation rates, "
-        "and deposit type was one of the strongest EDA signals "
-        "in the project."
+        "Canceled bookings had a noticeably higher average lead time "
+        "than non-canceled bookings, suggesting that reservations made "
+        "far in advance may be more vulnerable to changing plans."
     )
-
-    deposit_cancel_rate = (
-        cleaned_df.groupby("deposit_type")["is_canceled"]
-        .mean()
-        .sort_values(ascending=False)
-        * 100
+    show_lead_time_chart = st.checkbox(
+        "Show supporting chart",
+        key="lead_time_chart",
     )
+    if show_lead_time_chart:
+        lead_time_by_cancel = (
+            cleaned_df.groupby("is_canceled")["lead_time"]
+            .mean()
+            .sort_index()
+        )
+        chart_col, _ = st.columns([1, 1])
+        with chart_col:
+            fig, ax = plt.subplots(figsize=(4.5, 3))
+            lead_time_by_cancel.plot(kind="bar", ax=ax)
+            ax.set_title(
+                "Average Lead Time by Cancellation Status",
+                fontsize=12,
+            )
+            ax.set_xlabel("Is Canceled", fontsize=10)
+            ax.set_ylabel("Average Lead Time (days)", fontsize=10)
+            ax.tick_params(axis="x", rotation=0, labelsize=9)
+            ax.tick_params(axis="y", labelsize=9)
+            plt.tight_layout()
+            st.pyplot(fig)
 
-    chart_col, _ = st.columns([1, 1])
+    st.subheader("Deposit type and cancellation")
+    st.info(
+        "Deposit policy has a strong relationship with cancellations, "
+        "especially when bookings are marked as non-refund."
+    )
+    st.write(
+        "Deposit type was one of the clearest signals in the dataset, "
+        "with non-refund bookings behaving very differently from other "
+        "deposit categories."
+    )
+    show_deposit_chart = st.checkbox(
+        "Show supporting chart",
+        key="deposit_type_chart",
+    )
+    if show_deposit_chart:
+        deposit_cancel_rate = (
+            cleaned_df.groupby("deposit_type")["is_canceled"]
+            .mean()
+            .sort_values(ascending=False)
+            * 100
+        )
+        chart_col, _ = st.columns([1, 1])
+        with chart_col:
+            fig, ax = plt.subplots(figsize=(4.5, 3))
+            deposit_cancel_rate.plot(kind="bar", ax=ax)
+            ax.set_title(
+                "Cancellation Rate by Deposit Type",
+                fontsize=12,
+            )
+            ax.set_xlabel("Deposit Type", fontsize=10)
+            ax.set_ylabel("Cancellation Rate (%)", fontsize=10)
+            ax.tick_params(axis="x", rotation=0, labelsize=9)
+            ax.tick_params(axis="y", labelsize=9)
+            plt.tight_layout()
+            st.pyplot(fig)
 
-    with chart_col:
-        fig, ax = plt.subplots(figsize=(4.5, 3))
-        deposit_cancel_rate.plot(kind="bar", ax=ax)
-        ax.set_title("Cancellation Rate by Deposit Type", fontsize=12)
-        ax.set_xlabel("Deposit Type", fontsize=10)
-        ax.set_ylabel("Cancellation Rate (%)", fontsize=10)
-        ax.tick_params(axis="x", rotation=0, labelsize=9)
-        ax.tick_params(axis="y", labelsize=9)
-        plt.tight_layout()
-        st.pyplot(fig)
+    st.subheader("Repeat guests and cancellation")
+    st.info(
+        "Repeat guests tend to be more loyal and less likely to cancel, "
+        "making this feature a strong behavioural signal."
+    )
+    st.write(
+        "Repeat guests showed much lower cancellation behaviour, "
+        "suggesting that loyalty and prior relationship with the hotel "
+        "reduce cancellation risk."
+    )
+    show_repeat_guest_chart = st.checkbox(
+        "Show supporting chart",
+        key="repeat_guests_chart",
+    )
+    if show_repeat_guest_chart:
+        repeat_cancel_rate = (
+            cleaned_df.groupby("is_repeated_guest")["is_canceled"]
+            .mean()
+            .sort_index()
+            * 100
+        )
+        chart_col, _ = st.columns([1, 1])
+        with chart_col:
+            fig, ax = plt.subplots(figsize=(4.5, 3))
+            repeat_cancel_rate.plot(kind="bar", ax=ax)
+            ax.set_title(
+                "Cancellation Rate by Repeat Guest Status",
+                fontsize=12,
+            )
+            ax.set_xlabel("Is Repeated Guest", fontsize=10)
+            ax.set_ylabel("Cancellation Rate (%)", fontsize=10)
+            ax.tick_params(axis="x", rotation=0, labelsize=9)
+            ax.tick_params(axis="y", labelsize=9)
+            plt.tight_layout()
+            st.pyplot(fig)
+
+    st.subheader("Special requests and cancellation")
+    st.info(
+        "Guests who make more special requests often show stronger "
+        "intent to travel, which corresponds with lower cancellations."
+    )
+    st.write(
+        "Bookings with more special requests appeared more committed, "
+        "which may reflect stronger travel intent and a lower likelihood "
+        "of cancellation."
+    )
+    show_special_requests_chart = st.checkbox(
+        "Show supporting chart",
+        key="special_requests_chart",
+    )
+    if show_special_requests_chart:
+        requests_by_cancel = (
+            cleaned_df.groupby("is_canceled")["total_of_special_requests"]
+            .mean()
+            .sort_index()
+        )
+        chart_col, _ = st.columns([1, 1])
+        with chart_col:
+            fig, ax = plt.subplots(figsize=(4.5, 3))
+            requests_by_cancel.plot(kind="bar", ax=ax)
+            ax.set_title(
+                "Average Special Requests by Cancellation Status",
+                fontsize=12,
+            )
+            ax.set_xlabel("Is Canceled", fontsize=10)
+            ax.set_ylabel("Average Special Requests", fontsize=10)
+            ax.tick_params(axis="x", rotation=0, labelsize=9)
+            ax.tick_params(axis="y", labelsize=9)
+            plt.tight_layout()
+            st.pyplot(fig)
+
+    st.subheader("Hotel type and cancellation")
+    st.info(
+        "Cancellation rates differ by hotel type, which helps explain "
+        "variation in guest behaviour between city and resort stays."
+    )
+    st.write(
+        "City Hotel bookings showed higher cancellation rates than "
+        "Resort Hotel bookings, indicating booking behaviour differs "
+        "by hotel context."
+    )
+    show_hotel_chart = st.checkbox(
+        "Show supporting chart",
+        key="hotel_type_chart",
+    )
+    if show_hotel_chart:
+        hotel_cancel_rate = (
+            cleaned_df.groupby("hotel")["is_canceled"]
+            .mean()
+            .sort_values(ascending=False)
+            * 100
+        )
+        chart_col, _ = st.columns([1, 1])
+        with chart_col:
+            fig, ax = plt.subplots(figsize=(4.5, 3))
+            hotel_cancel_rate.plot(kind="bar", ax=ax)
+            ax.set_title(
+                "Cancellation Rate by Hotel Type",
+                fontsize=12,
+            )
+            ax.set_xlabel("Hotel Type", fontsize=10)
+            ax.set_ylabel("Cancellation Rate (%)", fontsize=10)
+            ax.tick_params(axis="x", rotation=0, labelsize=9)
+            ax.tick_params(axis="y", labelsize=9)
+            plt.tight_layout()
+            st.pyplot(fig)
+
+    st.subheader("Market segment and cancellation")
+    st.info(
+        "Cancellation patterns vary across market segments, indicating "
+        "differences in booking behaviour by channel."
+    )
+    st.write(
+        "Cancellation rates varied by segment, showing that customer "
+        "type and booking channel context can influence risk."
+    )
+    show_market_segment_chart = st.checkbox(
+        "Show supporting chart",
+        key="market_segment_chart",
+    )
+    if show_market_segment_chart:
+        market_cancel_rate = (
+            cleaned_df.groupby("market_segment")["is_canceled"]
+            .mean()
+            .sort_values(ascending=False)
+            * 100
+        )
+        chart_col, _ = st.columns([1, 1])
+        with chart_col:
+            fig, ax = plt.subplots(figsize=(5, 3))
+            market_cancel_rate.plot(kind="bar", ax=ax)
+            ax.set_title(
+                "Cancellation Rate by Market Segment",
+                fontsize=12,
+            )
+            ax.set_xlabel("Market Segment", fontsize=10)
+            ax.set_ylabel("Cancellation Rate (%)", fontsize=10)
+            ax.tick_params(axis="x", rotation=20, labelsize=8)
+            ax.tick_params(axis="y", labelsize=9)
+            plt.tight_layout()
+            st.pyplot(fig)
 
 if page == "Model Comparison":
     st.header("Model comparison")
