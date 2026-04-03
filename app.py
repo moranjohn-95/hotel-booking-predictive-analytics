@@ -84,20 +84,17 @@ if page == "EDA Insights":
         patterns stood out most clearly in the dataset before modelling,
         and to support each finding with an optional chart that can be
         expanded when needed.
-        """
-    )
 
-    st.write("Key patterns identified during EDA included:")
+        **Key patterns identified during EDA included:**
 
-    st.markdown(
-        """
-        - **Longer lead times** were associated with higher cancellation risk.
-        - **Non-refund deposits** showed much higher cancellation rates than
+        - **Longer lead times** - were associated with higher cancellation
+        risk.
+        - **Non-refund deposits** - showed much higher cancellation rates than
           other deposit types.
-        - **Repeat guests** were noticeably less likely to cancel.
-        - **Bookings with more special requests** tended to be less likely
+        - **Repeat guests** - were noticeably less likely to cancel.
+        - **Bookings with more special requests** - tended to be less likely
           to cancel.
-        - **Hotel type** and **market segment** also showed meaningful
+        - **Hotel type** and **market segment** - also showed meaningful
           differences in cancellation behaviour.
         """
     )
