@@ -125,6 +125,34 @@ with chart_col:
     plt.tight_layout()
     st.pyplot(fig)
 
+st.subheader("Deposit type and cancellation rate")
+
+st.write(
+    "Non-refund deposits had much higher cancellation rates, "
+    "and deposit type was one of the strongest EDA signals "
+    "in the project."
+)
+
+deposit_cancel_rate = (
+    cleaned_df.groupby("deposit_type")["is_canceled"]
+    .mean()
+    .sort_values(ascending=False)
+    * 100
+)
+
+chart_col, _ = st.columns([1, 1])
+
+with chart_col:
+    fig, ax = plt.subplots(figsize=(4.5, 3))
+    deposit_cancel_rate.plot(kind="bar", ax=ax)
+    ax.set_title("Cancellation Rate by Deposit Type", fontsize=12)
+    ax.set_xlabel("Deposit Type", fontsize=10)
+    ax.set_ylabel("Cancellation Rate (%)", fontsize=10)
+    ax.tick_params(axis="x", rotation=0, labelsize=9)
+    ax.tick_params(axis="y", labelsize=9)
+    plt.tight_layout()
+    st.pyplot(fig)
+
 st.header("Model comparison")
 st.dataframe(model_results)
 
