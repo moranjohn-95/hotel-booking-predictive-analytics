@@ -99,27 +99,38 @@ if page == "EDA Insights":
         """
     )
 
+    def format_value(value, decimals=1, suffix=""):
+        if pd.isna(value):
+            return "n/a"
+        return f"{value:.{decimals}f}{suffix}"
+
     st.subheader("Lead time and cancellation")
+    lead_time_by_cancel = (
+        cleaned_df.groupby("is_canceled")["lead_time"]
+        .mean()
+        .reindex([0, 1])
+    )
+    lead_time_not_cancelled = lead_time_by_cancel.iloc[0]
+    lead_time_cancelled = lead_time_by_cancel.iloc[1]
+    lead_time_by_cancel.index = ["Not Cancelled", "Cancelled"]
     st.info(
         "Bookings made further in advance tend to have higher "
         "cancellation rates, which suggests uncertainty increases with "
         "longer planning horizons."
     )
     st.write(
-        "Canceled bookings had a noticeably higher average lead time "
-        "than non-canceled bookings, suggesting that reservations made "
-        "far in advance may be more vulnerable to changing plans."
+        "Cancelled bookings had a noticeably higher average lead time "
+        f"({format_value(lead_time_cancelled, 1)} days) than "
+        "non-cancelled bookings "
+        f"({format_value(lead_time_not_cancelled, 1)} days), suggesting "
+        "that reservations made far in advance may be more vulnerable "
+        "to changing plans."
     )
     show_lead_time_chart = st.checkbox(
         "Show supporting chart",
         key="lead_time_chart",
     )
     if show_lead_time_chart:
-        lead_time_by_cancel = (
-            cleaned_df.groupby("is_canceled")["lead_time"]
-            .mean()
-            .sort_index()
-        )
         chart_col, _ = st.columns([1, 1])
         with chart_col:
             fig, ax = plt.subplots(figsize=(4.5, 3))
@@ -128,7 +139,7 @@ if page == "EDA Insights":
                 "Average Lead Time by Cancellation Status",
                 fontsize=12,
             )
-            ax.set_xlabel("Is Canceled", fontsize=10)
+            ax.set_xlabel("Cancellation Status", fontsize=10)
             ax.set_ylabel("Average Lead Time (days)", fontsize=10)
             ax.tick_params(axis="x", rotation=0, labelsize=9)
             ax.tick_params(axis="y", labelsize=9)
@@ -136,26 +147,37 @@ if page == "EDA Insights":
             st.pyplot(fig)
 
     st.subheader("Deposit type and cancellation")
+    deposit_cancel_rate = (
+        cleaned_df.groupby("deposit_type")["is_canceled"]
+        .mean()
+        .sort_values(ascending=False)
+        * 100
+    )
+    non_refund_rate = deposit_cancel_rate.get("Non Refund", pd.NA)
+    no_deposit_rate = deposit_cancel_rate.get("No Deposit", pd.NA)
+    refundable_rate = deposit_cancel_rate.get("Refundable", pd.NA)
     st.info(
         "Deposit policy has a strong relationship with cancellations, "
         "especially when bookings are marked as non-refund."
     )
-    st.write(
-        "Deposit type was one of the clearest signals in the dataset, "
-        "with non-refund bookings behaving very differently from other "
-        "deposit categories."
+    deposit_text = (
+        "Deposit type was one of the clearest signals in the dataset. "
+        "Non Refund bookings showed the highest cancellation rate "
+        f"({format_value(non_refund_rate, 1, '%')}), compared with "
+        f"No Deposit ({format_value(no_deposit_rate, 1, '%')})"
     )
+    if not pd.isna(refundable_rate):
+        deposit_text += (
+            f" and Refundable ({format_value(refundable_rate, 1, '%')})."
+        )
+    else:
+        deposit_text += "."
+    st.write(deposit_text)
     show_deposit_chart = st.checkbox(
         "Show supporting chart",
         key="deposit_type_chart",
     )
     if show_deposit_chart:
-        deposit_cancel_rate = (
-            cleaned_df.groupby("deposit_type")["is_canceled"]
-            .mean()
-            .sort_values(ascending=False)
-            * 100
-        )
         chart_col, _ = st.columns([1, 1])
         with chart_col:
             fig, ax = plt.subplots(figsize=(4.5, 3))
@@ -172,26 +194,31 @@ if page == "EDA Insights":
             st.pyplot(fig)
 
     st.subheader("Repeat guests and cancellation")
+    repeat_cancel_rate = (
+        cleaned_df.groupby("is_repeated_guest")["is_canceled"]
+        .mean()
+        .reindex([0, 1])
+        * 100
+    )
+    repeat_cancel_rate.index = ["Not Repeated", "Repeated"]
+    non_repeat_rate = repeat_cancel_rate.iloc[0]
+    repeat_rate = repeat_cancel_rate.iloc[1]
     st.info(
         "Repeat guests tend to be more loyal and less likely to cancel, "
         "making this feature a strong behavioural signal."
     )
     st.write(
-        "Repeat guests showed much lower cancellation behaviour, "
-        "suggesting that loyalty and prior relationship with the hotel "
-        "reduce cancellation risk."
+        "Repeat guests showed much lower cancellation behaviour "
+        f"({format_value(repeat_rate, 1, '%')}) than non-repeat guests "
+        f"({format_value(non_repeat_rate, 1, '%')}), suggesting that "
+        "loyalty and prior relationship with the hotel reduce "
+        "cancellation risk."
     )
     show_repeat_guest_chart = st.checkbox(
         "Show supporting chart",
         key="repeat_guests_chart",
     )
     if show_repeat_guest_chart:
-        repeat_cancel_rate = (
-            cleaned_df.groupby("is_repeated_guest")["is_canceled"]
-            .mean()
-            .sort_index()
-            * 100
-        )
         chart_col, _ = st.columns([1, 1])
         with chart_col:
             fig, ax = plt.subplots(figsize=(4.5, 3))
@@ -200,7 +227,7 @@ if page == "EDA Insights":
                 "Cancellation Rate by Repeat Guest Status",
                 fontsize=12,
             )
-            ax.set_xlabel("Is Repeated Guest", fontsize=10)
+            ax.set_xlabel("Repeat Guest Status", fontsize=10)
             ax.set_ylabel("Cancellation Rate (%)", fontsize=10)
             ax.tick_params(axis="x", rotation=0, labelsize=9)
             ax.tick_params(axis="y", labelsize=9)
@@ -208,25 +235,30 @@ if page == "EDA Insights":
             st.pyplot(fig)
 
     st.subheader("Special requests and cancellation")
+    requests_by_cancel = (
+        cleaned_df.groupby("is_canceled")["total_of_special_requests"]
+        .mean()
+        .reindex([0, 1])
+    )
+    requests_not_cancelled = requests_by_cancel.iloc[0]
+    requests_cancelled = requests_by_cancel.iloc[1]
+    requests_by_cancel.index = ["Not Cancelled", "Cancelled"]
     st.info(
         "Guests who make more special requests often show stronger "
         "intent to travel, which corresponds with lower cancellations."
     )
     st.write(
-        "Bookings with more special requests appeared more committed, "
-        "which may reflect stronger travel intent and a lower likelihood "
-        "of cancellation."
+        "Non-cancelled bookings averaged "
+        f"{format_value(requests_not_cancelled, 1)} special requests "
+        f"versus {format_value(requests_cancelled, 1)} for cancelled "
+        "bookings, indicating that more requests may signal stronger "
+        "travel intent."
     )
     show_special_requests_chart = st.checkbox(
         "Show supporting chart",
         key="special_requests_chart",
     )
     if show_special_requests_chart:
-        requests_by_cancel = (
-            cleaned_df.groupby("is_canceled")["total_of_special_requests"]
-            .mean()
-            .sort_index()
-        )
         chart_col, _ = st.columns([1, 1])
         with chart_col:
             fig, ax = plt.subplots(figsize=(4.5, 3))
@@ -235,7 +267,7 @@ if page == "EDA Insights":
                 "Average Special Requests by Cancellation Status",
                 fontsize=12,
             )
-            ax.set_xlabel("Is Canceled", fontsize=10)
+            ax.set_xlabel("Cancellation Status", fontsize=10)
             ax.set_ylabel("Average Special Requests", fontsize=10)
             ax.tick_params(axis="x", rotation=0, labelsize=9)
             ax.tick_params(axis="y", labelsize=9)
@@ -243,26 +275,29 @@ if page == "EDA Insights":
             st.pyplot(fig)
 
     st.subheader("Hotel type and cancellation")
+    hotel_cancel_rate = (
+        cleaned_df.groupby("hotel")["is_canceled"]
+        .mean()
+        .sort_values(ascending=False)
+        * 100
+    )
+    city_hotel_rate = hotel_cancel_rate.get("City Hotel", pd.NA)
+    resort_hotel_rate = hotel_cancel_rate.get("Resort Hotel", pd.NA)
     st.info(
         "Cancellation rates differ by hotel type, which helps explain "
         "variation in guest behaviour between city and resort stays."
     )
     st.write(
-        "City Hotel bookings showed higher cancellation rates than "
-        "Resort Hotel bookings, indicating booking behaviour differs "
-        "by hotel context."
+        "City Hotel bookings showed higher cancellation rates "
+        f"({format_value(city_hotel_rate, 1, '%')}) than Resort Hotel "
+        f"bookings ({format_value(resort_hotel_rate, 1, '%')}), "
+        "indicating booking behaviour differs by hotel context."
     )
     show_hotel_chart = st.checkbox(
         "Show supporting chart",
         key="hotel_type_chart",
     )
     if show_hotel_chart:
-        hotel_cancel_rate = (
-            cleaned_df.groupby("hotel")["is_canceled"]
-            .mean()
-            .sort_values(ascending=False)
-            * 100
-        )
         chart_col, _ = st.columns([1, 1])
         with chart_col:
             fig, ax = plt.subplots(figsize=(4.5, 3))
@@ -279,25 +314,28 @@ if page == "EDA Insights":
             st.pyplot(fig)
 
     st.subheader("Market segment and cancellation")
+    market_cancel_rate = (
+        cleaned_df.groupby("market_segment")["is_canceled"]
+        .mean()
+        .sort_values(ascending=False)
+        * 100
+    )
     st.info(
         "Cancellation patterns vary across market segments, indicating "
         "differences in booking behaviour by channel."
     )
     st.write(
-        "Cancellation rates varied by segment, showing that customer "
-        "type and booking channel context can influence risk."
+        "Cancellation rates varied by segment, with Undefined showing "
+        "the highest rate, although this category contains very few "
+        "observations, and Corporate showing one of the lowest rates at "
+        "12.1%. This suggests customer type and booking channel context "
+        "can influence risk."
     )
     show_market_segment_chart = st.checkbox(
         "Show supporting chart",
         key="market_segment_chart",
     )
     if show_market_segment_chart:
-        market_cancel_rate = (
-            cleaned_df.groupby("market_segment")["is_canceled"]
-            .mean()
-            .sort_values(ascending=False)
-            * 100
-        )
         chart_col, _ = st.columns([1, 1])
         with chart_col:
             fig, ax = plt.subplots(figsize=(5, 3))
@@ -312,6 +350,15 @@ if page == "EDA Insights":
             ax.tick_params(axis="y", labelsize=9)
             plt.tight_layout()
             st.pyplot(fig)
+
+    st.success(
+        "Lead time, deposit type, repeat guest status, special requests, "
+        "hotel type, and market segment all showed meaningful "
+        "association with cancellation behaviour before modelling. "
+        "These findings supported the later predictive modelling stage "
+        "by highlighting relevant features and behavioural patterns "
+        "useful for prediction."
+    )
 
 if page == "Model Comparison":
     st.header("Model comparison")
