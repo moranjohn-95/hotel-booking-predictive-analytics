@@ -362,61 +362,135 @@ if page == "EDA Insights":
 
 if page == "Model Comparison":
     st.header("Model comparison")
+
+    st.success(
+        """
+        This page compares the classification models tested during the
+        project and explains why Random Forest was selected as the final
+        model. The comparison is based on multiple evaluation metrics so
+        that model selection reflects overall performance rather than a
+        single score. Random Forest performed most strongly overall and
+        was selected as the final model for deployment in the app.
+
+        Main sections on this page include:
+        - model comparison table
+        - ROC-AUC comparison
+        - F1 Score comparison
+        - final model selection
+        - business interpretation of model performance
+        """
+    )
+
     st.dataframe(model_results)
 
     st.subheader("ROC-AUC comparison across models")
-
+    st.info(
+        "ROC-AUC comparison helps show how well each model separates "
+        "cancelled and non-cancelled bookings across thresholds."
+    )
     st.write(
-        """
-        This chart highlights that Random Forest achieved the highest
-        ROC-AUC score, which supported its selection as the final model.
-        """
+        "Random Forest achieved the highest ROC-AUC (0.9108), ahead of "
+        "Gradient Boosting (0.8911), Logistic Regression (0.8496), and "
+        "Decision Tree (0.7542). This indicates the strongest overall "
+        "separation between cancelled and non-cancelled bookings across "
+        "thresholds."
+    )
+    show_roc_chart = st.checkbox(
+        "Show supporting chart",
+        key="roc_chart",
+    )
+    if show_roc_chart:
+        chart_col, _ = st.columns([1, 1])
+        with chart_col:
+            fig, ax = plt.subplots(figsize=(5, 3))
+            model_results.sort_values(
+                by="ROC-AUC",
+                ascending=False,
+            ).plot(
+                kind="bar",
+                x="Model",
+                y="ROC-AUC",
+                ax=ax,
+                legend=False,
+            )
+            ax.set_title("Model ROC-AUC Scores", fontsize=12)
+            ax.set_xlabel("Model", fontsize=10)
+            ax.set_ylabel("ROC-AUC", fontsize=10)
+            ax.tick_params(axis="x", rotation=20, labelsize=9)
+            ax.tick_params(axis="y", labelsize=9)
+            plt.tight_layout()
+            st.pyplot(fig)
+
+    st.subheader("F1 Score comparison across models")
+    st.info(
+        "F1 Score is useful because it balances precision and recall, "
+        "making it a strong measure of overall classification "
+        "performance."
+    )
+    st.write(
+        "Random Forest also achieved the strongest F1 Score (0.7080), "
+        "followed by Gradient Boosting (0.6493), Decision Tree (0.6413), "
+        "and Logistic Regression (0.5742). This supports its overall "
+        "balance between precision and recall."
+    )
+    show_f1_chart = st.checkbox(
+        "Show supporting chart",
+        key="f1_chart",
+    )
+    if show_f1_chart:
+        chart_col, _ = st.columns([1, 1])
+        with chart_col:
+            fig, ax = plt.subplots(figsize=(5, 3))
+            model_results.sort_values(
+                by="F1 Score",
+                ascending=False,
+            ).plot(
+                kind="bar",
+                x="Model",
+                y="F1 Score",
+                ax=ax,
+                legend=False,
+            )
+            ax.set_title("Model F1 Scores", fontsize=12)
+            ax.set_xlabel("Model", fontsize=10)
+            ax.set_ylabel("F1 Score", fontsize=10)
+            ax.tick_params(axis="x", rotation=20, labelsize=9)
+            ax.tick_params(axis="y", labelsize=9)
+            plt.tight_layout()
+            st.pyplot(fig)
+
+    st.subheader("Final model selection")
+    st.info(
+        "Random Forest was selected as the final model because it "
+        "achieved the strongest overall balance across the evaluation "
+        "metrics and the highest ROC-AUC score."
+    )
+    st.write(
+        "In practice, this balance means the model identifies high-risk "
+        "bookings reliably without creating too many misleading alerts, "
+        "making it the best fit for the project objectives."
     )
 
-    chart_col, _ = st.columns([1, 1])
-
-    with chart_col:
-        fig, ax = plt.subplots(figsize=(5, 3))
-        model_results.sort_values(
-            by="ROC-AUC",
-            ascending=False,
-        ).plot(
-            kind="bar",
-            x="Model",
-            y="ROC-AUC",
-            ax=ax,
-            legend=False,
-        )
-        ax.set_title("Model ROC-AUC Scores", fontsize=12)
-        ax.set_xlabel("Model", fontsize=10)
-        ax.set_ylabel("ROC-AUC", fontsize=10)
-        ax.tick_params(axis="x", rotation=20, labelsize=9)
-        ax.tick_params(axis="y", labelsize=9)
-        plt.tight_layout()
-        st.pyplot(fig)
-
-    st.header("Final model selection")
-
-    st.write(
-        """
-        Random Forest was selected as the final model because
-        it achieved the strongest overall performance across
-        the main evaluation metrics.
-        """
+    metric_col1, metric_col2, metric_col3, metric_col4, metric_col5 = (
+        st.columns(5)
     )
+    metric_col1.metric("Accuracy", "0.8526")
+    metric_col2.metric("Precision", "0.7787")
+    metric_col3.metric("Recall", "0.6491")
+    metric_col4.metric("F1 Score", "0.7080")
+    metric_col5.metric("ROC-AUC", "0.9108")
 
-    st.write("Final Random Forest test performance:")
-    st.write("- Accuracy: 0.8526")
-    st.write("- Precision: 0.7787")
-    st.write("- Recall: 0.6491")
-    st.write("- F1 Score: 0.7080")
-    st.write("- ROC-AUC: 0.9108")
-
+    st.subheader("Business interpretation of evaluation metrics")
+    st.info(
+        "Precision shows how many predicted cancellations were correct, "
+        "recall shows how many actual cancellations were captured, F1 "
+        "balances precision and recall, and ROC-AUC reflects overall "
+        "ranking and separation quality."
+    )
     st.write(
-        """
-        Although Gradient Boosting also performed strongly, Random Forest
-        produced the best overall balance and the highest ROC-AUC score.
-        """
+        "These metrics matter because a useful cancellation model must "
+        "identify risky bookings reliably while avoiding too many false "
+        "alerts that could lead to unnecessary interventions."
     )
 
 if page == "Prediction Tool":
