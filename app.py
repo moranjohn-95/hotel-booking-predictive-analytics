@@ -608,10 +608,12 @@ if page == "Prediction Tool":
                 "Aviation",
             ],
         )
-        is_repeated_guest = st.selectbox(
+        is_repeated_guest_label = st.selectbox(
             "Is repeated guest?",
-            [0, 1],
+            ["No", "Yes"],
         )
+
+    is_repeated_guest = 1 if is_repeated_guest_label == "Yes" else 0
 
     predict_clicked = st.button("Predict cancellation risk")
 
@@ -694,9 +696,9 @@ if page == "Prediction Tool":
 
             st.info(
                 """
-                This output can help highlight bookings that may need closer review,
-                support more consistent risk assessment, and inform planning where
-                cancellation risk is especially relevant.
+                This output can help highlight bookings that may need closer
+                review, support more consistent risk assessment, and inform
+                planning where cancellation risk is especially relevant.
                 """
             )
 
@@ -749,7 +751,7 @@ if page == "Prediction Tool":
                 "can be generated."
             )
 
-        st.subheader("Entered booking details")
+        st.subheader("Selected booking profile")
 
         left_summary, right_summary = st.columns(2)
         left_lines = [
@@ -767,7 +769,8 @@ if page == "Prediction Tool":
             f"**Customer type:** {customer_type}",
             f"**Meal:** {meal}",
             f"**Market segment:** {market_segment}",
-            f"**Is repeated guest:** {is_repeated_guest}",
+            f"**Is repeated guest:** "
+            f"{'Yes' if is_repeated_guest == 1 else 'No'}",
         ]
         with left_summary:
             st.markdown("  \n".join(left_lines))
