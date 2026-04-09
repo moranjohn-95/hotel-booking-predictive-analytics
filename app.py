@@ -494,7 +494,36 @@ if page == "Model Comparison":
     )
 
 if page == "Prediction Tool":
-    st.header("Initial prediction interface")
+    st.header("Prediction tool")
+
+    st.success(
+        "This page lets you enter selected booking details and returns "
+        "an estimated cancellation risk. The result should be used as "
+        "decision support rather than certainty."
+    )
+
+    st.info(
+        "Choose booking details, click Predict cancellation risk, and "
+        "review the predicted risk and risk band below."
+    )
+
+    st.subheader("How the prediction works")
+    st.success(
+        """
+        The model uses the selected booking details to estimate the
+        likelihood that a reservation will be cancelled, based on patterns
+        learned from historical hotel booking data.
+
+        The tool returns:
+        - a predicted cancellation risk percentage
+        - a risk band (Low, Medium, or High)
+        - a summary of the booking profile used for the estimate
+        """
+    )
+    st.write(
+        "This helps translate the model output into a practical booking-risk "
+        "assessment that can support operational planning and review."
+    )
 
     st.write(
         """
@@ -503,6 +532,7 @@ if page == "Prediction Tool":
         """
     )
 
+    st.subheader("Booking input details")
     col1, col2 = st.columns(2)
 
     with col1:
@@ -512,10 +542,6 @@ if page == "Prediction Tool":
             max_value=800,
             value=69,
             step=1,
-        )
-        hotel = st.selectbox(
-            "Hotel",
-            ["City Hotel", "Resort Hotel"],
         )
         adr = st.number_input(
             "Average daily rate (ADR)",
@@ -545,8 +571,19 @@ if page == "Prediction Tool":
             value=0,
             step=1,
         )
+        previous_bookings_not_canceled = st.number_input(
+            "Previous non-cancelled bookings",
+            min_value=0,
+            max_value=80,
+            value=0,
+            step=1,
+        )
 
     with col2:
+        hotel = st.selectbox(
+            "Hotel",
+            ["City Hotel", "Resort Hotel"],
+        )
         deposit_type = st.selectbox(
             "Deposit type",
             ["No Deposit", "Non Refund", "Refundable"],
@@ -574,13 +611,6 @@ if page == "Prediction Tool":
         is_repeated_guest = st.selectbox(
             "Is repeated guest?",
             [0, 1],
-        )
-        previous_bookings_not_canceled = st.number_input(
-            "Previous non-cancelled bookings",
-            min_value=0,
-            max_value=80,
-            value=0,
-            step=1,
         )
 
     predict_clicked = st.button("Predict cancellation risk")
@@ -621,27 +651,6 @@ if page == "Prediction Tool":
         if market_segment_col in input_row.columns:
             input_row.at[0, market_segment_col] = 1
 
-        st.subheader("Entered booking details")
-
-        st.write(
-            {
-                "Lead time": lead_time,
-                "ADR": adr,
-                "Total special requests": total_of_special_requests,
-                "Booking changes": booking_changes,
-                "Previous cancellations": previous_cancellations,
-                "Previous non-cancelled bookings": (
-                    previous_bookings_not_canceled
-                ),
-                "Hotel": hotel,
-                "Deposit type": deposit_type,
-                "Customer type": customer_type,
-                "Meal": meal,
-                "Market segment": market_segment,
-                "Is repeated guest": is_repeated_guest,
-            }
-        )
-
         if model is not None:
             prediction = model.predict(input_row)[0]
             prediction_probability = model.predict_proba(input_row)[0][1]
@@ -652,6 +661,8 @@ if page == "Prediction Tool":
                 risk_band = "Medium"
             else:
                 risk_band = "High"
+
+            st.subheader("Prediction result")
 
             if risk_band == "High":
                 st.error(
@@ -670,17 +681,98 @@ if page == "Prediction Tool":
                 )
 
             st.write(f"Risk band: {risk_band}")
+            st.write(
+                "Higher values suggest a greater likelihood of "
+                "cancellation based on similar historical bookings."
+            )
 
             st.caption(
-                "This is a model based estimate using the selected "
+                "This is a model-based estimate using the selected "
                 "booking inputs. It should be used to support "
                 "decision making, not treated as certainty."
+            )
+
+            st.info(
+                """
+                This output can help highlight bookings that may need closer review,
+                support more consistent risk assessment, and inform planning where
+                cancellation risk is especially relevant.
+                """
+            )
+
+            st.subheader("What this means")
+            if risk_band == "Low":
+                st.info(
+                    "This booking appears relatively stable compared with "
+                    "similar historical bookings, with fewer signs "
+                    "typically associated with cancellation."
+                )
+            elif risk_band == "Medium":
+                st.info(
+                    "This booking shows some characteristics that have been "
+                    "associated with cancellation in the historical data, "
+                    "so it may be worth closer monitoring."
+                )
+            else:
+                st.info(
+                    "This booking shares several characteristics commonly "
+                    "seen in cancelled reservations, suggesting a higher "
+                    "level of cancellation risk."
+                )
+
+            st.info(
+                """
+                **Key takeaways**
+
+                - Longer lead times can increase uncertainty and cancellation
+                  risk.
+                - Guest history and prior cancellations can meaningfully affect
+                  the estimate.
+                - Repeat guests and stronger booking intent may reduce
+                  cancellation likelihood.
+                - The result should be used to support judgement, not replace
+                  it.
+                """
+            )
+
+            st.warning(
+                """
+                **Note:** This prediction is based on historical booking
+                patterns and cannot account for every real-world factor. Actual
+                outcomes may still differ depending on circumstances not
+                captured in the model.
+                """
             )
         else:
             st.warning(
                 "Model file is not available locally, so no prediction "
                 "can be generated."
             )
+
+        st.subheader("Entered booking details")
+
+        left_summary, right_summary = st.columns(2)
+        left_lines = [
+            f"**Lead time:** {lead_time}",
+            f"**ADR:** {adr}",
+            f"**Total special requests:** {total_of_special_requests}",
+            f"**Booking changes:** {booking_changes}",
+            f"**Previous cancellations:** {previous_cancellations}",
+            f"**Previous non-cancelled bookings:** "
+            f"{previous_bookings_not_canceled}",
+        ]
+        right_lines = [
+            f"**Hotel:** {hotel}",
+            f"**Deposit type:** {deposit_type}",
+            f"**Customer type:** {customer_type}",
+            f"**Meal:** {meal}",
+            f"**Market segment:** {market_segment}",
+            f"**Is repeated guest:** {is_repeated_guest}",
+        ]
+        with left_summary:
+            st.markdown("  \n".join(left_lines))
+        with right_summary:
+            st.markdown("  \n".join(right_lines))
 
 if page == "Model Performance":
     st.header("Model performance")
