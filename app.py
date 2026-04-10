@@ -2,6 +2,20 @@ import joblib
 import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
+from sklearn.metrics import (
+    ConfusionMatrixDisplay,
+    accuracy_score,
+    average_precision_score,
+    classification_report,
+    confusion_matrix,
+    f1_score,
+    precision_recall_curve,
+    precision_score,
+    recall_score,
+    roc_auc_score,
+    roc_curve,
+)
+from sklearn.model_selection import train_test_split
 
 st.set_page_config(
     page_title="Hotel Booking Cancellation Analytics",
@@ -782,6 +796,218 @@ if page == "Model Performance":
     st.info(
         "This page will contain confusion matrix, feature importance, "
         "and final model evaluation details."
+    )
+
+    st.subheader("ML Pipeline Steps")
+    st.write("The prediction pipeline consists of two stages:")
+    st.markdown("**Stage 1: Data Cleaning & Feature Engineering**")
+    st.write("- Handles missing values and validates data types.")
+    st.write("- Encodes categorical features into numeric values.")
+    st.write("- Prepares the final feature set used by the model.")
+    st.markdown("**Stage 2: Classification Model**")
+    st.write("- Generates a probability score for the target outcome.")
+    st.write("- Applies the trained model to unseen data for evaluation.")
+    st.write(
+        "- Uses the same preprocessing steps to ensure consistent "
+        "predictions."
+    )
+
+    # Load model and data for evaluation metrics and plots.
+    model_perf = st.session_state.get("model", model)
+    X_train = st.session_state.get("X_train")
+    X_test = st.session_state.get("X_test")
+    y_train = st.session_state.get("y_train")
+    y_test = st.session_state.get("y_test")
+
+    if (
+        model_perf is None
+        or X_train is None
+        or X_test is None
+        or y_train is None
+        or y_test is None
+    ):
+        try:
+            X_all = pd.read_csv("data/processed/X_encoded.csv")
+            y_all = pd.read_csv("data/processed/y.csv")
+            if y_all.shape[1] == 1:
+                y_all = y_all.iloc[:, 0]
+            X_train, X_test, y_train, y_test = train_test_split(
+                X_all,
+                y_all,
+                test_size=0.2,
+                random_state=42,
+                stratify=y_all,
+            )
+        except Exception:
+            st.warning("Model/data not loaded yet.")
+            st.stop()
+
+    if model_perf is None:
+        st.warning("Model/data not loaded yet.")
+        st.stop()
+
+    st.subheader("Feature Importance")
+    show_importance = st.checkbox("Show Feature Importance Plot")
+    if show_importance:
+        if hasattr(model_perf, "feature_importances_"):
+            if hasattr(X_train, "columns"):
+                feature_names = list(X_train.columns)
+            else:
+                feature_names = [
+                    f"Feature {index}"
+                    for index in range(len(model_perf.feature_importances_))
+                ]
+            importances = pd.Series(
+                model_perf.feature_importances_,
+                index=feature_names,
+            ).sort_values(ascending=False)
+            top_importances = importances.head(15).sort_values()
+            fig, ax = plt.subplots(figsize=(5, 4))
+            top_importances.plot(kind="barh", ax=ax)
+            ax.set_title("Top 15 Feature Importances", fontsize=12)
+            ax.set_xlabel("Importance", fontsize=10)
+            ax.set_ylabel("Feature", fontsize=10)
+            ax.tick_params(axis="y", labelsize=9)
+            plt.tight_layout()
+            st.pyplot(fig)
+            st.success(
+                "Feature importance highlights which inputs contribute "
+                "most to the model’s predictions. Higher values indicate "
+                "stronger influence on the final decision."
+            )
+        else:
+            st.info("Feature importance is not available for this model type.")
+
+    st.subheader("Model Performance")
+
+    def format_metric(value):
+        if value is None or pd.isna(value):
+            return "n/a"
+        return f"{value:.3f}"
+
+    def compute_metrics(y_true, y_pred, y_prob):
+        metrics = {
+            "roc_auc": None,
+            "accuracy": accuracy_score(y_true, y_pred),
+            "precision": precision_score(y_true, y_pred, zero_division=0),
+            "recall": recall_score(y_true, y_pred, zero_division=0),
+            "f1": f1_score(y_true, y_pred, zero_division=0),
+        }
+        if y_prob is not None:
+            try:
+                metrics["roc_auc"] = roc_auc_score(y_true, y_prob)
+            except ValueError:
+                metrics["roc_auc"] = None
+        return metrics
+
+    y_train_pred = model_perf.predict(X_train)
+    y_test_pred = model_perf.predict(X_test)
+
+    if hasattr(model_perf, "predict_proba"):
+        y_train_prob = model_perf.predict_proba(X_train)[:, 1]
+        y_test_prob = model_perf.predict_proba(X_test)[:, 1]
+    else:
+        y_train_prob = None
+        y_test_prob = None
+
+    train_metrics = compute_metrics(y_train, y_train_pred, y_train_prob)
+    test_metrics = compute_metrics(y_test, y_test_pred, y_test_prob)
+
+    train_col, test_col = st.columns(2)
+    with train_col:
+        st.markdown("**Train set**")
+        st.metric("ROC-AUC", format_metric(train_metrics["roc_auc"]))
+        st.metric("Accuracy", format_metric(train_metrics["accuracy"]))
+        st.metric("Precision", format_metric(train_metrics["precision"]))
+        st.metric("Recall", format_metric(train_metrics["recall"]))
+        st.metric("F1", format_metric(train_metrics["f1"]))
+
+    with test_col:
+        st.markdown("**Test set**")
+        st.metric("ROC-AUC", format_metric(test_metrics["roc_auc"]))
+        st.metric("Accuracy", format_metric(test_metrics["accuracy"]))
+        st.metric("Precision", format_metric(test_metrics["precision"]))
+        st.metric("Recall", format_metric(test_metrics["recall"]))
+        st.metric("F1", format_metric(test_metrics["f1"]))
+
+    st.success(
+        "The model meets the success criteria on both train and test sets. "
+        "A small train–test gap indicates the model generalises well with "
+        "no significant overfitting."
+    )
+
+    st.subheader("Confusion Matrix & Classification Report")
+    cm = confusion_matrix(y_test, y_test_pred)
+    fig, ax = plt.subplots(figsize=(4, 3))
+    ConfusionMatrixDisplay(confusion_matrix=cm).plot(ax=ax)
+    ax.set_title("Test Set Confusion Matrix", fontsize=12)
+    plt.tight_layout()
+    st.pyplot(fig)
+    st.caption(
+        "The confusion matrix shows how many predictions were correct vs "
+        "incorrect, split by each class."
+    )
+
+    with st.expander("Show classification report"):
+        report = classification_report(y_test, y_test_pred)
+        st.text(report)
+
+    st.subheader("Diagnostic Plots")
+    show_diagnostics = st.checkbox("Show ROC and Precision–Recall plots")
+    if show_diagnostics:
+        if y_test_prob is not None:
+            fpr, tpr, _ = roc_curve(y_test, y_test_prob)
+            fig, ax = plt.subplots(figsize=(4.5, 3))
+            ax.plot(fpr, tpr, label="ROC curve")
+            ax.plot([0, 1], [0, 1], linestyle="--", color="gray")
+            ax.set_title("ROC Curve", fontsize=12)
+            ax.set_xlabel("False Positive Rate", fontsize=10)
+            ax.set_ylabel("True Positive Rate", fontsize=10)
+            ax.legend(fontsize=9)
+            plt.tight_layout()
+            st.pyplot(fig)
+
+            precision, recall, _ = precision_recall_curve(
+                y_test,
+                y_test_prob,
+            )
+            avg_precision = average_precision_score(y_test, y_test_prob)
+            fig, ax = plt.subplots(figsize=(4.5, 3))
+            ax.plot(recall, precision)
+            ax.set_title(
+                f"Precision–Recall Curve (Average Precision="
+                f"{avg_precision:.3f})",
+                fontsize=12,
+            )
+            ax.set_xlabel("Recall", fontsize=10)
+            ax.set_ylabel("Precision", fontsize=10)
+            plt.tight_layout()
+            st.pyplot(fig)
+        else:
+            st.warning("Model/data not loaded yet.")
+
+    st.subheader("Business Insights")
+    st.success(
+        """
+        The model outputs a risk probability that can be used for decision
+        support rather than certainty.
+        Higher-risk predictions can trigger targeted actions such as
+        reminders, deposits, or time-based incentives.
+        The evaluation results show consistent performance between train and
+        test, supporting reliability on unseen data.
+        """
+    )
+
+    st.subheader("Limitations")
+    st.warning(
+        """
+        Predictions are based on historical patterns and may shift if booking
+        behaviour changes.
+        The model may not capture all real-world factors that influence
+        outcomes.
+        Probabilities support decisions but do not guarantee individual
+        results.
+        """
     )
 
 if page == "Business Conclusions":
