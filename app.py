@@ -793,9 +793,20 @@ if page == "Prediction Tool":
 
 if page == "Model Performance":
     st.header("Model performance")
-    st.info(
-        "This page will contain confusion matrix, feature importance, "
-        "and final model evaluation details."
+    st.success(
+        """
+        This page explains how the final cancellation model was evaluated
+        and highlights the main evidence used to judge its performance.
+
+        It brings together the key model assessment outputs, including the
+        prediction pipeline steps, confusion matrix, feature importance, and
+        the final evaluation context for the selected Random Forest model.
+
+        The aim is to show not only how well the model performed on unseen
+        data, but also which features contributed most strongly to the
+        predictions and why the final model was considered suitable for the
+        project objectives.
+        """
     )
 
     st.subheader("ML Pipeline Steps")
