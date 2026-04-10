@@ -810,17 +810,20 @@ if page == "Model Performance":
     )
 
     st.subheader("ML Pipeline Steps")
-    st.write("The prediction pipeline consists of two stages:")
-    st.markdown("**Stage 1: Data Cleaning & Feature Engineering**")
-    st.write("- Handles missing values and validates data types.")
-    st.write("- Encodes categorical features into numeric values.")
-    st.write("- Prepares the final feature set used by the model.")
-    st.markdown("**Stage 2: Classification Model**")
-    st.write("- Generates a probability score for the target outcome.")
-    st.write("- Applies the trained model to unseen data for evaluation.")
-    st.write(
-        "- Uses the same preprocessing steps to ensure consistent "
-        "predictions."
+    st.info(
+        """
+        **The prediction pipeline consists of two stages:**
+
+        **Stage 1: Data Cleaning & Feature Engineering**
+        - Handles missing values and validates data types.
+        - Encodes categorical features into numeric values.
+        - Prepares the final feature set used by the model.
+
+        **Stage 2: Classification Model**
+        - Generates a probability score for the target outcome.
+        - Applies the trained model to unseen data for evaluation.
+        - Uses the same preprocessing steps to ensure consistent predictions.
+        """
     )
 
     # Load model and data for evaluation metrics and plots.
@@ -858,6 +861,19 @@ if page == "Model Performance":
         st.stop()
 
     st.subheader("Feature Importance")
+    st.write(
+        "This helps identify which booking features had the strongest impact "
+        "on cancellation prediction in the final model."
+    )
+    st.info(
+        """
+        Feature importance shows which input variables contributed most
+        strongly to the Random Forest model’s predictions.
+
+        Higher importance values indicate that a feature had greater
+        influence on the final prediction outcome.
+        """
+    )
     show_importance = st.checkbox("Show Feature Importance Plot")
     if show_importance:
         if hasattr(model_perf, "feature_importances_"):
@@ -873,19 +889,17 @@ if page == "Model Performance":
                 index=feature_names,
             ).sort_values(ascending=False)
             top_importances = importances.head(15).sort_values()
-            fig, ax = plt.subplots(figsize=(5, 4))
-            top_importances.plot(kind="barh", ax=ax)
-            ax.set_title("Top 15 Feature Importances", fontsize=12)
-            ax.set_xlabel("Importance", fontsize=10)
-            ax.set_ylabel("Feature", fontsize=10)
-            ax.tick_params(axis="y", labelsize=9)
-            plt.tight_layout()
-            st.pyplot(fig)
-            st.success(
-                "Feature importance highlights which inputs contribute "
-                "most to the model’s predictions. Higher values indicate "
-                "stronger influence on the final decision."
-            )
+            chart_col, _ = st.columns([1, 1])
+            with chart_col:
+                fig, ax = plt.subplots(figsize=(4.8, 3.6))
+                top_importances.plot(kind="barh", ax=ax)
+                ax.set_title("Top 15 Feature Importances", fontsize=11)
+                ax.set_xlabel("Importance", fontsize=9)
+                ax.set_ylabel("Feature", fontsize=9)
+                ax.tick_params(axis="x", labelsize=8)
+                ax.tick_params(axis="y", labelsize=8)
+                plt.tight_layout()
+                st.pyplot(fig, use_container_width=False)
         else:
             st.info("Feature importance is not available for this model type.")
 
