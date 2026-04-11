@@ -24,11 +24,11 @@ st.set_page_config(
 
 model_results = pd.read_csv("outputs/model_comparison_results.csv")
 feature_columns = pd.read_csv(
-    "data/processed/X_encoded.csv",
+    "data/processed/X_encoded_deploy.csv",
     nrows=0,
 ).columns.tolist()
 cleaned_df = pd.read_csv("data/processed/cleaned_hotel_bookings.csv")
-model_path = "models/random_forest_model_deploy.pkl"
+model_path = "models/gradient_boosting_model_deploy.pkl"
 
 model_available = False
 
@@ -69,7 +69,7 @@ if page == "Quick Project Summary":
     )
 
     if model_available:
-        st.success("Final Random Forest model file detected.")
+        st.success("Final Gradient Boosting model file detected.")
     else:
         st.warning(
             "Final model file not found locally. Prediction features "
@@ -380,11 +380,13 @@ if page == "Model Comparison":
     st.success(
         """
         This page compares the classification models tested during the
-        project and explains why Random Forest was selected as the final
-        model. The comparison is based on multiple evaluation metrics so
-        that model selection reflects overall performance rather than a
-        single score. Random Forest performed most strongly overall and
-        was selected as the final model for deployment in the app.
+        project and explains why Gradient Boosting was selected as the
+        final model. The comparison is based on multiple evaluation
+        metrics so that model selection reflects overall performance
+        rather than a single score. Random Forest performed very
+        strongly on training data but showed clear overfitting, while
+        Gradient Boosting generalised better and was selected as the
+        deployment model.
 
         Main sections on this page include:
         - model comparison table
@@ -403,11 +405,11 @@ if page == "Model Comparison":
         "cancelled and non-cancelled bookings across thresholds."
     )
     st.write(
-        "Random Forest achieved the highest ROC-AUC (0.9108), ahead of "
-        "Gradient Boosting (0.8911), Logistic Regression (0.8496), and "
-        "Decision Tree (0.7542). This indicates the strongest overall "
-        "separation between cancelled and non-cancelled bookings across "
-        "thresholds."
+        "Gradient Boosting achieved the highest ROC-AUC (0.8080), "
+        "followed by Random Forest (0.7848), Logistic Regression "
+        "(0.7724), and Decision Tree (0.6716). This indicates the "
+        "strongest overall separation between cancelled and non-cancelled "
+        "bookings across thresholds."
     )
     show_roc_chart = st.checkbox(
         "Show supporting chart",
@@ -442,10 +444,10 @@ if page == "Model Comparison":
         "performance."
     )
     st.write(
-        "Random Forest also achieved the strongest F1 Score (0.7080), "
-        "followed by Gradient Boosting (0.6493), Decision Tree (0.6413), "
-        "and Logistic Regression (0.5742). This supports its overall "
-        "balance between precision and recall."
+        "Gradient Boosting achieved the strongest F1 Score (0.5526), "
+        "with Random Forest close behind (0.5495), then Decision Tree "
+        "(0.5133), and Logistic Regression (0.4468). This supports its "
+        "overall balance between precision and recall."
     )
     show_f1_chart = st.checkbox(
         "Show supporting chart",
@@ -475,24 +477,24 @@ if page == "Model Comparison":
 
     st.subheader("Final model selection")
     st.info(
-        "Random Forest was selected as the final model because it "
-        "achieved the strongest overall balance across the evaluation "
-        "metrics and the highest ROC-AUC score."
+        "Gradient Boosting was selected as the final model because it "
+        "performed better on unseen data and showed more stable "
+        "generalisation than Random Forest."
     )
     st.write(
-        "In practice, this balance means the model identifies high-risk "
-        "bookings reliably without creating too many misleading alerts, "
-        "making it the best fit for the project objectives."
+        "Random Forest achieved slightly higher recall (0.506 vs 0.454), "
+        "but Gradient Boosting provided the better overall balance and "
+        "less overfitting for deployment."
     )
 
     metric_col1, metric_col2, metric_col3, metric_col4, metric_col5 = (
         st.columns(5)
     )
-    metric_col1.metric("Accuracy", "0.8526")
-    metric_col2.metric("Precision", "0.7787")
-    metric_col3.metric("Recall", "0.6491")
-    metric_col4.metric("F1 Score", "0.7080")
-    metric_col5.metric("ROC-AUC", "0.9108")
+    metric_col1.metric("Accuracy", "0.7975")
+    metric_col2.metric("Precision", "0.7054")
+    metric_col3.metric("Recall", "0.4542")
+    metric_col4.metric("F1 Score", "0.5526")
+    metric_col5.metric("ROC-AUC", "0.8080")
 
     st.subheader("Business interpretation of evaluation metrics")
     st.info(
@@ -571,13 +573,6 @@ if page == "Prediction Tool":
             value=0,
             step=1,
         )
-        booking_changes = st.number_input(
-            "Booking changes",
-            min_value=0,
-            max_value=20,
-            value=0,
-            step=1,
-        )
         previous_cancellations = st.number_input(
             "Previous cancellations",
             min_value=0,
@@ -639,7 +634,6 @@ if page == "Prediction Tool":
         input_row.at[0, "total_of_special_requests"] = (
             total_of_special_requests
         )
-        input_row.at[0, "booking_changes"] = booking_changes
         input_row.at[0, "previous_cancellations"] = previous_cancellations
         input_row.at[0, "previous_bookings_not_canceled"] = (
             previous_bookings_not_canceled
@@ -772,7 +766,6 @@ if page == "Prediction Tool":
             f"**Lead time:** {lead_time}",
             f"**ADR:** {adr}",
             f"**Total special requests:** {total_of_special_requests}",
-            f"**Booking changes:** {booking_changes}",
             f"**Previous cancellations:** {previous_cancellations}",
             f"**Previous non-cancelled bookings:** "
             f"{previous_bookings_not_canceled}",
@@ -800,7 +793,8 @@ if page == "Model Performance":
 
         It brings together the key model assessment outputs, including the
         prediction pipeline steps, confusion matrix, feature importance, and
-        the final evaluation context for the selected Random Forest model.
+        the final evaluation context for the selected Gradient Boosting
+        model.
 
         The aim is to show not only how well the model performed on unseen
         data, but also which features contributed most strongly to the
@@ -841,8 +835,8 @@ if page == "Model Performance":
         or y_test is None
     ):
         try:
-            X_all = pd.read_csv("data/processed/X_encoded.csv")
-            y_all = pd.read_csv("data/processed/y.csv")
+            X_all = pd.read_csv("data/processed/X_encoded_deploy.csv")
+            y_all = pd.read_csv("data/processed/y_deploy.csv")
             if y_all.shape[1] == 1:
                 y_all = y_all.iloc[:, 0]
             X_train, X_test, y_train, y_test = train_test_split(
@@ -868,7 +862,7 @@ if page == "Model Performance":
     st.info(
         """
         Feature importance shows which input variables contributed most
-        strongly to the Random Forest model’s predictions.
+        strongly to the Gradient Boosting model’s predictions.
 
         Higher importance values indicate that a feature had greater
         influence on the final prediction outcome.
@@ -956,9 +950,9 @@ if page == "Model Performance":
         st.metric("F1", format_metric(test_metrics["f1"]))
 
     st.success(
-        "The model meets the success criteria on both train and test sets. "
-        "A small train–test gap indicates the model generalises well with "
-        "no significant overfitting."
+        "Train and test scores are close, which suggests the model "
+        "generalises well on unseen data. Results should still be "
+        "interpreted with care."
     )
 
     st.subheader("Confusion Matrix & Classification Report")
@@ -1018,8 +1012,8 @@ if page == "Model Performance":
         support rather than certainty.
         Higher-risk predictions can trigger targeted actions such as
         reminders, deposits, or time-based incentives.
-        The evaluation results show consistent performance between train and
-        test, supporting reliability on unseen data.
+        The evaluation results show stable train and test performance,
+        which supports reliability on unseen data.
         """
     )
 
