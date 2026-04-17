@@ -306,6 +306,77 @@ if page == "Project Hypotheses and Validation":
     st.subheader(
         "H4: Repeated guests are less likely to cancel than new guests"
     )
+    st.info(
+        "H4 examines whether repeated guests are less likely to cancel than "
+        "new guests. This hypothesis is important because repeat booking "
+        "behaviour may reflect stronger customer commitment and lower "
+        "uncertainty around the reservation."
+    )
+    st.write("**How it was examined**")
+    st.write(
+        "This hypothesis was examined by comparing cancellation behaviour "
+        "between repeated and non-repeated guests. The analysis focused on "
+        "whether repeated guests showed lower cancellation rates and more "
+        "stable booking behaviour than first-time or non-repeated guests."
+    )
+    st.write("**Verdict:** Confirmed")
+    h4_cancel_rate = (
+        cleaned_df.groupby("is_repeated_guest")["is_canceled"]
+        .mean()
+        .reindex([1, 0])
+        * 100
+    )
+    h4_rate_repeated = h4_cancel_rate.get(1, pd.NA)
+    h4_rate_non_repeated = h4_cancel_rate.get(0, pd.NA)
+    h4_rate_repeated_text = (
+        "n/a" if pd.isna(h4_rate_repeated) else f"{h4_rate_repeated:.1f}%"
+    )
+    h4_rate_non_repeated_text = (
+        "n/a"
+        if pd.isna(h4_rate_non_repeated)
+        else f"{h4_rate_non_repeated:.1f}%"
+    )
+    st.write(
+        "The exploratory analysis supported the view that repeated guests "
+        "are less likely to cancel than non-repeated guests. In this "
+        f"dataset, repeated guests had a cancellation rate of "
+        f"{h4_rate_repeated_text}, while non-repeated guests had a higher "
+        f"rate of {h4_rate_non_repeated_text}."
+    )
+    st.write(
+        "This finding is important in the context of the project because it "
+        "shows that customer loyalty and booking history provide useful "
+        "signals when identifying cancellation risk. It also helps explain "
+        "why repeated guest behaviour remains a meaningful variable in the "
+        "final Gradient Boosting model used in the app."
+    )
+    show_h4_chart = st.checkbox("Show H4 supporting chart", key="h4_chart")
+    if show_h4_chart:
+        h4_cancel_rate_display = h4_cancel_rate.rename(
+            index={1: "Repeated Guests", 0: "Non-Repeated Guests"}
+        )
+        chart_col, _ = st.columns([1, 1])
+        with chart_col:
+            fig, ax = plt.subplots(figsize=(4.8, 3.2))
+            h4_cancel_rate_display.plot(kind="bar", ax=ax)
+            ax.set_title(
+                "Cancellation Rate by Repeat Guest Status",
+                fontsize=11,
+            )
+            ax.set_xlabel("Guest Type", fontsize=9)
+            ax.set_ylabel("Cancellation Rate (%)", fontsize=9)
+            ax.tick_params(axis="x", rotation=0, labelsize=8)
+            ax.tick_params(axis="y", labelsize=8)
+            plt.tight_layout()
+            st.pyplot(fig, use_container_width=False)
+        st.write(
+            "The chart supports H4 by showing that cancellation risk is lower "
+            f"for repeated guests ({h4_rate_repeated_text}) than for "
+            f"non-repeated guests ({h4_rate_non_repeated_text}). This "
+            "reinforces the idea that prior successful booking behaviour is "
+            "an important indicator of lower cancellation risk in this "
+            "dataset."
+        )
     st.subheader("Conclusion")
 
 if page == "EDA Insights":
