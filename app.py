@@ -1131,14 +1131,26 @@ if page == "Model Performance":
 
     st.subheader("Business Insights")
     st.success(
-        """
-        The model outputs a risk probability that can be used for decision
-        support rather than certainty.
-        Higher-risk predictions can trigger targeted actions such as
-        reminders, deposits, or time-based incentives.
-        The evaluation results show stable train and test performance,
-        which supports reliability on unseen data.
-        """
+        "The final model produces a cancellation-risk probability that can "
+        "support business decision-making rather than act as certainty. In a "
+        "hotel setting, higher-risk bookings could be flagged for targeted "
+        "actions such as reminder messages, deposit requirements, or other "
+        "measures aimed at reducing last-minute cancellations."
+    )
+    st.write(
+        "This is useful for the project because it shows how predictive "
+        "analytics can move beyond description and support practical action. "
+        "Instead of treating all bookings in the same way, a business could "
+        "use the model output to focus attention on bookings that appear "
+        "more likely to cancel, while still recognising that the prediction "
+        "is based on probability rather than guarantee."
+    )
+    st.write(
+        "The evaluation results also showed stable train and test "
+        "performance, which supports the reliability of the final Gradient "
+        "Boosting model on unseen data. This means the model is suitable as "
+        "a decision-support tool within the project, while still requiring "
+        "human judgement and awareness of its limitations."
     )
 
     st.subheader("Limitations")
