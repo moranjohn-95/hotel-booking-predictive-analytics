@@ -809,14 +809,18 @@ if page == "Model Performance":
         **The prediction pipeline consists of two stages:**
 
         **Stage 1: Data Cleaning & Feature Engineering**
-        - Handles missing values and validates data types.
-        - Encodes categorical features into numeric values.
-        - Prepares the final feature set used by the model.
+        - prepares the cleaned, deployment-aligned booking data
+        - handles missing values and validates data types
+        - encodes the selected categorical booking features into numeric form
+        - creates the final feature set used by the model and the prediction
+          app
 
         **Stage 2: Classification Model**
-        - Generates a probability score for the target outcome.
-        - Applies the trained model to unseen data for evaluation.
-        - Uses the same preprocessing steps to ensure consistent predictions.
+        - applies the trained Gradient Boosting classifier
+        - generates a cancellation probability for each booking
+        - evaluates performance on unseen test data
+        - uses the same feature structure as the app so predictions remain
+          consistent at deployment stage
         """
     )
 
@@ -894,10 +898,47 @@ if page == "Model Performance":
                 ax.tick_params(axis="y", labelsize=8)
                 plt.tight_layout()
                 st.pyplot(fig, use_container_width=False)
+            st.write(
+                "The feature importance chart helps show which booking "
+                "variables had the greatest influence on the final Gradient "
+                "Boosting model. In the context of this project, this is "
+                "useful because it highlights which parts of a booking "
+                "appear most strongly linked to cancellation risk."
+            )
+            st.write(
+                "Features such as lead time, deposit type, previous "
+                "cancellations, and repeat guest behaviour are especially "
+                "meaningful because they relate directly to booking "
+                "commitment and past customer patterns. This supports the "
+                "wider project aim of identifying higher-risk bookings early "
+                "enough for a business to respond with more informed "
+                "decision-making."
+            )
         else:
             st.info("Feature importance is not available for this model type.")
 
     st.subheader("Model Performance")
+    st.info(
+        "The metric summary below compares train and test performance for "
+        "the final Gradient Boosting model, helping to assess both "
+        "predictive quality and generalisation on unseen data."
+    )
+    st.write(
+        "The train and test results are close across the main metrics, "
+        "which suggests that the final Gradient Boosting model "
+        "generalises well to unseen data and is not showing the heavy "
+        "overfitting seen earlier with Random Forest. The test ROC-AUC of "
+        "0.808 and F1-score of 0.553 support the decision to select "
+        "Gradient Boosting as the final model, while the more moderate "
+        "recall of 0.454 shows that some cancellations are still missed."
+    )
+    st.write(
+        "Overall, this means the final model provides a balanced level of "
+        "performance for the project. It is strong enough to support "
+        "decision-making around cancellation risk, while still requiring "
+        "careful interpretation rather than being treated as a certainty "
+        "tool."
+    )
 
     def format_metric(value):
         if value is None or pd.isna(value):
@@ -949,14 +990,8 @@ if page == "Model Performance":
         st.metric("Recall", format_metric(test_metrics["recall"]))
         st.metric("F1", format_metric(test_metrics["f1"]))
 
-    st.success(
-        "Train and test scores are close, which suggests the model "
-        "generalises well on unseen data. Results should still be "
-        "interpreted with care."
-    )
-
     st.subheader("Confusion Matrix & Classification Report")
-    st.write(
+    st.info(
         "This section shows how the final Gradient Boosting model "
         "performed on unseen test data. The confusion matrix compares "
         "the model's predicted outcomes against the actual booking "
@@ -997,14 +1032,14 @@ if page == "Model Performance":
     )
     st.write(
         "The classification report summarises the model's precision, "
-        "and F1-score for each class. In these results, the model performs "
-        "more strongly for class 0, with a recall of 0.928, meaning it is "
-        "very good at identifying bookings that are likely to go ahead. For "
-        "class 1, recall is lower at 0.454, which shows that the model still "
-        "misses some cancellations. This supports the earlier findings that "
-        "the final model is well balanced overall, with an accuracy of 0.798, "
-        "but is still better at recognising stable bookings than cancelled "
-        "ones."
+        "recall, and F1-score for each class. In these results, the model "
+        "performs more strongly for class 0, with a recall of 0.928, "
+        "meaning it is very good at identifying bookings that are likely "
+        "to go ahead. For class 1, recall is lower at 0.454, which shows "
+        "that the model still misses some cancellations. This supports the "
+        "earlier findings that the final model is well balanced overall, "
+        "with an accuracy of 0.798, but is still better at recognising "
+        "stable bookings than cancelled ones."
     )
     with st.expander("Show classification report"):
         report = classification_report(
@@ -1020,7 +1055,7 @@ if page == "Model Performance":
         st.dataframe(report_df, use_container_width=True)
 
     st.subheader("Diagnostic Plots")
-    st.write(
+    st.info(
         "This section provides two additional diagnostic views of the final "
         "Gradient Boosting model using unseen test data. These plots help "
         "show how well the model separates cancelled bookings from bookings "
@@ -1124,4 +1159,3 @@ if page == "Business Conclusions":
         "This page will contain business implications and final "
         "project conclusions."
     )
-
