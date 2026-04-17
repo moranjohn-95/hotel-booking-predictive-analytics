@@ -162,6 +162,70 @@ if page == "Project Hypotheses and Validation":
     st.subheader(
         "H2: Deposit type is strongly linked to cancellation behaviour"
     )
+    st.info(
+        "H2 examines whether deposit type is linked to cancellation "
+        "behaviour. This hypothesis is important because deposit conditions "
+        "reflect booking commitment and are likely to influence whether a "
+        "guest follows through with the reservation."
+    )
+    st.write("**How it was examined**")
+    st.write(
+        "This hypothesis was examined by comparing cancellation behaviour "
+        "across the different deposit categories in the dataset. The "
+        "analysis focused on whether cancellation rates differed clearly by "
+        "deposit type and whether deposit policy appeared to be a meaningful "
+        "booking-risk signal."
+    )
+    st.write("**Verdict:** Confirmed")
+    deposit_cancel_rate = (
+        cleaned_df.groupby("deposit_type")["is_canceled"]
+        .mean()
+        .sort_values(ascending=False)
+        * 100
+    )
+    non_refund_rate = deposit_cancel_rate.get("Non Refund", pd.NA)
+    non_refund_text = (
+        "n/a" if pd.isna(non_refund_rate) else f"{non_refund_rate:.1f}%"
+    )
+    st.write(
+        "The exploratory analysis supported the view that deposit type is "
+        "strongly linked to cancellation behaviour. In this dataset, Non "
+        "Refund bookings showed the highest cancellation rate (94.7%), while "
+        "No Deposit (26.7%) and Refundable (24.3%) were lower."
+    )
+    st.write(
+        "This observed pattern is notable because it is more unusual than a "
+        "simple assumption that stronger deposit commitment would always be "
+        "linked to lower cancellation risk. In the context of the project, "
+        "this reinforces the importance of using the actual dataset evidence "
+        "rather than relying only on expectation."
+    )
+    st.write(
+        "It also shows that deposit policy is still a meaningful signal when "
+        "trying to identify higher-risk bookings, which helps explain why "
+        "deposit type remains one of the influential variables in the final "
+        "Gradient Boosting model used in the app."
+    )
+    show_h2_chart = st.checkbox("Show H2 supporting chart", key="h2_chart")
+    if show_h2_chart:
+        chart_col, _ = st.columns([1, 1])
+        with chart_col:
+            fig, ax = plt.subplots(figsize=(4.8, 3.2))
+            deposit_cancel_rate.plot(kind="bar", ax=ax)
+            ax.set_title("Cancellation Rate by Deposit Type", fontsize=11)
+            ax.set_xlabel("Deposit Type", fontsize=9)
+            ax.set_ylabel("Cancellation Rate (%)", fontsize=9)
+            ax.tick_params(axis="x", rotation=20, labelsize=8)
+            ax.tick_params(axis="y", labelsize=8)
+            plt.tight_layout()
+            st.pyplot(fig, use_container_width=False)
+        st.write(
+            "The chart supports H2 by showing that cancellation behaviour "
+            "differs clearly across deposit types, with Non Refund showing "
+            f"the highest rate ({non_refund_text}) in this dataset. This "
+            "reinforces the idea that deposit conditions act as a strong "
+            "indicator of cancellation risk for the project."
+        )
     st.subheader(
         "H3: Previous cancellation history increases future cancellation risk"
     )
