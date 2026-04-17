@@ -956,20 +956,68 @@ if page == "Model Performance":
     )
 
     st.subheader("Confusion Matrix & Classification Report")
+    st.write(
+        "This section shows how the final Gradient Boosting model "
+        "performed on unseen test data. The confusion matrix compares "
+        "the model's predicted outcomes against the actual booking "
+        "outcomes, helping to show where the model was correct and "
+        "where it made errors."
+    )
+    st.write(
+        "In this project, class 0 represents bookings that were not "
+        "cancelled and class 1 represents bookings that were cancelled. "
+        "The matrix shows that the model is stronger at identifying "
+        "bookings that are likely to go ahead, while its ability to catch "
+        "all cancellations is more moderate."
+    )
     cm = confusion_matrix(y_test, y_test_pred)
-    fig, ax = plt.subplots(figsize=(4, 3))
-    ConfusionMatrixDisplay(confusion_matrix=cm).plot(ax=ax)
-    ax.set_title("Test Set Confusion Matrix", fontsize=12)
-    plt.tight_layout()
-    st.pyplot(fig)
+    chart_col, _ = st.columns([1, 1])
+    with chart_col:
+        fig, ax = plt.subplots(figsize=(3.8, 2.8))
+        ConfusionMatrixDisplay(confusion_matrix=cm).plot(
+            ax=ax,
+            colorbar=False,
+        )
+        ax.set_title("Test Set Confusion Matrix", fontsize=11)
+        ax.tick_params(axis="x", labelsize=8)
+        ax.tick_params(axis="y", labelsize=8)
+        plt.tight_layout()
+        st.pyplot(fig, use_container_width=False)
     st.caption(
         "The confusion matrix shows how many predictions were correct vs "
         "incorrect, split by each class."
     )
 
+    st.write(
+        "This is useful in the context of the project because it shows "
+        "the model can separate lower-risk bookings from higher-risk "
+        "bookings, but it still misses some cancellations. In other words, "
+        "the model is a helpful decision-support tool, but its predictions "
+        "should not be treated as certainty."
+    )
+    st.write(
+        "The classification report summarises the model's precision, "
+        "and F1-score for each class. In these results, the model performs "
+        "more strongly for class 0, with a recall of 0.928, meaning it is "
+        "very good at identifying bookings that are likely to go ahead. For "
+        "class 1, recall is lower at 0.454, which shows that the model still "
+        "misses some cancellations. This supports the earlier findings that "
+        "the final model is well balanced overall, with an accuracy of 0.798, "
+        "but is still better at recognising stable bookings than cancelled "
+        "ones."
+    )
     with st.expander("Show classification report"):
-        report = classification_report(y_test, y_test_pred)
-        st.text(report)
+        report = classification_report(
+            y_test,
+            y_test_pred,
+            output_dict=True,
+            zero_division=0,
+        )
+        report_df = pd.DataFrame(report).transpose()
+        metric_cols = ["precision", "recall", "f1-score"]
+        report_df[metric_cols] = report_df[metric_cols].round(3)
+        report_df["support"] = report_df["support"].round(0).astype(int)
+        st.dataframe(report_df, use_container_width=True)
 
     st.subheader("Diagnostic Plots")
     show_diagnostics = st.checkbox("Show ROC and Precision–Recall plots")
