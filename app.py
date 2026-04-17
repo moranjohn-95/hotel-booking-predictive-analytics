@@ -49,6 +49,7 @@ page = st.sidebar.radio(
     "Page",
     [
         "Quick Project Summary",
+        "Project Hypotheses and Validation",
         "EDA Insights",
         "Model Comparison",
         "Prediction Tool",
@@ -86,6 +87,26 @@ if page == "Quick Project Summary":
         "exploratory data analysis, data cleaning, feature engineering, "
         "model training, and final model selection."
     )
+
+if page == "Project Hypotheses and Validation":
+    st.header("Project Hypotheses and Validation")
+    st.write(
+        "This section will outline the key project hypotheses and how they "
+        "were validated using the hotel booking data."
+    )
+    st.subheader(
+        "H1: Longer lead times are associated with higher cancellation risk"
+    )
+    st.subheader(
+        "H2: Deposit type is strongly linked to cancellation behaviour"
+    )
+    st.subheader(
+        "H3: Previous cancellation history increases future cancellation risk"
+    )
+    st.subheader(
+        "H4: Repeated guests are less likely to cancel than new guests"
+    )
+    st.subheader("Conclusion")
 
 if page == "EDA Insights":
     st.header("Key EDA findings")
