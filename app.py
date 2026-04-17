@@ -97,6 +97,68 @@ if page == "Project Hypotheses and Validation":
     st.subheader(
         "H1: Longer lead times are associated with higher cancellation risk"
     )
+    st.info(
+        "H1 examines whether bookings made further in advance are more likely "
+        "to be cancelled. This hypothesis is important because lead time is "
+        "one of the most intuitive booking-behaviour signals in the dataset "
+        "and is also one of the strongest features in the final model."
+    )
+    st.write("**How it was examined**")
+    st.write(
+        "This hypothesis was examined by comparing lead time patterns across "
+        "cancelled and non-cancelled bookings. The analysis focused on "
+        "whether cancelled bookings tended to have higher lead times on "
+        "average and whether the distribution of lead time differed clearly "
+        "between the two outcome groups."
+    )
+    st.write("**Verdict:** Confirmed")
+    st.write(
+        "The exploratory analysis supported the view that longer lead times "
+        "are associated with higher cancellation risk. This makes practical "
+        "sense because bookings made well in advance leave more time for "
+        "plans to change, prices to shift, or alternative arrangements to be "
+        "made."
+    )
+    st.write(
+        "This finding is important in the context of the project because it "
+        "supports the inclusion of lead_time in the final prediction app and "
+        "helps explain why it remains one of the most influential variables "
+        "in the final Gradient Boosting model."
+    )
+    lead_time_not_cancelled = cleaned_df.loc[
+        cleaned_df["is_canceled"] == 0,
+        "lead_time",
+    ].dropna()
+    lead_time_cancelled = cleaned_df.loc[
+        cleaned_df["is_canceled"] == 1,
+        "lead_time",
+    ].dropna()
+    show_h1_chart = st.checkbox("Show H1 supporting chart", key="h1_chart")
+    if show_h1_chart:
+        chart_col, _ = st.columns([1, 1])
+        with chart_col:
+            fig, ax = plt.subplots(figsize=(4.8, 3.2))
+            ax.boxplot(
+                [lead_time_not_cancelled, lead_time_cancelled],
+                labels=["Not Cancelled", "Cancelled"],
+                patch_artist=True,
+            )
+            ax.set_title(
+                "Lead Time Distribution by Cancellation Status",
+                fontsize=11,
+            )
+            ax.set_xlabel("Booking Outcome", fontsize=9)
+            ax.set_ylabel("Lead Time (days)", fontsize=9)
+            ax.tick_params(axis="x", labelsize=8)
+            ax.tick_params(axis="y", labelsize=8)
+            plt.tight_layout()
+            st.pyplot(fig, use_container_width=False)
+        st.write(
+            "The chart supports H1 by showing that cancelled bookings "
+            "generally have higher lead times than bookings that were not "
+            "cancelled. This reinforces the idea that advance booking horizon "
+            "is an important indicator of cancellation risk in this dataset."
+        )
     st.subheader(
         "H2: Deposit type is strongly linked to cancellation behaviour"
     )
