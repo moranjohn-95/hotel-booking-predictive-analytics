@@ -1020,36 +1020,77 @@ if page == "Model Performance":
         st.dataframe(report_df, use_container_width=True)
 
     st.subheader("Diagnostic Plots")
-    show_diagnostics = st.checkbox("Show ROC and Precision–Recall plots")
+    st.write(
+        "This section provides two additional diagnostic views of the final "
+        "Gradient Boosting model using unseen test data. These plots help "
+        "show how well the model separates cancelled bookings from bookings "
+        "that are likely to go ahead, beyond the headline metrics shown "
+        "above."
+    )
+    st.write(
+        "The ROC curve shows the trade-off between the true positive rate "
+        "and the false positive rate across different decision thresholds. "
+        "The Precision-Recall curve is especially useful here because the "
+        "project focuses on identifying cancellation risk, so it helps show "
+        "how precision changes as recall increases."
+    )
+    show_diagnostics = st.checkbox("Show ROC and Precision-Recall plots")
     if show_diagnostics:
         if y_test_prob is not None:
             fpr, tpr, _ = roc_curve(y_test, y_test_prob)
-            fig, ax = plt.subplots(figsize=(4.5, 3))
-            ax.plot(fpr, tpr, label="ROC curve")
-            ax.plot([0, 1], [0, 1], linestyle="--", color="gray")
-            ax.set_title("ROC Curve", fontsize=12)
-            ax.set_xlabel("False Positive Rate", fontsize=10)
-            ax.set_ylabel("True Positive Rate", fontsize=10)
-            ax.legend(fontsize=9)
-            plt.tight_layout()
-            st.pyplot(fig)
+            chart_col, _ = st.columns([1, 1])
+            with chart_col:
+                fig, ax = plt.subplots(figsize=(4.2, 2.9))
+                ax.plot(fpr, tpr, label="ROC curve")
+                ax.plot([0, 1], [0, 1], linestyle="--", color="gray")
+                ax.set_title("ROC Curve", fontsize=11)
+                ax.set_xlabel("False Positive Rate", fontsize=9)
+                ax.set_ylabel("True Positive Rate", fontsize=9)
+                ax.tick_params(axis="x", labelsize=8)
+                ax.tick_params(axis="y", labelsize=8)
+                ax.legend(fontsize=8)
+                plt.tight_layout()
+                st.pyplot(fig, use_container_width=False)
 
             precision, recall, _ = precision_recall_curve(
                 y_test,
                 y_test_prob,
             )
             avg_precision = average_precision_score(y_test, y_test_prob)
-            fig, ax = plt.subplots(figsize=(4.5, 3))
-            ax.plot(recall, precision)
-            ax.set_title(
-                f"Precision–Recall Curve (Average Precision="
-                f"{avg_precision:.3f})",
-                fontsize=12,
+            with chart_col:
+                fig, ax = plt.subplots(figsize=(4.2, 2.9))
+                ax.plot(recall, precision)
+                ax.set_title(
+                    f"Precision-Recall Curve (Average Precision="
+                    f"{avg_precision:.3f})",
+                    fontsize=11,
+                )
+                ax.set_xlabel("Recall", fontsize=9)
+                ax.set_ylabel("Precision", fontsize=9)
+                ax.tick_params(axis="x", labelsize=8)
+                ax.tick_params(axis="y", labelsize=8)
+                plt.tight_layout()
+                st.pyplot(fig, use_container_width=False)
+
+            st.write(
+                "In this project, the ROC curve shows that the final model "
+                "has good overall ability to separate cancelled bookings from "
+                "non-cancelled bookings, which is reflected in the test "
+                "ROC-AUC score of 0.808. This suggests the model can rank "
+                "higher-risk and lower-risk bookings reasonably well across "
+                "different thresholds."
             )
-            ax.set_xlabel("Recall", fontsize=10)
-            ax.set_ylabel("Precision", fontsize=10)
-            plt.tight_layout()
-            st.pyplot(fig)
+            st.write(
+                "The Precision-Recall curve is also informative because the "
+                "project focuses on cancellation risk. The average precision "
+                "score of 0.657 shows that the model keeps a useful level of "
+                "precision as recall increases, although performance becomes "
+                "weaker as it tries to catch more cancelled bookings. Taken "
+                "together, these plots support the earlier conclusion that "
+                "the final model is well balanced overall, but that there is "
+                "still a trade-off between identifying more cancellations and "
+                "avoiding too many false alarms."
+            )
         else:
             st.warning("Model/data not loaded yet.")
 
@@ -1083,3 +1124,4 @@ if page == "Business Conclusions":
         "This page will contain business implications and final "
         "project conclusions."
     )
+
