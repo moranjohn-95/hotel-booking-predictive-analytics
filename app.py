@@ -229,6 +229,80 @@ if page == "Project Hypotheses and Validation":
     st.subheader(
         "H3: Previous cancellation history increases future cancellation risk"
     )
+    st.info(
+        "H3 examines whether guests with a history of previous cancellations "
+        "are more likely to cancel again. This hypothesis is important "
+        "because past booking behaviour may provide a strong signal about "
+        "future booking risk."
+    )
+    st.write("**How it was examined**")
+    st.write(
+        "This hypothesis was examined by comparing cancellation behaviour "
+        "across different levels of previous_cancellations. The analysis "
+        "focused on whether bookings linked to guests with more previous "
+        "cancellations showed consistently higher cancellation rates."
+    )
+    st.write("**Verdict:** Confirmed")
+    previous_cancel_group = (
+        cleaned_df["previous_cancellations"]
+        .fillna(0)
+        .ge(1)
+        .map({False: "0", True: "1+"})
+    )
+    h3_cancel_rate = (
+        cleaned_df.assign(previous_cancel_group=previous_cancel_group)
+        .groupby("previous_cancel_group")["is_canceled"]
+        .mean()
+        .reindex(["0", "1+"])
+        * 100
+    )
+    h3_rate_no_prev = h3_cancel_rate.get("0", pd.NA)
+    h3_rate_prev = h3_cancel_rate.get("1+", pd.NA)
+    h3_rate_no_prev_text = (
+        "n/a" if pd.isna(h3_rate_no_prev) else f"{h3_rate_no_prev:.1f}%"
+    )
+    h3_rate_prev_text = (
+        "n/a" if pd.isna(h3_rate_prev) else f"{h3_rate_prev:.1f}%"
+    )
+    st.write(
+        "The exploratory analysis supported the view that previous "
+        "cancellation history increases future cancellation risk. In this "
+        "dataset, guests with no previous cancellations had a cancellation "
+        f"rate of {h3_rate_no_prev_text}, while guests with one or more "
+        f"previous cancellations had a much higher rate of "
+        f"{h3_rate_prev_text}."
+    )
+    st.write(
+        "This finding is important in the context of the project because it "
+        "shows that the model can benefit from customer-history features, "
+        "not just details of the current booking. It also helps explain why "
+        "previous_cancellations remains one of the meaningful variables in "
+        "the final Gradient Boosting model used in the app."
+    )
+    show_h3_chart = st.checkbox("Show H3 supporting chart", key="h3_chart")
+    if show_h3_chart:
+        chart_col, _ = st.columns([1, 1])
+        with chart_col:
+            fig, ax = plt.subplots(figsize=(4.8, 3.2))
+            h3_cancel_rate.plot(kind="bar", ax=ax)
+            ax.set_title(
+                "Cancellation Rate by Previous Cancellations",
+                fontsize=11,
+            )
+            ax.set_xlabel("Previous Cancellations (0 vs 1+)", fontsize=9)
+            ax.set_ylabel("Cancellation Rate (%)", fontsize=9)
+            ax.tick_params(axis="x", rotation=0, labelsize=8)
+            ax.tick_params(axis="y", labelsize=8)
+            plt.tight_layout()
+            st.pyplot(fig, use_container_width=False)
+        st.write(
+            "The chart supports H3 by showing that cancellation risk rises "
+            f"from {h3_rate_no_prev_text} for guests with no previous "
+            f"cancellations to {h3_rate_prev_text} for guests with one or "
+            "more previous cancellations. This reinforces the idea that past "
+            "customer behaviour is an important indicator of future booking "
+            "risk in this dataset."
+        )
     st.subheader(
         "H4: Repeated guests are less likely to cancel than new guests"
     )
