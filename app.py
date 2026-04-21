@@ -378,6 +378,34 @@ if page == "Project Hypotheses and Validation":
             "dataset."
         )
     st.subheader("Conclusion")
+    st.info(
+        "Overall, the hypothesis testing stage supported the view that hotel "
+        "booking cancellation risk is strongly influenced by a small group "
+        "of behavioural and booking-related features. Across the four "
+        "hypotheses, longer lead times, deposit type, previous cancellation "
+        "history, and repeated guest behaviour all showed meaningful "
+        "relationships with cancellation outcomes."
+    )
+    st.write(
+        "The results were also substantial in practical terms. Cancelled "
+        "bookings showed higher lead times than non-cancelled bookings, Non "
+        "Refund bookings had the highest observed cancellation rate at "
+        "94.7%, guests with one or more previous cancellations showed a much "
+        "higher cancellation rate than those with none (68.0% vs 26.7%), "
+        "and repeated guests showed a much lower cancellation rate than "
+        "non-repeated guests (7.7% vs 28.3%). Together, these patterns "
+        "helped justify why these variables were retained in the final "
+        "prediction workflow."
+    )
+    st.write(
+        "This is important because it shows that the final predictive tool "
+        "is not based on arbitrary booking inputs. Instead, the selected "
+        "features were supported by exploratory analysis, clear behavioural "
+        "patterns in the data, and the final model evaluation results. This "
+        "gives the tool a stronger analytical foundation and shows a clear "
+        "link between business understanding, data exploration, and final "
+        "predictive modelling."
+    )
 
 if page == "EDA Insights":
     st.header("Key EDA findings")
