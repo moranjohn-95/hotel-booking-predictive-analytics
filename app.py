@@ -62,11 +62,9 @@ if page == "Quick Project Summary":
     st.title("Hotel Booking Cancellation Analytics")
 
     st.write(
-        """
-        This data app explores hotel booking cancellations and presents
-        a predictive analytics workflow based on the Hotel Booking
-        Demand dataset.
-        """
+        "This data app explores hotel booking cancellations and presents a "
+        "predictive analytics workflow based on the Hotel Booking Demand "
+        "dataset sourced from Kaggle."
     )
 
     if model_available:
@@ -77,15 +75,57 @@ if page == "Quick Project Summary":
             "will be limited until the model file is available."
         )
 
+    st.divider()
     st.header("Project overview")
 
     st.info(
         "The goal of this project is to predict whether a hotel booking "
-        "is likely to be cancelled, using historical booking data.\n\n"
-        "The dataset used for this project contains booking information "
-        "for both a city hotel and a resort hotel. The workflow includes "
-        "exploratory data analysis, data cleaning, feature engineering, "
-        "model training, and final model selection."
+        "is likely to be cancelled using historical booking data. This helps "
+        "turn past booking patterns into a practical cancellation-risk tool "
+        "that can support more informed decision-making."
+    )
+    st.divider()
+    st.header("Dataset and workflow")
+    st.info(
+        "The dataset used for this project is the Hotel Booking Demand "
+        "dataset from Kaggle, containing booking information for both a "
+        "city hotel and a resort hotel. The workflow moved from exploratory "
+        "data analysis and hypothesis testing into data cleaning, feature "
+        "engineering, model comparison, final model selection, and "
+        "app-based prediction."
+    )
+    st.write(
+        "This was important because it allowed the project to move beyond "
+        "simple description and towards a predictive tool grounded in clear "
+        "behavioural patterns found in the data."
+    )
+    st.divider()
+    st.header("Final model summary")
+    st.info(
+        "Gradient Boosting was selected as the final model because it showed "
+        "the strongest overall balance on unseen data and generalised better "
+        "than Random Forest. It achieved a test ROC-AUC of 0.808 and an F1 "
+        "Score of 0.553, supporting its use as the final deployment model."
+    )
+    st.write(
+        "Although Random Forest achieved slightly higher recall, Gradient "
+        "Boosting provided the more reliable overall balance and showed less "
+        "overfitting. This made it the safer final choice for use in the "
+        "predictive tool."
+    )
+    st.divider()
+    st.header("Practical value of the tool")
+    st.info(
+        "The finished tool allows a user to enter selected booking details "
+        "and receive an estimated cancellation-risk percentage and risk "
+        "band. This makes the app useful for highlighting bookings that may "
+        "need closer attention, while still treating the output as decision "
+        "support rather than certainty."
+    )
+    st.write(
+        "Taken together, the app shows how exploratory analysis, hypothesis "
+        "validation, model comparison, and evaluation can be combined into a "
+        "working predictive analytics tool with realistic business use."
     )
 
 if page == "Project Hypotheses and Validation":
