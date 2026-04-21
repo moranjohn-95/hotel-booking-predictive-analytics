@@ -1625,4 +1625,29 @@ if page == "Business Conclusions":
         "The final model gives a reasonable middle ground for decision "
         "support."
     )
+    st.subheader("Important limitations for business use")
+    st.warning(
+        "The predictive tool is based on historical booking patterns and "
+        "should not be treated as certainty. It can support judgement, but "
+        "it cannot account for every real-world factor that may influence a "
+        "single reservation."
+    )
+    st.write(
+        "The project findings are useful, but they should be interpreted "
+        "with care. Some relationships in the data may shift over time if "
+        "booking behaviour changes, market conditions change, or customer "
+        "patterns evolve."
+    )
+    st.write(
+        "The model also cannot explain every cancellation. A booking may be "
+        "cancelled for reasons not captured in the available data, which "
+        "means the output should be treated as a probability-based signal "
+        "rather than a guaranteed outcome."
+    )
+    st.write(
+        "This is especially important in operational settings, where human "
+        "judgement is still needed. The tool is most useful when combined "
+        "with business knowledge, review processes, and awareness of the "
+        "model's limitations."
+    )
 
