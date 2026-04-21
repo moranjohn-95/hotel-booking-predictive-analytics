@@ -727,35 +727,46 @@ if page == "Model Comparison":
         """
         This page compares the classification models tested during the
         project and explains why Gradient Boosting was selected as the
-        final model. The comparison is based on multiple evaluation
-        metrics so that model selection reflects overall performance
-        rather than a single score. Random Forest performed very
-        strongly on training data but showed clear overfitting, while
-        Gradient Boosting generalised better and was selected as the
-        deployment model.
+        final model. The comparison uses multiple evaluation metrics so
+        that model selection reflects overall performance on unseen data,
+        rather than depending on a single score.
 
-        Main sections on this page include:
-        - model comparison table
-        - ROC-AUC comparison
-        - F1 Score comparison
-        - final model selection
-        - business interpretation of model performance
+        Random Forest performed very strongly on training data but
+        showed clear overfitting, while Gradient Boosting held up better
+        on the test set and provided the stronger balance for
+        deployment. This made it the more reliable final choice for the
+        predictive tool.
+
+        **Main sections on this page include:**
+        - **Model comparison table** showing the main test metrics across
+          all models
+        - **ROC-AUC comparison** to show separation performance across
+          thresholds
+        - **F1 Score comparison** to compare balance between precision
+          and recall
+        - **Final model selection** explaining why Gradient Boosting was
+          chosen
+        - **Business interpretation** showing why these metrics matter in
+          practice
         """
     )
+    st.divider()
 
     st.dataframe(model_results)
+    st.divider()
 
     st.subheader("ROC-AUC comparison across models")
     st.info(
         "ROC-AUC comparison helps show how well each model separates "
-        "cancelled and non-cancelled bookings across thresholds."
+        "cancelled and non-cancelled bookings across different decision "
+        "thresholds."
     )
     st.write(
-        "Gradient Boosting achieved the highest ROC-AUC (0.8080), "
-        "followed by Random Forest (0.7848), Logistic Regression "
-        "(0.7724), and Decision Tree (0.6716). This indicates the "
-        "strongest overall separation between cancelled and non-cancelled "
-        "bookings across thresholds."
+        "Gradient Boosting achieved the highest ROC-AUC (0.8080), followed "
+        "by Random Forest (0.7848), Logistic Regression (0.7724), and "
+        "Decision Tree (0.6716). This matters because the final app produces "
+        "a risk probability rather than only a class label, so strong "
+        "ranking and separation ability are important."
     )
     show_roc_chart = st.checkbox(
         "Show supporting chart",
@@ -782,18 +793,20 @@ if page == "Model Comparison":
             ax.tick_params(axis="y", labelsize=9)
             plt.tight_layout()
             st.pyplot(fig)
+    st.divider()
 
     st.subheader("F1 Score comparison across models")
     st.info(
         "F1 Score is useful because it balances precision and recall, "
-        "making it a strong measure of overall classification "
-        "performance."
+        "making it a strong measure of overall classification performance "
+        "when cancellation detection involves trade-offs."
     )
     st.write(
-        "Gradient Boosting achieved the strongest F1 Score (0.5526), "
-        "with Random Forest close behind (0.5495), then Decision Tree "
-        "(0.5133), and Logistic Regression (0.4468). This supports its "
-        "overall balance between precision and recall."
+        "Gradient Boosting achieved the strongest F1 Score (0.5526), with "
+        "Random Forest close behind (0.5495), then Decision Tree (0.5133), "
+        "and Logistic Regression (0.4468). This supports Gradient "
+        "Boosting's stronger overall balance between catching cancellations "
+        "and limiting false alerts."
     )
     show_f1_chart = st.checkbox(
         "Show supporting chart",
@@ -820,6 +833,7 @@ if page == "Model Comparison":
             ax.tick_params(axis="y", labelsize=9)
             plt.tight_layout()
             st.pyplot(fig)
+    st.divider()
 
     st.subheader("Final model selection")
     st.info(
@@ -829,8 +843,9 @@ if page == "Model Comparison":
     )
     st.write(
         "Random Forest achieved slightly higher recall (0.506 vs 0.454), "
-        "but Gradient Boosting provided the better overall balance and "
-        "less overfitting for deployment."
+        "but Gradient Boosting provided the better overall balance and did "
+        "not show the same level of overfitting. This made it the safer and "
+        "more reliable choice for deployment in the predictive tool."
     )
 
     metric_col1, metric_col2, metric_col3, metric_col4, metric_col5 = (
@@ -841,18 +856,22 @@ if page == "Model Comparison":
     metric_col3.metric("Recall", "0.4542")
     metric_col4.metric("F1 Score", "0.5526")
     metric_col5.metric("ROC-AUC", "0.8080")
+    st.divider()
 
     st.subheader("Business interpretation of evaluation metrics")
     st.info(
         "Precision shows how many predicted cancellations were correct, "
-        "recall shows how many actual cancellations were captured, F1 "
+        "recall shows how many actual cancellations were captured, F1 Score "
         "balances precision and recall, and ROC-AUC reflects overall "
         "ranking and separation quality."
     )
     st.write(
-        "These metrics matter because a useful cancellation model must "
-        "identify risky bookings reliably while avoiding too many false "
-        "alerts that could lead to unnecessary interventions."
+        "These metrics matter because a useful cancellation model should "
+        "identify risky bookings without creating too many false alerts. In "
+        "practice, false positives could lead to unnecessary reminders or "
+        "interventions, while false negatives mean missing bookings that may "
+        "be at higher cancellation risk. This is why model selection was "
+        "based on overall balance rather than one metric alone."
     )
 
 if page == "Prediction Tool":
@@ -1517,3 +1536,4 @@ if page == "Business Conclusions":
         "This page will contain business implications and final "
         "project conclusions."
     )
+
