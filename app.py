@@ -1560,4 +1560,27 @@ if page == "Business Conclusions":
         - **Why the final model is useful, but not a certainty tool**
         """
     )
+    st.subheader("Key business conclusions")
+    st.info(
+        "The project showed that cancellation risk is not random. A small "
+        "group of booking-related and behavioural features consistently "
+        "showed meaningful links to whether a reservation was more or less "
+        "likely to be cancelled."
+    )
+    st.write(
+        "Across the exploratory analysis and hypothesis testing, longer lead "
+        "times, deposit type, previous cancellation history, repeated guest "
+        "behaviour, special requests, hotel type, and market segment all "
+        "showed useful patterns. These findings helped support the final "
+        "feature set used in the predictive tool."
+    )
+    st.write(
+        "Some results were especially clear in practical terms. Cancelled "
+        "bookings tended to have higher lead times, guests with one or more "
+        "previous cancellations had a much higher cancellation rate than "
+        "those with none (68.0% vs 26.7%), and repeated guests had a much "
+        "lower cancellation rate than non-repeated guests (7.7% vs 28.3%). "
+        "This suggests that booking behaviour and customer history can offer "
+        "useful signals before arrival."
+    )
 
