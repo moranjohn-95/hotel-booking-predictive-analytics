@@ -449,29 +449,23 @@ if page == "EDA Insights":
         """
         This page brings together the main findings from the exploratory
         data analysis and highlights the booking features most closely
-        associated with cancellation behaviour. The aim is to show which
-        patterns stood out most clearly in the dataset before modelling,
-        and to support each finding with an optional chart that can be
-        expanded when needed.
+        linked to cancellation behaviour. The aim is to show which
+        patterns stood out most clearly in the data before modelling,
+        and why those patterns were useful when shaping the final
+        predictive tool.
 
         **Key patterns identified during EDA included:**
 
-        - **Longer lead times** - were associated with higher cancellation
-        risk.
-        - **Non-refund deposits** - showed much higher cancellation rates than
-          other deposit types.
-        - **Repeat guests** - were noticeably less likely to cancel.
-        - **Bookings with more special requests** - tended to be less likely
-          to cancel.
-        - **Hotel type** and **market segment** - also showed meaningful
-          differences in cancellation behaviour.
+        - **Longer lead times** were associated with higher cancellation risk
+        - **Deposit type** showed clear differences in cancellation behaviour
+        - **Repeat guests** were much less likely to cancel
+        - **Bookings with more special requests** tended to be less likely
+          to cancel
+        - **Hotel type and market segment** also showed meaningful differences
+          in cancellation behaviour
         """
     )
-
-    def format_value(value, decimals=1, suffix=""):
-        if pd.isna(value):
-            return "n/a"
-        return f"{value:.{decimals}f}{suffix}"
+    st.divider()
 
     st.subheader("Lead time and cancellation")
     lead_time_by_cancel = (
@@ -479,21 +473,17 @@ if page == "EDA Insights":
         .mean()
         .reindex([0, 1])
     )
-    lead_time_not_cancelled = lead_time_by_cancel.iloc[0]
-    lead_time_cancelled = lead_time_by_cancel.iloc[1]
     lead_time_by_cancel.index = ["Not Cancelled", "Cancelled"]
     st.info(
-        "Bookings made further in advance tend to have higher "
-        "cancellation rates, which suggests uncertainty increases with "
-        "longer planning horizons."
+        "Bookings made further in advance were more likely to be cancelled, "
+        "which suggests that uncertainty increases with longer planning "
+        "horizons."
     )
     st.write(
         "Cancelled bookings had a noticeably higher average lead time "
-        f"({format_value(lead_time_cancelled, 1)} days) than "
-        "non-cancelled bookings "
-        f"({format_value(lead_time_not_cancelled, 1)} days), suggesting "
-        "that reservations made far in advance may be more vulnerable "
-        "to changing plans."
+        "(105.7 days) than non-cancelled bookings (70.2 days). This suggests "
+        "that reservations made far in advance may be more exposed to "
+        "changing plans later on."
     )
     show_lead_time_chart = st.checkbox(
         "Show supporting chart",
@@ -514,6 +504,7 @@ if page == "EDA Insights":
             ax.tick_params(axis="y", labelsize=9)
             plt.tight_layout()
             st.pyplot(fig)
+    st.divider()
 
     st.subheader("Deposit type and cancellation")
     deposit_cancel_rate = (
@@ -522,26 +513,23 @@ if page == "EDA Insights":
         .sort_values(ascending=False)
         * 100
     )
-    non_refund_rate = deposit_cancel_rate.get("Non Refund", pd.NA)
-    no_deposit_rate = deposit_cancel_rate.get("No Deposit", pd.NA)
-    refundable_rate = deposit_cancel_rate.get("Refundable", pd.NA)
     st.info(
-        "Deposit policy has a strong relationship with cancellations, "
-        "especially when bookings are marked as non-refund."
+        "Deposit type showed one of the clearest relationships with "
+        "cancellation behaviour, which made it an important feature to look "
+        "at before modelling."
     )
-    deposit_text = (
-        "Deposit type was one of the clearest signals in the dataset. "
-        "Non Refund bookings showed the highest cancellation rate "
-        f"({format_value(non_refund_rate, 1, '%')}), compared with "
-        f"No Deposit ({format_value(no_deposit_rate, 1, '%')})"
+    st.write(
+        "Non Refund bookings showed the highest cancellation rate (94.7%), "
+        "compared with No Deposit (26.7%) and Refundable (24.3%). This shows "
+        "that deposit-related behaviour differs sharply across categories "
+        "and is strongly linked to cancellation risk in this dataset."
     )
-    if not pd.isna(refundable_rate):
-        deposit_text += (
-            f" and Refundable ({format_value(refundable_rate, 1, '%')})."
-        )
-    else:
-        deposit_text += "."
-    st.write(deposit_text)
+    st.write(
+        "This pattern is worth noting because it is less straightforward "
+        "than a simple assumption that stronger deposit commitment would "
+        "always mean lower cancellation risk. It shows why the dataset "
+        "itself needs to guide the interpretation."
+    )
     show_deposit_chart = st.checkbox(
         "Show supporting chart",
         key="deposit_type_chart",
@@ -561,6 +549,7 @@ if page == "EDA Insights":
             ax.tick_params(axis="y", labelsize=9)
             plt.tight_layout()
             st.pyplot(fig)
+    st.divider()
 
     st.subheader("Repeat guests and cancellation")
     repeat_cancel_rate = (
@@ -570,18 +559,14 @@ if page == "EDA Insights":
         * 100
     )
     repeat_cancel_rate.index = ["Not Repeated", "Repeated"]
-    non_repeat_rate = repeat_cancel_rate.iloc[0]
-    repeat_rate = repeat_cancel_rate.iloc[1]
     st.info(
-        "Repeat guests tend to be more loyal and less likely to cancel, "
-        "making this feature a strong behavioural signal."
+        "Repeat guests were much less likely to cancel, which suggests that "
+        "previous customer history is an important behavioural signal."
     )
     st.write(
-        "Repeat guests showed much lower cancellation behaviour "
-        f"({format_value(repeat_rate, 1, '%')}) than non-repeat guests "
-        f"({format_value(non_repeat_rate, 1, '%')}), suggesting that "
-        "loyalty and prior relationship with the hotel reduce "
-        "cancellation risk."
+        "Repeat guests showed much lower cancellation behaviour (7.7%) than "
+        "non-repeat guests (28.3%). This suggests that previous successful "
+        "booking experience may be linked to greater booking stability."
     )
     show_repeat_guest_chart = st.checkbox(
         "Show supporting chart",
@@ -602,6 +587,7 @@ if page == "EDA Insights":
             ax.tick_params(axis="y", labelsize=9)
             plt.tight_layout()
             st.pyplot(fig)
+    st.divider()
 
     st.subheader("Special requests and cancellation")
     requests_by_cancel = (
@@ -609,19 +595,17 @@ if page == "EDA Insights":
         .mean()
         .reindex([0, 1])
     )
-    requests_not_cancelled = requests_by_cancel.iloc[0]
-    requests_cancelled = requests_by_cancel.iloc[1]
     requests_by_cancel.index = ["Not Cancelled", "Cancelled"]
     st.info(
-        "Guests who make more special requests often show stronger "
-        "intent to travel, which corresponds with lower cancellations."
+        "Bookings with more special requests tended to be less likely to "
+        "cancel, which suggests that request behaviour may reflect stronger "
+        "booking intent."
     )
     st.write(
-        "Non-cancelled bookings averaged "
-        f"{format_value(requests_not_cancelled, 1)} special requests "
-        f"versus {format_value(requests_cancelled, 1)} for cancelled "
-        "bookings, indicating that more requests may signal stronger "
-        "travel intent."
+        "Non-cancelled bookings averaged 0.8 special requests compared with "
+        "0.5 for cancelled bookings. This does not prove causation, but it "
+        "does suggest that guests making more requests may be more committed "
+        "to their planned stay."
     )
     show_special_requests_chart = st.checkbox(
         "Show supporting chart",
@@ -642,6 +626,7 @@ if page == "EDA Insights":
             ax.tick_params(axis="y", labelsize=9)
             plt.tight_layout()
             st.pyplot(fig)
+    st.divider()
 
     st.subheader("Hotel type and cancellation")
     hotel_cancel_rate = (
@@ -650,17 +635,14 @@ if page == "EDA Insights":
         .sort_values(ascending=False)
         * 100
     )
-    city_hotel_rate = hotel_cancel_rate.get("City Hotel", pd.NA)
-    resort_hotel_rate = hotel_cancel_rate.get("Resort Hotel", pd.NA)
     st.info(
-        "Cancellation rates differ by hotel type, which helps explain "
-        "variation in guest behaviour between city and resort stays."
+        "Hotel type also showed a meaningful difference in cancellation "
+        "behaviour, which suggests that booking context matters."
     )
     st.write(
-        "City Hotel bookings showed higher cancellation rates "
-        f"({format_value(city_hotel_rate, 1, '%')}) than Resort Hotel "
-        f"bookings ({format_value(resort_hotel_rate, 1, '%')}), "
-        "indicating booking behaviour differs by hotel context."
+        "City Hotel bookings showed higher cancellation rates (30.1%) than "
+        "Resort Hotel bookings (23.5%). This suggests that cancellation "
+        "behaviour may vary depending on the type of stay being booked."
     )
     show_hotel_chart = st.checkbox(
         "Show supporting chart",
@@ -681,6 +663,7 @@ if page == "EDA Insights":
             ax.tick_params(axis="y", labelsize=9)
             plt.tight_layout()
             st.pyplot(fig)
+    st.divider()
 
     st.subheader("Market segment and cancellation")
     market_cancel_rate = (
@@ -690,15 +673,20 @@ if page == "EDA Insights":
         * 100
     )
     st.info(
-        "Cancellation patterns vary across market segments, indicating "
-        "differences in booking behaviour by channel."
+        "Cancellation behaviour also varied across market segments, showing "
+        "that booking channel and customer context can influence risk."
     )
     st.write(
-        "Cancellation rates varied by segment, with Undefined showing "
-        "the highest rate, although this category contains very few "
-        "observations, and Corporate showing one of the lowest rates at "
-        "12.1%. This suggests customer type and booking channel context "
-        "can influence risk."
+        "Rates differed across segments, with Undefined showing the highest "
+        "rate, although this category contains very few observations and "
+        "should be treated with caution. More established segments such as "
+        "Corporate showed lower cancellation behaviour, with Corporate at "
+        "12.1%."
+    )
+    st.write(
+        "This suggests that market segment can add useful context for "
+        "prediction, but some categories are more reliable to interpret than "
+        "others because of their sample size."
     )
     show_market_segment_chart = st.checkbox(
         "Show supporting chart",
@@ -720,13 +708,16 @@ if page == "EDA Insights":
             plt.tight_layout()
             st.pyplot(fig)
 
-    st.success(
-        "Lead time, deposit type, repeat guest status, special requests, "
-        "hotel type, and market segment all showed meaningful "
-        "association with cancellation behaviour before modelling. "
-        "These findings supported the later predictive modelling stage "
-        "by highlighting relevant features and behavioural patterns "
-        "useful for prediction."
+    st.divider()
+    st.subheader("Conclusion")
+    st.write(
+        "Taken together, these EDA findings showed that lead time, deposit "
+        "type, repeat guest behaviour, previous customer history, special "
+        "requests, hotel type, and market segment all had meaningful links "
+        "to cancellation behaviour before modelling. This helped justify "
+        "which booking features were carried forward into the final "
+        "predictive tool and showed that the selected inputs were supported "
+        "by clear patterns in the data rather than arbitrary choice."
     )
 
 if page == "Model Comparison":
