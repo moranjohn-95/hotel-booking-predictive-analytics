@@ -1560,6 +1560,7 @@ if page == "Business Conclusions":
         - **Why the final model is useful, but not a certainty tool**
         """
     )
+    st.divider()
     st.subheader("Key business conclusions")
     st.info(
         "The project showed that cancellation risk is not random. A small "
@@ -1583,6 +1584,7 @@ if page == "Business Conclusions":
         "This suggests that booking behaviour and customer history can offer "
         "useful signals before arrival."
     )
+    st.divider()
     st.subheader("Practical use of the predictive tool")
     st.info(
         "The final predictive tool estimates cancellation risk using the "
@@ -1602,6 +1604,7 @@ if page == "Business Conclusions":
         "attention where risk appears more likely, rather than treating all "
         "reservations as equally uncertain."
     )
+    st.divider()
     st.subheader("What the results suggest for decision-making")
     st.info(
         "The model results suggest that a balanced cancellation-risk tool "
@@ -1625,6 +1628,7 @@ if page == "Business Conclusions":
         "The final model gives a reasonable middle ground for decision "
         "support."
     )
+    st.divider()
     st.subheader("Important limitations for business use")
     st.warning(
         "The predictive tool is based on historical booking patterns and "
@@ -1649,5 +1653,23 @@ if page == "Business Conclusions":
         "judgement is still needed. The tool is most useful when combined "
         "with business knowledge, review processes, and awareness of the "
         "model's limitations."
+    )
+    st.divider()
+    st.subheader("Final conclusion")
+    st.success(
+        "Overall, the project supports the idea that hotel booking "
+        "cancellation risk can be estimated in a useful and structured way "
+        "using historical booking data. The final predictive tool is not a "
+        "certainty system, but it does provide a stronger evidence-based "
+        "foundation for identifying higher-risk bookings and supporting more "
+        "consistent decision-making."
+    )
+    st.write(
+        "This matters because it shows that predictive analytics can move "
+        "beyond description and into practical use. By linking exploratory "
+        "analysis, hypothesis testing, model comparison, and final "
+        "evaluation, the project demonstrates how a data-driven tool can be "
+        "built to support booking-risk assessment in a realistic business "
+        "context."
     )
 
