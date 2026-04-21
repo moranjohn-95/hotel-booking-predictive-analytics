@@ -1544,8 +1544,20 @@ if page == "Model Performance":
 
 if page == "Business Conclusions":
     st.header("Business conclusions")
-    st.info(
-        "This page will contain business implications and final "
-        "project conclusions."
+    st.success(
+        """
+        This page brings together the main business conclusions from the
+        project and explains what the final predictive tool could support
+        in practice. The aim is to show how the model's findings can be
+        used to inform booking-risk decisions, while still recognising the
+        limits of prediction.
+
+        **Main themes covered on this page include:**
+        - **What the project showed** about cancellation risk patterns
+        - **How the predictive tool could be used** in a hotel setting
+        - **What kinds of decisions the output may support**
+        - **What limitations should be kept in mind**
+        - **Why the final model is useful, but not a certainty tool**
+        """
     )
 
