@@ -1172,6 +1172,7 @@ if page == "Model Performance":
         project objectives.
         """
     )
+    st.divider()
 
     st.subheader("ML Pipeline Steps")
     st.info(
@@ -1193,6 +1194,7 @@ if page == "Model Performance":
           consistent at deployment stage
         """
     )
+    st.divider()
 
     # Load model and data for evaluation metrics and plots.
     model_perf = st.session_state.get("model", model)
@@ -1287,6 +1289,7 @@ if page == "Model Performance":
         else:
             st.info("Feature importance is not available for this model type.")
 
+    st.divider()
     st.subheader("Model Performance")
     st.info(
         "The metric summary below compares train and test performance for "
@@ -1360,6 +1363,7 @@ if page == "Model Performance":
         st.metric("Recall", format_metric(test_metrics["recall"]))
         st.metric("F1", format_metric(test_metrics["f1"]))
 
+    st.divider()
     st.subheader("Confusion Matrix & Classification Report")
     st.info(
         "This section shows how the final Gradient Boosting model "
@@ -1424,6 +1428,7 @@ if page == "Model Performance":
         report_df["support"] = report_df["support"].round(0).astype(int)
         st.dataframe(report_df, use_container_width=True)
 
+    st.divider()
     st.subheader("Diagnostic Plots")
     st.info(
         "This section provides two additional diagnostic views of the final "
@@ -1499,6 +1504,7 @@ if page == "Model Performance":
         else:
             st.warning("Model/data not loaded yet.")
 
+    st.divider()
     st.subheader("Business Insights")
     st.success(
         "The final model produces a cancellation-risk probability that can "
@@ -1523,6 +1529,7 @@ if page == "Model Performance":
         "human judgement and awareness of its limitations."
     )
 
+    st.divider()
     st.subheader("Limitations")
     st.warning(
         """
