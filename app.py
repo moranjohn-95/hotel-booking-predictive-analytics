@@ -108,6 +108,7 @@ if page == "Project Hypotheses and Validation":
           stable bookers
         """
     )
+    st.divider()
     st.subheader(
         "H1: Longer lead times are associated with higher cancellation risk"
     )
@@ -188,6 +189,7 @@ if page == "Project Hypotheses and Validation":
             "advance booking horizon is an important indicator of "
             "cancellation risk in this dataset."
         )
+    st.divider()
     st.subheader(
         "H2: Deposit type is strongly linked to cancellation behaviour"
     )
@@ -255,6 +257,7 @@ if page == "Project Hypotheses and Validation":
             "reinforces the idea that deposit conditions act as a strong "
             "indicator of cancellation risk for the project."
         )
+    st.divider()
     st.subheader(
         "H3: Previous cancellation history increases future cancellation risk"
     )
@@ -332,6 +335,7 @@ if page == "Project Hypotheses and Validation":
             "customer behaviour is an important indicator of future booking "
             "risk in this dataset."
         )
+    st.divider()
     st.subheader(
         "H4: Repeated guests are less likely to cancel than non-repeated "
         "guests"
@@ -407,6 +411,7 @@ if page == "Project Hypotheses and Validation":
             "an important indicator of lower cancellation risk in this "
             "dataset."
         )
+    st.divider()
     st.subheader("Conclusion")
     st.info(
         "Overall, the hypothesis testing stage supported the view that hotel "
