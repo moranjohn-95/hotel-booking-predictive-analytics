@@ -1583,4 +1583,23 @@ if page == "Business Conclusions":
         "This suggests that booking behaviour and customer history can offer "
         "useful signals before arrival."
     )
+    st.subheader("Practical use of the predictive tool")
+    st.info(
+        "The final predictive tool estimates cancellation risk using the "
+        "selected booking inputs and returns both a risk percentage and a "
+        "risk band. This makes it suitable for practical review and "
+        "decision-support rather than simple description."
+    )
+    st.write(
+        "In a hotel setting, the tool could help flag bookings that may need "
+        "closer attention. For example, higher-risk bookings could be "
+        "reviewed for reminder messages, deposit policies, or other "
+        "interventions aimed at reducing avoidable cancellations."
+    )
+    st.write(
+        "This does not mean every high-risk booking should be treated in the "
+        "same way. Instead, the value of the tool is that it helps focus "
+        "attention where risk appears more likely, rather than treating all "
+        "reservations as equally uncertain."
+    )
 
