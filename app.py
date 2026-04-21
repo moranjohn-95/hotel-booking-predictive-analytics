@@ -1602,4 +1602,27 @@ if page == "Business Conclusions":
         "attention where risk appears more likely, rather than treating all "
         "reservations as equally uncertain."
     )
+    st.subheader("What the results suggest for decision-making")
+    st.info(
+        "The model results suggest that a balanced cancellation-risk tool "
+        "can support more informed booking decisions, especially where a "
+        "business wants to identify higher-risk reservations without "
+        "creating too many unnecessary false alerts."
+    )
+    st.write(
+        "The final Gradient Boosting model was selected because it showed "
+        "better generalisation than Random Forest and achieved the strongest "
+        "overall balance on unseen data. Its test ROC-AUC of 0.808 and F1 "
+        "Score of 0.553 suggest that it is useful for separating higher-risk "
+        "and lower-risk bookings, even though it still misses some actual "
+        "cancellations."
+    )
+    st.write(
+        "From a business point of view, that balance matters. A model with "
+        "too many false positives could lead to unnecessary reminders or "
+        "interventions, while a model with too many false negatives would "
+        "miss bookings that may genuinely be at higher cancellation risk. "
+        "The final model gives a reasonable middle ground for decision "
+        "support."
+    )
 
