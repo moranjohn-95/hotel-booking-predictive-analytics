@@ -884,9 +884,10 @@ if page == "Prediction Tool":
     )
 
     st.info(
-        "Choose booking details, click Predict cancellation risk, and "
+        "Choose booking details, click **Predict cancellation risk**, and "
         "review the predicted risk and risk band below."
     )
+    st.divider()
 
     st.subheader("How the prediction works")
     st.success(
@@ -912,6 +913,7 @@ if page == "Prediction Tool":
         final model can be used in practice.
         """
     )
+    st.divider()
 
     st.subheader("Booking input details")
     col1, col2 = st.columns(2)
@@ -1037,6 +1039,7 @@ if page == "Prediction Tool":
             else:
                 risk_band = "High"
 
+            st.divider()
             st.subheader("Prediction result")
 
             if risk_band == "High":
@@ -1075,6 +1078,7 @@ if page == "Prediction Tool":
                 """
             )
 
+            st.divider()
             st.subheader("What this means")
             if risk_band == "Low":
                 st.info(
@@ -1124,6 +1128,7 @@ if page == "Prediction Tool":
                 "can be generated."
             )
 
+        st.divider()
         st.subheader("Selected booking profile")
 
         left_summary, right_summary = st.columns(2)
