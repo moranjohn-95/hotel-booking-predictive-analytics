@@ -90,9 +90,23 @@ if page == "Quick Project Summary":
 
 if page == "Project Hypotheses and Validation":
     st.header("Project Hypotheses and Validation")
-    st.write(
-        "This section will outline the key project hypotheses and how they "
-        "were validated using the hotel booking data."
+    st.success(
+        """
+        This page brings together the main hypotheses that guided the
+        exploratory stage of the analysis and shows how they were checked
+        against the hotel booking data. The aim is to demonstrate that the
+        final predictive tool is grounded in clear behavioural patterns,
+        rather than arbitrary input selection.
+
+        **Key themes examined on this page include:**
+        - **Lead time** and whether bookings made further in advance are more
+          likely to cancel
+        - **Deposit type** and how booking commitment relates to cancellation
+          behaviour
+        - **Previous cancellation history** as a signal of future booking risk
+        - **Repeated guest behaviour** and whether returning guests are more
+          stable bookers
+        """
     )
     st.subheader(
         "H1: Longer lead times are associated with higher cancellation risk"
@@ -112,19 +126,6 @@ if page == "Project Hypotheses and Validation":
         "between the two outcome groups."
     )
     st.write("**Verdict:** Confirmed")
-    st.write(
-        "The exploratory analysis supported the view that longer lead times "
-        "are associated with higher cancellation risk. This makes practical "
-        "sense because bookings made well in advance leave more time for "
-        "plans to change, prices to shift, or alternative arrangements to be "
-        "made."
-    )
-    st.write(
-        "This finding is important in the context of the project because it "
-        "supports the inclusion of lead_time in the final prediction app and "
-        "helps explain why it remains one of the most influential variables "
-        "in the final Gradient Boosting model."
-    )
     lead_time_not_cancelled = cleaned_df.loc[
         cleaned_df["is_canceled"] == 0,
         "lead_time",
@@ -133,6 +134,32 @@ if page == "Project Hypotheses and Validation":
         cleaned_df["is_canceled"] == 1,
         "lead_time",
     ].dropna()
+    h1_median_not_cancelled = lead_time_not_cancelled.median()
+    h1_median_cancelled = lead_time_cancelled.median()
+    h1_median_not_cancelled_text = (
+        "n/a"
+        if pd.isna(h1_median_not_cancelled)
+        else f"{h1_median_not_cancelled:.1f} days"
+    )
+    h1_median_cancelled_text = (
+        "n/a"
+        if pd.isna(h1_median_cancelled)
+        else f"{h1_median_cancelled:.1f} days"
+    )
+    st.write(
+        "The exploratory analysis supported the view that longer lead times "
+        "are associated with higher cancellation risk. In this dataset, "
+        "bookings that were not cancelled had a lower "
+        f"typical lead time (median {h1_median_not_cancelled_text}), while "
+        "cancelled bookings showed a clearly higher lead time pattern "
+        f"overall (median {h1_median_cancelled_text})."
+    )
+    st.write(
+        "This finding is important in the context of the project because it "
+        "supports the inclusion of lead_time in the final prediction app and "
+        "helps explain why it remains one of the most influential variables "
+        "in the final Gradient Boosting model."
+    )
     show_h1_chart = st.checkbox("Show H1 supporting chart", key="h1_chart")
     if show_h1_chart:
         chart_col, _ = st.columns([1, 1])
@@ -156,8 +183,10 @@ if page == "Project Hypotheses and Validation":
         st.write(
             "The chart supports H1 by showing that cancelled bookings "
             "generally have higher lead times than bookings that were not "
-            "cancelled. This reinforces the idea that advance booking horizon "
-            "is an important indicator of cancellation risk in this dataset."
+            f"cancelled (median {h1_median_cancelled_text} vs "
+            f"{h1_median_not_cancelled_text}). This reinforces the idea that "
+            "advance booking horizon is an important indicator of "
+            "cancellation risk in this dataset."
         )
     st.subheader(
         "H2: Deposit type is strongly linked to cancellation behaviour"
@@ -304,12 +333,13 @@ if page == "Project Hypotheses and Validation":
             "risk in this dataset."
         )
     st.subheader(
-        "H4: Repeated guests are less likely to cancel than new guests"
+        "H4: Repeated guests are less likely to cancel than non-repeated "
+        "guests"
     )
     st.info(
         "H4 examines whether repeated guests are less likely to cancel than "
-        "new guests. This hypothesis is important because repeat booking "
-        "behaviour may reflect stronger customer commitment and lower "
+        "non-repeated guests. This hypothesis is important because repeat "
+        "booking behaviour may reflect stronger customer commitment and lower "
         "uncertainty around the reservation."
     )
     st.write("**How it was examined**")
