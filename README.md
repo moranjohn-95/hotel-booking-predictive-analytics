@@ -60,3 +60,81 @@ This predictive tool helps to:
 Overall, the tool demonstrates how predictive analytics can be used to
 build a realistic decision support application in a hotel booking
 context.
+
+## Dataset Content
+
+The data used for this predictive tool comes from the **Hotel Booking
+Demand** dataset, sourced from **Kaggle**.
+
+This dataset contains hotel booking information for two hotel types:
+
+- **City Hotel**
+- **Resort Hotel**
+
+It includes historical booking records with details related to booking
+timing, customer behaviour, reservation characteristics, and
+cancellation outcomes.
+
+### Dataset Summary
+
+- **Dataset name:** Hotel Booking Demand
+- **Source:** Kaggle
+- **Target variable:** `is_canceled`
+- **Prediction type:** Binary classification
+- **Outcome classes:**
+  - `0` = booking not cancelled
+  - `1` = booking cancelled
+
+### Content of the Dataset
+
+The dataset includes a mix of numeric and categorical booking features.
+Examples include:
+
+- lead time
+- average daily rate (ADR)
+- total special requests
+- previous cancellations
+- previous bookings not cancelled
+- repeated guest status
+- hotel type
+- deposit type
+- customer type
+- meal plan
+- market segment
+
+These features were useful because they describe both the booking itself
+and aspects of customer behaviour, which made them suitable for
+exploring cancellation risk.
+
+### Why This Dataset Was Suitable
+
+This dataset was suitable for the predictive tool because it contains a
+clear cancellation outcome and a wide range of booking related features
+that can be analysed before modelling.
+
+It also includes both **City Hotel** and **Resort Hotel** bookings,
+which helps provide a broader view of cancellation behaviour across
+different hotel contexts.
+
+### Target for the Predictive Tool
+
+The predictive tool was built to estimate whether a booking is likely to
+be cancelled. For that reason, the target used throughout the workflow
+was:
+
+- `is_canceled`
+
+This made the task a supervised machine learning classification problem,
+where the tool learns from past booking outcomes and applies those
+patterns to new booking inputs.
+
+### Dataset Considerations
+
+Although the dataset was strong for this type of predictive task, it
+still has some limitations.
+
+Some booking fields were not suitable for deployment because they could
+introduce leakage or would not be realistically available as app inputs
+at prediction time. These fields were removed from the final
+deployed workflow so that the predictive tool would stay
+realistic and properly match up.
