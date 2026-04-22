@@ -138,3 +138,76 @@ introduce leakage or would not be realistically available as app inputs
 at prediction time. These fields were removed from the final
 deployed workflow so that the predictive tool would stay
 realistic and properly match up.
+
+## Business Requirements
+
+The main aim of this predictive tool is to support better understanding
+and assessment of hotel booking cancellation risk using historical
+booking data.
+
+The business requirements for the tool were defined around 3 main
+needs.
+
+### BR1: Understand the booking patterns linked to cancellations
+
+A hotel business needs to understand which booking features are better indicators
+and more linked to cancellation behaviour.
+
+This includes identifying patterns such as:
+
+- if longer lead times are linked to higher cancellation risk.
+- if deposit type influences cancellation behaviour.
+- if repeated guests are less likely to cancel.
+- if previous cancellation history affects future risk.
+- if hotel type, market segment, and special requests show useful
+  behavioural differences.
+
+This requirement was important because a good predictive tool should
+not begin with modelling alone. It first needs to show that meaningful
+patterns exist in the data.
+
+### BR2: Predict the likelihood of a booking being cancelled
+
+A hotel business needs a tool that can take selected booking inputs and
+return an estimated cancellation risk.
+
+This requirement was addressed by building a supervised machine learning
+classification workflow that uses historical booking patterns to produce:
+
+- a cancellation risk percentage.
+- a risk band.
+- a transparent summary of the selected booking profile.
+
+This requirement was important because the aim was not only to analyse
+past cancellations, but also to turn that analysis into a working
+predictive tool.
+
+### BR3: Support more informed booking-risk decisions
+
+A hotel business needs a practical way to use model output to support
+decision making, while recognising that predictions are not certainty.
+
+This means the tool should help users:
+
+- identify bookings that may need closer review.
+- interpret the output in a practical way.
+- understand the limits of the prediction.
+- use the result as decision support rather than as a guaranteed answer.
+
+This requirement was important because the value of the tool depends on
+whether the output can be used in a realistic business context.
+
+### How the Predicitve Tool Addresses These Requirements
+
+The finished predictive tool addresses these business requirements by combining:
+
+- exploratory data analysis to identify important patterns.
+- hypothesis validation to test key assumptions.
+- model comparison to select the strongest final model.
+- a prediction interface that returns an estimated cancellation risk.
+- evaluation and business conclusions to explain how the output should
+  be used in practice.
+
+These requirements helped shape the full workflow and
+kept the predicitve tool focused on practical booking risk assessment rather than
+prediction for its own sake.
