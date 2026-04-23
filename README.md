@@ -330,3 +330,115 @@ repeated guest behaviour all showed meaningful relationships with
 cancellation outcomes. These findings helped support the final feature
 set and showed that the predictive tool was grounded in clear patterns
 from the data.
+
+## Rationale to Map Business Requirements to Data Visualisations and ML Tasks
+
+This section explains how the main business requirements were linked to
+the analysis, visualisations, and machine learning tasks used in the
+predictive tool.
+
+The aim was to make sure that the app did not just include charts and
+models for presentation purposes. Each visual and modelling step was
+included because it helped answer a clear business need related to hotel
+booking cancellation risk.
+
+### BR1: Understand the booking patterns linked to cancellations
+
+This requirement focused on identifying which booking and customer
+features were most closely linked with cancellation behaviour.
+
+#### Data visualisations used for BR1
+
+- lead time comparison between canceled and non cancelled bookings.
+- deposit type cancellation comparison.
+- repeat guest vs non repeat guest cancellation comparison.
+- special requests comparison.
+- hotel type comparison.
+- market segment comparison.
+
+These visualisations were useful because they helped show where the
+clearest behavioural differences appeared in the data before modelling.
+
+#### Why these visuals mattered
+
+The exploratory visuals made it easier to see that cancellation risk was
+definetley not random. They showed that some features such as lead time, deposit
+type, previous cancellation history, and repeated guest behaviour, had
+clear relationships with the outcome.
+
+This was important because it helped justify which features were worth
+carrying forward into the predictive workflow.
+
+### BR2: Predict the likelihood of a booking being cancelled
+
+This requirement focused on building a tool that could estimate
+cancellation risk from selected booking inputs.
+
+#### ML task used for BR2
+
+- supervised machine learning
+- binary classification
+- target variable: `is_canceled`
+- output: cancellation risk probability and risk band
+
+This task was appropriate because the tool needed to predict one of two
+possible outcomes:
+
+- booking not cancelled
+- booking cancelled
+
+#### Why this ML task mattered
+
+A binary classification approach allowed the tool to learn from
+historical booking outcomes and apply those patterns to new booking
+profiles.
+
+This made it possible to return:
+
+- an estimated cancellation-risk percentage
+- a risk band
+- a practical booking-risk output that could support review and planning
+
+### BR3: Support more informed booking-risk decisions
+
+This requirement focused on making sure the model output could be used
+in a realistic business context rather than as a technical result only.
+
+#### Evaluation and interpretation methods used for BR3
+
+- model comparison across multiple algorithms.
+- train/test evaluation.
+- confusion matrix.
+- classification report.
+- ROC-AUC and F1 comparison.
+- business interpretation of model outputs.
+- limitations and conclusion sections.
+
+These were useful because they helped explain not only
+how the final model performed, but also what that performance meant in
+practice.
+
+#### Why this mattered
+
+A useful cancellation risk tool must do more than produce a prediction.
+It must also show:
+
+- why the final model was selected.
+- how reliable it is on unseen data.
+- what trade offs exist between missed cancellations and false alerts.
+- why the output should be used as decision support rather than
+  certainty.
+
+This helped keep everything aligned with the business requirement of
+supporting more informed booking risk decisions.
+
+### Overall Rationale
+
+The visualisations and ML tasks were chosen to answer
+clear business questions.
+
+The exploratory analysis helped identify the booking patterns linked to
+cancellations, the classification workflow turned those patterns into a
+predictive model, and the evaluation sections showed why the final tool
+was suitable for practical use. This created a clear link between the
+business requirements, the data analysis, and the final predictive tool.
