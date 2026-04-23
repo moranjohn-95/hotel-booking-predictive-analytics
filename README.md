@@ -442,3 +442,102 @@ cancellations, the classification workflow turned those patterns into a
 predictive model, and the evaluation sections showed why the final tool
 was suitable for practical use. This created a clear link between the
 business requirements, the data analysis, and the final predictive tool.
+
+## ML Business Case
+
+The machine learning task used in this tool is **supervised learning**
+with **binary classification**.
+
+The aim of the model is to estimate whether a hotel booking is more
+likely to be cancelled or not cancelled, based on historical booking
+data and selected booking features.
+
+### Business Case Summary
+
+| Element | Detail |
+|---|---|
+| **Aim** | Estimate the likelihood of a booking being cancelled using historical booking data |
+| **ML method** | Supervised learning - binary classification |
+| **Target variable** | `is_canceled` |
+| **Output** | Cancellation risk probability and risk band |
+| **Final model** | Gradient Boosting |
+| **Use case** | Support booking risk review and more informed decision making |
+| **Primary focus** | Balanced performance on unseen data rather than one metric alone |
+
+### Why a Classification Model Was Suitable
+
+This tool needed to predict one of two possible outcomes:
+
+- booking not cancelled
+- booking cancelled
+
+That made binary classification the correct machine learning approach.
+
+A classification model was suitable because the dataset already included
+a labelled target `is_canceled`, which allowed the model to learn from
+past outcomes and apply those patterns to new booking details.
+
+### Why Probability Output Was Important
+
+The aim of the tool was not just to return a yes or no prediction. It
+also needed to provide an **estimated cancellation risk percentage** so
+that the result could be interpreted more usefully.
+
+This mattered because booking risk assessment is not always best handled
+as a simple binary decision. A probability based output allows the predictive tool
+to:
+
+- show whether the risk looks low, medium, or high.
+- support review of bookings that may need closer attention.
+- help users interpret the strength of the model output more clearly.
+
+### Expected Business Value
+
+The expected value of the predictive tool is that it can help identify
+bookings that may be more likely to cancel before arrival.
+
+In a practical hotel setting, this could support actions such as:
+
+- reviewing higher risk bookings more closely.
+- applying reminder messages or follow up actions.
+- informing deposit or booking policy decisions.
+- supporting more consistent booking risk assessment.
+
+The tool is not designed to replace judgement. Its role is to provide a
+structured and evidence based signal that may support better decision making.
+
+### Success Criteria
+
+The final model needed to show that it could generalise well on unseen
+data and provide a useful balance across the main evaluation metrics.
+
+For this reason, model selection was based on:
+
+- ROC-AUC
+- Precision
+- Recall
+- F1 Score
+- train/test stability
+
+The chosen model needed to be balanced and reliable enough for 
+deployment.
+
+### Final Model Choice in the Business Case
+
+Gradient Boosting was selected as the final model because it provided
+the strongest overall balance on unseen data and generalised better than
+Random Forest.
+
+It achieved a test **ROC-AUC of 0.808** and an **F1 Score of 0.553**,
+while also showing a much smaller train test gap than Random Forest.
+Although Random Forest achieved slightly higher recall, Gradient
+Boosting was the more reliable overall choice for deployment.
+
+### Business Case Conclusion
+
+This machine learning business case supports the use of a classification
+model to estimate cancellation risk in a realistic booking context.
+
+The final predictive tool shows that historical booking behaviour can be used to
+produce a practical and probability based output, giving users a clearer way
+to assess risk and support booking related decisions.
