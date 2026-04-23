@@ -211,3 +211,122 @@ The finished predictive tool addresses these business requirements by combining:
 These requirements helped shape the full workflow and
 kept the predicitve tool focused on practical booking risk assessment rather than
 prediction for its own sake.
+
+## Hypotheses and Validation
+
+The hypotheses for this predictive tool were based on booking and
+behavioural patterns that were expected to influence cancellation risk.
+These were then checked against the dataset through exploratory
+analysis and grouped comparisons before moving into final model
+selection.
+
+### Hypothesis Summary
+
+| Hypothesis | Verdict | Key evidence |
+|---|---|---|
+| **H1:** Longer lead times are associated with higher cancellation risk | Confirmed | Median lead time was **38.0 days** for non cancelled bookings and **80.0 days** for cancelled bookings |
+| **H2:** Deposit type is strongly linked to cancellation behaviour | Confirmed | `Non Refund` had the highest cancellation rate at **94.7%**, compared with `No Deposit` at **26.7%** and `Refundable` at **24.3%** |
+| **H3:** Previous cancellation history increases future cancellation risk | Confirmed | Guests with no previous cancellations had a cancellation rate of **26.7%**, compared with **68.0%** for guests with one or more previous cancellations |
+| **H4:** Repeated guests are less likely to cancel than non repeated guests | Confirmed | Repeated guests had a cancellation rate of **7.7%**, compared with **28.3%** for non repeated guests |
+
+### H1: Longer lead times are associated with higher cancellation risk  
+
+**How it was examined**  
+This was examined by comparing lead time patterns across cancelled and
+non-cancelled bookings. The analysis focused on whether cancelled
+bookings showed higher lead times overall and whether the difference was
+clear enough to support inclusion of `lead_time` in the final workflow.
+
+**Verdict**  
+Confirmed.
+
+**What the data showed**  
+Bookings that were not cancelled had a lower typical lead time
+(**median 38.0 days**), while cancelled bookings showed a clearly higher
+lead time pattern overall (**median 80.0 days**).
+
+**Interpretation**  
+This supported the view that longer lead times are linked to higher
+cancellation risk. This makes practical sense because bookings made well
+in advance leave more time for plans to change. It also helped justify
+why `lead_time` remained one of the most important variables in the
+final predictive tool.
+
+### H2: Deposit type is strongly linked to cancellation behaviour.
+
+**How it was examined**  
+This was examined by comparing cancellation rates across the deposit
+categories in the dataset. The analysis looked at whether cancellation
+rates differed clearly by deposit type and whether deposit policy
+appeared to be a useful booking-risk signal.
+
+**Verdict**  
+Confirmed.
+
+**What the data showed**  
+`Non Refund` bookings showed the highest cancellation rate
+(**94.7%**), while `No Deposit` (**26.7%**) and `Refundable`
+(**24.3%**) were much lower.
+
+**Interpretation**  
+This was one of the clearest findings in the dataset, although the
+pattern was less straightforward than a simple assumption that stronger
+deposit commitment would always lead to lower cancellation risk. This
+reinforced the importance of relying on the data itself rather than on
+expectation alone. It also helped explain why `deposit_type` remained a
+strong feature in the final predictive tool.
+
+### H3: Previous cancellation history increases future cancellation risk
+
+**How it was examined**  
+This was examined by comparing cancellation behaviour across different
+levels of `previous_cancellations`. The analysis focused on whether
+guests with one or more previous cancellations showed consistently
+higher cancellation rates than those with none.
+
+**Verdict**  
+Confirmed.
+
+**What the data showed**  
+Guests with no previous cancellations had a cancellation rate of
+**26.7%**, while guests with one or more previous cancellations had a
+much higher rate of **68.0%**.
+
+**Interpretation**  
+This showed that past customer behaviour can provide a strong signal
+about future booking risk. It also supported the inclusion of
+`previous_cancellations` in the final workflow and helped show that the
+tool benefits not only from current booking details, but also from
+customer history.
+
+### H4: Repeated guests are less likely to cancel than non-repeated guests
+
+**How it was examined**  
+This was examined by comparing cancellation behaviour between repeated
+and non-repeated guests. The analysis focused on whether repeated guests
+showed lower cancellation rates and more stable booking behaviour.
+
+**Verdict**  
+Confirmed.
+
+**What the data showed**  
+Repeated guests had a cancellation rate of **7.7%**, while
+non-repeated guests had a higher rate of **28.3%**.
+
+**Interpretation**  
+This suggested that customer loyalty and prior successful booking
+history are useful signals when identifying cancellation risk. It also
+helped justify why repeated guest behaviour remained part of the final
+predictive tool.
+
+### Overall Conclusion
+
+The hypothesis testing stage showed that cancellation
+risk was strongly influenced by a small group of booking related and
+behavioural features.
+
+Longer lead times, deposit type, previous cancellation history, and
+repeated guest behaviour all showed meaningful relationships with
+cancellation outcomes. These findings helped support the final feature
+set and showed that the predictive tool was grounded in clear patterns
+from the data.
