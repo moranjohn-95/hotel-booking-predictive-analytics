@@ -541,3 +541,74 @@ model to estimate cancellation risk in a realistic booking context.
 The final predictive tool shows that historical booking behaviour can be used to
 produce a practical and probability based output, giving users a clearer way
 to assess risk and support booking related decisions.
+
+## Dashboard Design
+
+### Dashboard Structure
+
+The dashboard was designed to guide the user through the full predictive
+analytics workflow in a clear order, starting with a quick project summary
+and moving through evidence, modelling, prediction, evaluation, and
+final business interpretations.
+
+The page order was structured as follows:
+
+| Dashboard Page | Purpose |
+|---|---|
+| **Quick Project Summary** | Introduces the tool, dataset, workflow, final model, and practical purpose |
+| **Project Hypotheses and Validation** | Tests the main assumptions about cancellation behaviour before modelling |
+| **EDA Insights** | Highlights the key patterns found in the data |
+| **Model Comparison** | Compares the models tested and explains why Gradient Boosting was selected |
+| **Prediction Tool** | Allows the user to enter booking details and see an estimated cancellation risk result |
+| **Model Performance** | Explains how the final model was evaluated using metrics, feature importance, confusion matrix, and diagnostic plots |
+| **Business Conclusions** | Translates the results into practical business meaning and limitations |
+
+### Design Approach
+
+The dashboard was designed to be easy to navigate and follow.
+The aim was to make the analytical process understandable without
+removing the technical depth of the tool.
+
+A consistent page structure was used throughout the app, including:
+
+- clear page headings.
+- coloured information boxes for summaries, explanations, and warnings.
+- divider lines between major sections.
+- short interpretation text alongside charts and metrics.
+- a sidebar navigation menu.
+
+This helped keep the dashboard readable and made it easier to move from
+one stage of the workflow to the next.
+
+### Why This Design Was Suitable
+
+This layout was suitable because the predictive tool is not only meant to show a
+prediction. It also needs to explain how that prediction was reached,
+what patterns were found in the data, why the final model was chosen,
+and how the resutl should be used in practice.
+
+The final design supports the overall project purpose of by combining:
+
+- exploratory analysis
+- hypothesis validation
+- model comparison
+- practical prediction
+- model evaluation
+- business interpretation
+
+This gives the dashboard a clear analytical flow and helps make the
+predictive tool more transparent.
+
+### User Experience Considerations
+
+The dashboard was designed so that users can either move through the
+pages in order or jump directly to a section of interest using the
+sidebar.
+
+This makes the application useful for different types of users. Some may want a
+quick overview and prediction result, while others may want to review
+the full analytical process behind the model.
+
+The layout also supports interpretability by ensuring that outputs are
+explained and that risk estimates are presented as
+decision support not certainty.
