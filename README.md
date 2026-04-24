@@ -613,6 +613,130 @@ The layout also supports interpretability by ensuring that outputs are
 explained and that risk estimates are presented as
 decision support not certainty.
 
+## Features 
+
+### Quick Project Summary
+
+The **Quick Project Summary** page acts as the landing page for the
+dashboard and gives the user an immediate overview of the predictive
+tool.
+
+It introduces the purpose of the application, names the dataset used,
+summarises the analytical workflow, confirms the final deployed model,
+and explains the practical value of the tool in simple terms. This page
+was designed to help users understand what the dashboard does before
+moving into the more detailed analytical sections.
+
+The page also makes it clear that the final deployed model is
+**Gradient Boosting**, and that the tool is intended to support
+cancellation-risk assessment rather than provide certainty.
+
+| Quick Project Summary - overview | Quick Project Summary - final model and practical value |
+|---|---|
+| ![Quick Project Summary overview](documentation/screenshots/qps-1.png) | ![Quick Project Summary final model summary](documentation/screenshots/qps-2.png) |
+
+### Project Hypotheses and Validation
+
+The **Project Hypotheses and Validation** page brings together the main
+hypotheses used during the exploratory stage of the analysis and shows
+how each one was checked against the hotel booking data.
+
+This page helps explain why the final predictive tool uses the features
+it does. Rather than selecting inputs at random, the page shows that the
+final workflow was grounded in patterns that were first explored and
+validated through analysis.
+
+The page covers four main hypotheses:
+
+- longer lead times are linked with higher cancellation risk
+- deposit type is linked with cancellation behaviour
+- previous cancellation history increases future cancellation risk
+- repeated guests are less likely to cancel than non-repeated guests
+
+| Project Hypotheses and Validation - page introduction |
+|---|
+| ![Project Hypotheses and Validation introduction](documentation/screenshots/phv-intro.png) |
+
+#### H1: Longer lead times are associated with higher cancellation risk
+
+This section explains the first hypothesis and shows that bookings made
+further in advance were more likely to be cancelled. The written content
+summarises how the hypothesis was examined, gives the verdict, and
+explains why the finding matters in the context of the final predictive
+tool.
+
+| H1 content | H1 supporting chart |
+|---|---|
+| ![H1 hypothesis content](documentation/screenshots/phv-h1.png) | ![H1 supporting chart](documentation/screenshots/phv-h1-chart.png) |
+
+#### H2: Deposit type is strongly linked to cancellation behaviour
+
+This section shows that deposit type was a meaningful booking-risk
+signal in the dataset. The page explains the reasoning behind the
+hypothesis, gives the result, and supports it with a chart comparing
+cancellation rates across deposit categories.
+
+| H2 content | H2 supporting chart |
+|---|---|
+| ![H2 hypothesis content](documentation/screenshots/phv-h2.png) | ![H2 supporting chart](documentation/screenshots/phv-h2-chart.png) |
+
+#### H3: Previous cancellation history increases future cancellation risk
+
+This section shows that guests with previous cancellations were more
+likely to cancel again. It supports the idea that customer-history
+features can provide useful predictive value, not just details from the
+current booking.
+
+| H3 content | H3 supporting chart |
+|---|---|
+| ![H3 hypothesis content](documentation/screenshots/phv-h3.png) | ![H3 supporting chart](documentation/screenshots/phv-h3-chart.png) |
+
+#### H4: Repeated guests are less likely to cancel than non-repeated guests
+
+This section shows that repeated guests had a lower cancellation rate
+than non-repeated guests. This helps demonstrate that customer loyalty
+and previous booking behaviour can act as useful signals when assessing
+cancellation risk.
+
+| H4 content | H4 supporting chart |
+|---|---|
+| ![H4 hypothesis content](documentation/screenshots/phv-h4.png) | ![H4 supporting chart](documentation/screenshots/phv-h4-chart.png) |
+
+### EDA Insights
+
+The **EDA Insights** page showcases the main patterns found during the
+exploratory analysis stage and shows which booking features were most
+closely linked to cancellation behaviour before modelling began.
+
+This was important because it really helped move the tool towards an evidence based prediction. 
+By identifying which booking features showed the clearest differences in cancellation
+behaviour, the exploratory analysis helped support later hypothesis
+validation, feature selection, and final model development.
+
+The EDA Insights page combines written explanations with supporting charts so
+that the findings are easy to follow for all.
+
+| EDA Insights - page introduction |
+|---|
+| ![EDA Insights introduction](documentation/screenshots/eda-intro.png) |
+
+The strongest patterns identified during EDA were longer lead times,
+clear deposit-type differences, lower cancellation rates among repeated
+guests and meaningful variation across market segments. 
+
+| Lead time and cancellation | Deposit type and cancellation |
+|---|---|
+| ![EDA lead time section](documentation/screenshots/eda-leadtime.png) | ![EDA deposit type section](documentation/screenshots/eda-deposittype.png) |
+
+| Repeat guests and cancellation | Market segment and cancellation |
+|---|---|
+| ![EDA repeat guest section](documentation/screenshots/eda-repeatguest.png) | ![EDA market segment section](documentation/screenshots/eda-marketsegment.png) |
+
+The EDA page helped prove that cancellation behaviour was
+not random. It highlighted clear behavioural and booking related
+patterns in the dataset, which later supported the hypothesis testing
+stage and helped justify the final predictive workflow.
+
 ## Agile Methodology
 The GitHub Projects board used to plan and track development can be
 viewed [here](https://github.com/users/moranjohn-95/projects/11).
@@ -807,13 +931,6 @@ but also technically aligned with the final model used in deployment.
 User stories were also tested to confirm that all acceptance criteria were met. 
 The table below summarises each user stories used for this application
 and the evidence supporting each one.
-
-### User Story Testing
-
-User stories were tested against the finished dashboard to confirm that
-the main planned features were implemented and behaved as expected. The
-table below includes the user story, the final result, and the evidence
-supporting it.
 
 | User Story | Result | Evidence |
 |---|---|---|
