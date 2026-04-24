@@ -612,3 +612,72 @@ the full analytical process behind the model.
 The layout also supports interpretability by ensuring that outputs are
 explained and that risk estimates are presented as
 decision support not certainty.
+
+## Agile Methodology
+
+This predictive analyitcs project was planned and tracked using GitHub Projects
+boards. The board was used to organise the work into epics and user
+stories so that development could be broken into smaller and more manageable
+steps.
+
+The workflow was structured using the below columns:
+
+- **Epics**
+- **Todo**
+- **In Progress**
+- **Testing / In Review**
+- **Done**
+
+This helped track the work from early planning through development,
+testing, and completion.
+
+### Epics and User Stories
+
+The board was built around six main epics:
+
+- Project Planning & Business Understanding
+- Exploratory Data Analysis & Hypothesis Validation
+- Data Cleaning & Feature Engineering
+- Model Training, Comparison & Final Selection
+- Dashboard & Prediction Tool Development
+- Testing, Deployment & Documentation
+
+Each epic was then broken down into smaller user stories linked to the
+main parts of the tool, such as dataset selection, exploratory
+analysis, hypothesis validation, model comparison, prediction, and final
+deployment.
+
+All user stories for this tool were labelled as **must-have** because
+they were directly linked to the predictive analytics workflow and
+the final deployed dashboard.
+
+### Agile Board Progression
+
+The images below show how the board was used during development and how
+the work moved through the different stages over time from the left (Start) to the right (End).
+
+| In-progress board view | Final board state |
+|---|---|
+| ![Agile board during development](documentation/screenshots/agile-2.png) | ![Agile board final state](documentation/screenshots/agile-4.png) |
+
+### How the Board Was Used
+
+The board was updated throughout development as work progressed across
+the project. Items were moved between columns to reflect their current
+status, helping to show what had been planned, what was being worked on,
+what was under review, and what had been completed.
+
+This approach helped keep the workflow clear and supported a more
+structured development process, rather than building the tool in an
+unplanned way.
+
+### Why This Was Useful
+
+Using an agile board proved to be useful because it made the development process
+easier to manage and review. It helped break the work into clear stages,
+kept the main priorities visible and supported steady progress across
+the full workflow.
+
+It also provided a clear record of how the tool moved from planning and
+analysis into modelling, dashboard development, testing, deployment, and
+documentation.
