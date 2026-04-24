@@ -683,3 +683,170 @@ the full workflow.
 It also provided a clear record of how the tool moved from planning and
 analysis into modelling, dashboard development, testing, deployment, and
 documentation.
+
+## Testing
+
+The below section discusses the testing carried out during and after the
+development of the hotel booking predictive analytics tool.
+
+### Python Code Validation (CI Python Linter)
+
+The custom Python code used in the deployed application was tested using
+the **Code Institute Python Linter (PEP8CI)** to confirm that the main
+application file is readable, maintainable, and free from syntax or
+formatting errors.
+
+The purpose of this testing was to confirm that:
+
+- Python code follows PEP8 styling conventions.
+- there are no syntax or indentation errors.
+- the deployed application file meets Code Institute assessment
+  expectations.
+
+For this project, **app.py** was the only custom tracked Python source
+file used in the deployed predictive tool. Notebook files were not
+included in this part of testing because they are not part of the live
+application file structure in the same way.
+
+All tested files returned **All clear, no errors found**.
+
+#### Python Files Tested
+
+| App / Area | File | Validator Confirmation | Result |
+|---|---|---|---|
+| Streamlit Dashboard | `app.py` | CI Python Linter | No errors |
+
+#### Evidence
+
+![CI Python Linter result for app.py](documentation/testing/python-test.png)
+
+#### Python Testing Summary
+
+- `app.py` passed the Code Institute Python Linter.
+- no PEP8 errors or warnings were reported.
+- the deployed dashboard file is readable and properly formatted.
+
+---
+
+### Manual Testing
+
+Manual testing was carried out throughout development to confirm that
+the dashboard behaved as expected and that the main features worked
+correctly in both local development and the deployed version.
+
+Testing focused on:
+
+- page navigation
+- chart visibility
+- content layout
+- model comparison content
+- prediction tool behaviour
+- risk output and risk band display
+- model performance evidence
+- business conclusions and limitations
+- live deployment checks
+
+All manually tested features behaved as intended, with no critical
+issues found in the final deployed version.
+
+#### Manual Testing Summary Table
+
+| Feature Area | Test Action | Expected Result | Outcome |
+|---|---|---|---|
+| Sidebar Navigation | Click each page in the sidebar | Correct page loads without error | Pass |
+| Quick Project Summary | Open the summary page | Tool purpose, dataset, workflow, and final model summary are shown correctly | Pass |
+| Project Hypotheses and Validation | Open the hypotheses page | Each hypothesis is displayed with verdict, interpretation, and supporting chart option | Pass |
+| EDA Insights | Open the EDA page and expand chart sections | Key findings and related charts display correctly | Pass |
+| Model Comparison | Open the model comparison page | Comparison table and model evaluation summaries are shown clearly | Pass |
+| Model Comparison | Review final model section | Gradient Boosting is shown as the final selected model | Pass |
+| Prediction Tool | Enter valid booking inputs and run prediction | A cancellation-risk percentage and risk band are returned | Pass |
+| Prediction Tool | Change booking inputs and run prediction again | The output updates correctly based on the selected inputs | Pass |
+| Prediction Tool | Review selected booking profile section | Input summary matches the selected values used in the prediction | Pass |
+| Model Performance | Open the model performance page | Metrics, feature importance, confusion matrix, and diagnostic sections load correctly | Pass |
+| Model Performance | Expand classification report | Classification report appears correctly and matches the final model output | Pass |
+| Business Conclusions | Open the business conclusions page | Practical use, limitations, and final conclusion are shown clearly | Pass |
+| Live Deployment | Open the Heroku app | The deployed dashboard loads successfully online | Pass |
+| Live Deployment | Test multiple pages on the live app | Pages load and function correctly in deployment | Pass |
+
+#### Manual Testing Conclusion
+
+Manual testing confirmed that:
+
+- all main dashboard pages load correctly
+- the prediction tool returns a valid output
+- content and interpretation match the final deployed model
+- the deployed app is stable and usable
+
+---
+
+### Prediction Tool and Model Validation
+
+Additional checks were carried out to make sure the dashboard remained
+properly aligned with the final deployed model.
+
+This was important because the predictive tool was updated during
+development to ensure that the live app only used realistic and
+actual deployed input features.
+
+The following checks were completed:
+
+- the final deployed model used in the app is **Gradient Boosting**.
+- the app inputs match the final deployed feature set.
+- prediction output is based on the cancellation class probability.
+- the displayed risk band matches the returned prediction score.
+- final metrics shown in the dashboard match the selected final model.
+- model interpretation text reflects the final workflow and results.
+
+These checks confirmed that the dashboard was not only functional, 
+but also technically aligned with the final model used in deployment.
+
+---
+
+### User Story Testing
+
+User stories were also tested to confirm that all acceptance criteria were met. 
+The table below summarises each user stories used for this application
+and the evidence supporting each one.
+
+| User Story | How it was tested | Result | Evidence |
+|---|---|---|---|
+| Define the business problem | Reviewed the Quick Project Summary, Business Requirements, and README overview content to confirm that the cancellation-risk problem and tool purpose were clearly stated | Pass | Quick Project Summary page / README Project Overview |
+| Select a suitable dataset | Reviewed the dataset section in the dashboard and README to confirm that the Hotel Booking Demand dataset from Kaggle was clearly identified and explained | Pass | Quick Project Summary page / README Dataset Content |
+| Review cancellation patterns in the data | Opened the EDA Insights page and checked that the main cancellation patterns and supporting charts were available and explained | Pass | EDA Insights page |
+| Validate the main project hypotheses | Opened the Project Hypotheses and Validation page and checked that each hypothesis included a verdict, evidence, and interpretation | Pass | Project Hypotheses and Validation page |
+| Prepare clean modelling data | Reviewed the final workflow content and deployment-aligned feature explanations to confirm that the final app inputs matched the prepared dataset | Pass | Model Performance page / README methodology sections |
+| Compare the models tested | Opened the Model Comparison page and confirmed that multiple models were shown with evaluation metrics and a clear final selection | Pass | Model Comparison page |
+| Select the final model for deployment | Confirmed that Gradient Boosting was identified as the final model in the dashboard and that the final model file was detected in deployment | Pass | Quick Project Summary / Model Comparison / deployed app |
+| Ease of use | Reviewed the dashboard flow, sidebar navigation, page structure, and written explanations across the app to confirm that the tool was easy to follow | Pass | Full deployed dashboard |
+| Add a cancellation risk estimate | Entered booking details in the Prediction Tool and confirmed that the app returned a cancellation-risk percentage and risk band | Pass | Prediction Tool page |
+| Review business conclusions | Opened the Business Conclusions page and checked that practical use, limitations, and final interpretation were clearly explained | Pass | Business Conclusions page |
+
+User story testing confirmed that the planned features were
+implemented and worked as expected in the final predictive tool.
+
+---
+
+### Deployment Testing
+
+After deployment to Heroku, the live version of the application was
+tested to confirm that the dashboard worked correctly outside the local
+development environment.
+
+The deployed application was checked for the following:
+
+- successful app loading.
+- correct sidebar navigation.
+- working page content across the dashboard.
+- successful loading of the final model file.
+- successful prediction output from the live prediction tool.
+
+Testing after deployment confirmed that the live application behaved as
+expected and that the final dashboard was accessible and functional in
+its deployed environment.
+
+---
+
+### Testing Conclusion
+
+Testing showed that the final predictive analytics dashboard is stable,
+consistent, and aligned with the final deployed model.
