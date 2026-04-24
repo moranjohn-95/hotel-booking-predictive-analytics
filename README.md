@@ -808,18 +808,25 @@ User stories were also tested to confirm that all acceptance criteria were met.
 The table below summarises each user stories used for this application
 and the evidence supporting each one.
 
-| User Story | How it was tested | Result | Evidence |
-|---|---|---|---|
-| Define the business problem | Reviewed the Quick Project Summary, Business Requirements, and README overview content to confirm that the cancellation-risk problem and tool purpose were clearly stated | Pass | Quick Project Summary page / README Project Overview |
-| Select a suitable dataset | Reviewed the dataset section in the dashboard and README to confirm that the Hotel Booking Demand dataset from Kaggle was clearly identified and explained | Pass | Quick Project Summary page / README Dataset Content |
-| Review cancellation patterns in the data | Opened the EDA Insights page and checked that the main cancellation patterns and supporting charts were available and explained | Pass | EDA Insights page |
-| Validate the main project hypotheses | Opened the Project Hypotheses and Validation page and checked that each hypothesis included a verdict, evidence, and interpretation | Pass | Project Hypotheses and Validation page |
-| Prepare clean modelling data | Reviewed the final workflow content and deployment-aligned feature explanations to confirm that the final app inputs matched the prepared dataset | Pass | Model Performance page / README methodology sections |
-| Compare the models tested | Opened the Model Comparison page and confirmed that multiple models were shown with evaluation metrics and a clear final selection | Pass | Model Comparison page |
-| Select the final model for deployment | Confirmed that Gradient Boosting was identified as the final model in the dashboard and that the final model file was detected in deployment | Pass | Quick Project Summary / Model Comparison / deployed app |
-| Ease of use | Reviewed the dashboard flow, sidebar navigation, page structure, and written explanations across the app to confirm that the tool was easy to follow | Pass | Full deployed dashboard |
-| Add a cancellation risk estimate | Entered booking details in the Prediction Tool and confirmed that the app returned a cancellation-risk percentage and risk band | Pass | Prediction Tool page |
-| Review business conclusions | Opened the Business Conclusions page and checked that practical use, limitations, and final interpretation were clearly explained | Pass | Business Conclusions page |
+### User Story Testing
+
+User stories were tested against the finished dashboard to confirm that
+the main planned features were implemented and behaved as expected. The
+table below includes the user story, the final result, and the evidence
+supporting it.
+
+| User Story | Result | Evidence |
+|---|---|---|
+| **As the software engineer, I want to define the cancellation-risk problem. So that the predictive tool is built around a clear business need.** | Pass | Quick Project Summary page / README Project Overview |
+| **As the software engineer, I want to select a suitable dataset. So that the predictive tool can be built on relevant historical booking data.** | Pass | Quick Project Summary page / README Dataset Content |
+| **As a user, I want to review cancellation patterns in the data. So that I can understand the main behavioural signals before modelling.** | Pass | EDA Insights page |
+| **As a user, I want to validate the main project hypotheses. So that I can see whether the key assumptions were supported by the data.** | Pass | Project Hypotheses and Validation page |
+| **As the software engineer, I want to prepare clean modelling data. So that the final predictive tool uses realistic and reliable inputs.** | Pass | Model Performance page / README workflow sections |
+| **As a user, I want to compare the models tested. So that I can understand how the final model was selected.** | Pass | Model Comparison page |
+| **As a user, I want the deployed model to be the one that gives the best overall balance on unseen data. So that the predictive tool is reliable in practice.** | Pass | Quick Project Summary / Model Comparison / deployed app |
+| **As a user, I want the dashboard to be easy to use. So that I can move through the tool clearly and understand the outputs.** | Pass | Full deployed dashboard |
+| **As a user, I want to add booking details and receive a cancellation-risk estimate. So that I can assess booking risk in a practical way.** | Pass | Prediction Tool page |
+| **As a user, I want to review business conclusions. So that I can understand the practical use and limitations of the tool.** | Pass | Business Conclusions page |
 
 User story testing confirmed that the planned features were
 implemented and worked as expected in the final predictive tool.
