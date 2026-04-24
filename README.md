@@ -614,6 +614,8 @@ explained and that risk estimates are presented as
 decision support not certainty.
 
 ## Agile Methodology
+The GitHub Projects board used to plan and track development can be
+viewed [here](https://github.com/users/moranjohn-95/projects/11).
 
 This predictive analyitcs project was planned and tracked using GitHub Projects
 boards. The board was used to organise the work into epics and user
@@ -654,7 +656,7 @@ the final deployed dashboard.
 ### Agile Board Progression
 
 The images below show how the board was used during development and how
-the work moved through the different stages over time from the left (Start) to the right (End).
+the work moved through the different stages over time from the left (in progress) to the right (final state).
 
 | In-progress board view | Final board state |
 |---|---|
