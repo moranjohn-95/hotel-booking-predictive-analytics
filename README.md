@@ -716,6 +716,8 @@ validation, feature selection, and final model development.
 The EDA Insights page combines written explanations with supporting charts so
 that the findings are easy to follow for all.
 
+In the below image the opening section of the EDA Insights page can be seen, this first section gives an overview of each section on the page as to guide the user more effectively. This is so the user can better understand the strucutre and meaning of this page. 
+
 | EDA Insights - page introduction |
 |---|
 | ![EDA Insights introduction](documentation/screenshots/eda-intro.png) |
