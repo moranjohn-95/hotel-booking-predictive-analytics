@@ -876,7 +876,7 @@ entered.
 
 | Prediction Tool - page introduction |
 |---|
-| ![Prediction Tool page introduction](documentation/screenshots/prediction-intro.png) |
+| ![Prediction Tool page introduction](documentation/screenshots/predict-howitworks.png) |
 
 The page explains that the model uses selected booking details to
 estimate the likelihood that a reservation will be cancelled. It also
@@ -897,7 +897,7 @@ the prediction.
 
 The image below shows the input area of the Prediction Tool page.
 
-![Prediction Tool booking input section](documentation/screenshots/prediction-inputs.png)
+![Prediction Tool booking input section](documentation/screenshots/predict-tool.png)
 
 The user can enter or select the following booking details:
 
@@ -926,7 +926,7 @@ practical summary of the model output.
 
 The image below shows an example prediction result.
 
-![Prediction Tool prediction result](documentation/screenshots/prediction-result.png)
+![Prediction Tool prediction result](documentation/screenshots/predict-result.png)
 
 In this example, the tool returned:
 
@@ -949,7 +949,7 @@ to help the user understand what the prediction means in context.
 
 The image below shows the interpretation section.
 
-![Prediction Tool interpretation section](documentation/screenshots/prediction-meaning.png)
+![Prediction Tool interpretation section](documentation/screenshots/predict-whatitmeans.png)
 
 This section adds practical value because it goes beyond showing a score
 and helps explain the reasoning in plain English. It highlights the below:
@@ -972,7 +972,7 @@ to review the exact inputs behind the estimate.
 
 The image below shows the selected booking profile summary.
 
-![Prediction Tool selected booking profile](documentation/screenshots/prediction-profile.png) 
+![Prediction Tool selected booking profile](documentation/screenshots/predict-profile.png) 
 
 This section is helpful because it gives the user a clear record of the
 selected inputs and makes the prediction more transparent and easier to
@@ -983,6 +983,247 @@ model can be used in practice. It combines user input, model output, and
 simple interpretation in one place, making the application more
 useful, understandable, and aligned with the practical goals of the
 project.
+
+### Model Performance
+
+The **Model Performance** page explains how the final cancellation model was
+evaluated and highlights the main evidence used to judge its performance.
+
+It brings together the key model assessment outputs, which includes the prediction
+pipeline steps, feature importance, confusion matrix, classification report,
+and additional diagnostic plots for the selected **Gradient Boosting** model.
+
+This page is important because it shows not only that the predictive model
+could make predictions, but also that the final model was evaluated properly,
+generalised well to unseen data, and remained aligned with the overall project
+objective of supporting cancellation risk assessment.
+
+#### Model Performance - page introduction
+
+In the below image, the opening section of the **Model Performance** page can
+be seen. This section introduces the purpose of the page and explains that the
+final model is evaluated using several different forms of evidence, rather than
+relying on one single metric alone.
+
+| Model Performance - page introduction |
+|---|
+| ![Model Performance page introduction](documentation/screenshots/performance-intro.png) |
+
+---
+
+#### ML Pipeline Steps
+
+The **ML Pipeline Steps** section explains how the final prediction workflow is
+structured. It shows how the process begins with data cleaning and feature
+engineering, before moving into the trained Gradient Boosting classification
+model.
+
+This helps demonstrate that the predictive workflow is structured
+and reproducible. It also shows that the deployed application uses
+the same cleaned and deployment aligned feature structure as the trained model,
+which helps keep predictions consistent and reliable.
+
+| ML Pipeline Steps |
+|---|
+| ![ML Pipeline Steps](documentation/screenshots/performance-pipeline.png) |
+
+The pipeline is split into two stages. The first stage prepares the cleaned
+booking data, handles data quality issues, and converts selected categorical
+inputs into the encoded feature structure used for modelling. The second stage
+applies the trained Gradient Boosting classifier and generates a cancellation
+probability for each booking.
+
+This shows that the predictive tool is not simply displaying a model output in
+isolation. Instead, it is supported by a defined workflow that connects
+preprocessing, modelling, and deployment in a consistent way.
+
+---
+
+#### Feature Importance
+
+The **Feature Importance** section shows which booking variables contributed
+most strongly to the final Gradient Boosting model.
+
+This is important because it helps explain why the model makes its
+predictions, rather than only showing the final performance scores. It gives
+useful insight into the booking characteristics that appear most closely linked
+to cancellation behaviour in the historical data.
+
+| Feature Importance |
+|---|
+| ![Feature Importance](documentation/screenshots/performance-features.png) |
+
+The chart shows that **lead time** was the most influential feature in the
+final model, followed by variables such as **total special requests**,
+**market segment**, **deposit type**, and **previous cancellations**.
+
+Lead time reflects booking uncertainty, deposit type reflects commitment,
+and previous cancellation behaviour provides historical context about
+customer reliability. This helps support the project objective of using
+historical booking behaviour to identify reservations that may be at greater
+risk of cancellation.
+
+---
+
+#### Train and Test Performance Summary
+
+The **Model Performance Summary** section compares the final model’s results on
+the training set and the test set. This helps assess both predictive
+performance and generalisation.
+
+A strong project outcome is not just a good training score, but a model that
+also performs well on unseen data. For this reason, comparing train and test
+results is important when deciding whether the final model is suitable for
+deployment.
+
+| Train and Test Performance Summary |
+|---|
+| ![Train and Test Performance Summary](documentation/screenshots/performance-traintest.png) |
+
+The train and test results are close across the main metrics, which suggests
+that the final **Gradient Boosting** model generalises reasonably well and is
+not showing the stronger overfitting that was seen earlier with Random Forest.
+
+The final **test set** results were:
+
+- **ROC-AUC:** 0.808  
+- **Accuracy:** 0.798  
+- **Precision:** 0.705  
+- **Recall:** 0.454  
+- **F1 Score:** 0.553  
+
+These results support the decision to select Gradient Boosting as the final
+model. In particular, the ROC-AUC score shows good ranking ability, while the
+F1 Score shows a reasonable balance between precision and recall. The lower
+recall also highlights that some cancellations are still missed, which is why
+the tool should be treated as decision support rather than certainty.
+
+---
+
+#### Confusion Matrix
+
+The **Confusion Matrix** section shows how the final model performed on unseen
+test data by comparing the predicted booking outcome against the true outcome.
+
+In this project, **class 0** represents bookings that were **not cancelled**
+and **class 1** represents bookings that **were cancelled**.
+
+| Confusion Matrix |
+|---|
+| ![Confusion Matrix](documentation/screenshots/performance-matrix.png) |
+
+The matrix shows that the model correctly identified a large number of
+non-cancelled bookings (**11,733**) and also correctly identified **2,181**
+cancelled bookings. However, it also missed **2,621** cancellations, which
+helps explain why recall for the cancellation class is more moderate.
+
+This gives a more practical view of model behaviour than a single
+score alone. It shows that the final model is stronger at identifying
+bookings that are likely to go ahead, while still providing useful support for
+highlighting higher risk bookings.
+
+---
+
+#### Classification Report
+
+The **Classification Report** provides a more detailed breakdown of precision,
+recall, and F1-score for each class.
+
+| Classification Report |
+|---|
+| ![Classification Report](documentation/screenshots/performance-classification.png) |
+
+The report shows that the model performs more strongly for **class 0**, with a
+recall of **0.928**, meaning it is very effective at identifying bookings that
+are likely to go ahead. For **class 1**, precision is **0.705** and recall is
+**0.454**, showing that while many predicted cancellations are correct, the
+model still misses a notable portion of actual cancellations.
+
+This is an important point in the context of the project. It shows that the
+model has useful predictive value, but it is not perfect. It performs well
+overall, with an accuracy of **0.798**, yet remains better at recognising
+stable bookings than cancelled ones. This supports the decision to frame the
+tool as a practical decision support system rather than a guaranteed forecasting
+solution.
+
+---
+
+#### Diagnostic Plots
+
+The **Diagnostic Plots** section provides two additional views of the final
+model using unseen test data: the **ROC Curve** and the
+**Precision-Recall Curve**.
+
+These plots help evaluate performance beyond the headline metrics and show how
+well the model separates cancelled and non-cancelled bookings across different
+decision thresholds.
+
+##### ROC Curve
+
+| ROC Curve |
+|---|
+| ![ROC Curve](documentation/screenshots/performance-roc.png) |
+
+The ROC curve shows the trade off between the true positive rate and the false
+positive rate across threshold settings. In this project, the curve supports
+the final **ROC-AUC score of 0.808**, indicating that the model has good
+overall ability to distinguish between cancelled and non-cancelled bookings.
+
+This matters because the predictive tool returns a probability based risk score,
+so it is important that the model can rank higher risk and lower risk bookings
+effectively across different cut off points.
+
+##### Precision-Recall Curve
+
+| Precision-Recall Curve |
+|---|
+| ![Precision-Recall Curve](documentation/screenshots/performance-precision.png) |
+
+The Precision-Recall curve shows how precision changes as recall increases,
+helping to visualise the trade off between catching more cancellations
+and introducing more false positives.
+
+The average precision score of **0.657** suggests that the model maintains a
+useful level of precision as recall increases, although performance weakens as
+the model tries to identify more cancelled bookings. Taken together with the
+ROC curve, this supports the conclusion that the final model is well balanced,
+while still involving trade offs that need to be interpreted carefully.
+
+---
+
+#### Business Interpretation
+
+The final model produces a **cancellation-risk probability** that can support
+decision making rather than act as certainty.
+
+In a real hotel setting, higher risk bookings could potentially be flagged for
+closer review, reminder messages, deposit enforcement, or other
+actions to reduce the likelihood or impact of cancellations. This helps
+demonstrate the practical value of predictive analytics within a business
+context.
+
+The evaluation results show that the final Gradient Boosting model is
+strong enough to support the project objective of identifying higher risk
+bookings in a structured and evidence-based way.
+
+---
+
+#### Limitations
+
+Although the final model performed well overall, some limitations remain.
+
+- Predictions are based on historical booking behaviour and may become less
+  reliable if real world patterns change over time.
+- The model does not capture every possible real world influence on
+  cancellation behaviour.
+- Recall for cancelled bookings is moderate, meaning that some cancellations
+  are still missed.
+- The output should therefore be treated as a **probability-based support
+  tool**, not as a guarantee of what will happen in any individual case.
+
+These limitations are important because they reinforce the correct use of the
+tool: it can support better judgement and more informed planning, but it should
+not replace human interpretation.
 
 ## Agile Methodology
 The GitHub Projects board used to plan and track development can be
