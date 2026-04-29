@@ -846,6 +846,144 @@ not arbitrary. It provided clear evidence that Gradient Boosting offered
 the strongest balance for deployment, which supported the reliability
 of the finished predictive tool.
 
+### Prediction Tool
+
+The **Prediction Tool** page allows the user to enter selected booking
+details and receive an estimated cancellation risk based on the final
+deployed model.
+
+This page turns the earlier analysis and model development into a practical
+decision-support tool. Rather than only presenting model metrics, it
+shows how the final predictive model can be applied to a realistic
+booking scenario.
+
+The predictive tool was designed to be clear and easy to use. The user selects a
+small number of booking related inputs, clicks **Predict cancellation
+risk**, and then reviews the estimated risk percentage, the risk band,
+and the supporting explanation shown below.
+
+The output is intended to support judgement rather than act as a certain
+outcome. This is important because the model is based on historical
+patterns and can highlight likely risk, but it cannot fully account for
+every real world reason behind a cancellation.
+
+#### Prediction Tool - page introduction
+
+The image below shows the opening section of the Prediction Tool page.
+This section explains what the tool does, how the prediction works, and
+what type of output the user can expect before any booking details are
+entered.
+
+| Prediction Tool - page introduction |
+|---|
+| ![Prediction Tool page introduction](documentation/screenshots/prediction-intro.png) |
+
+The page explains that the model uses selected booking details to
+estimate the likelihood that a reservation will be cancelled. It also
+makes clear that the tool returns:
+
+- a predicted cancellation risk percentage  
+- a risk band (**Low**, **Medium**, or **High**)  
+- a summary of the booking profile used for the estimate  
+
+This introductory section helps the user understand the purpose of the
+tool before interacting with it and makes the page more accessible to
+non technical users.
+
+#### Booking input details
+
+The booking input section allows the user to enter the details needed for
+the prediction.
+
+The image below shows the input area of the Prediction Tool page.
+
+![Prediction Tool booking input section](documentation/screenshots/prediction-inputs.png)
+
+The user can enter or select the following booking details:
+
+- **Lead time**
+- **Average daily rate (ADR)**
+- **Total special requests**
+- **Previous cancellations**
+- **Previous non-cancelled bookings**
+- **Hotel**
+- **Deposit type**
+- **Customer type**
+- **Meal**
+- **Market segment**
+- **Is repeated guest?**
+
+This section demonstrates that the live application is properly
+aligned with the final model. The tool only asks for realistic,
+deployment ready inputs and does not rely on features
+that would be unavailable in a real world setting.
+
+#### Prediction result
+
+Once the user clicks **Predict cancellation risk**, the page returns a
+predicted risk percentage and a risk band. This gives the user a clear,
+practical summary of the model output.
+
+The image below shows an example prediction result.
+
+![Prediction Tool prediction result](documentation/screenshots/prediction-result.png)
+
+In this example, the tool returned:
+
+- **Predicted cancellation risk:** 57.75%
+- **Risk band:** Medium
+
+This section translates the model output into a format
+that is easy to understand. Instead of only returning a technical
+score, the predictive tool presents the result in a way that supports 
+practical decision making.
+
+This page also explains that higher values suggest a greater likelihood
+of cancellation based on similar historical bookings. It reinforces that
+the output should be treated as decision support rather than certainty.
+
+#### What this means
+
+Below the main result, the page provides a short interpretation section
+to help the user understand what the prediction means in context.
+
+The image below shows the interpretation section.
+
+![Prediction Tool interpretation section](documentation/screenshots/prediction-meaning.png)
+
+This section adds practical value because it goes beyond showing a score
+and helps explain the reasoning in plain English. It highlights the below:
+
+- longer lead times can increase uncertainty and cancellation risk. 
+- guest history and prior cancellations can affect the estimate. 
+- repeat guests and stronger booking intent may reduce cancellation likelihood.
+- the result should be used to support judgement, not replace it. 
+
+A note is also included to remind the user that the prediction is based
+on historical patterns and cannot capture every real world factor. This
+was important for maintaining appropriate interpretation of the model
+itself and to show project limitations.
+
+#### Selected booking profile
+
+The final part of the page shows a summary of the booking profile used to
+generate the prediction. This improves transparency by allowing the user
+to review the exact inputs behind the estimate.
+
+The image below shows the selected booking profile summary.
+
+![Prediction Tool selected booking profile](documentation/screenshots/prediction-profile.png) 
+
+This section is helpful because it gives the user a clear record of the
+selected inputs and makes the prediction more transparent and easier to
+double check.
+
+The **Prediction Tool** page shows how the final predictive
+model can be used in practice. It combines user input, model output, and
+simple interpretation in one place, making the application more
+useful, understandable, and aligned with the practical goals of the
+project.
+
 ## Agile Methodology
 The GitHub Projects board used to plan and track development can be
 viewed [here](https://github.com/users/moranjohn-95/projects/11).
