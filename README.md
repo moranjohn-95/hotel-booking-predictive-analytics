@@ -1225,6 +1225,90 @@ These limitations are important because they reinforce the correct use of the
 tool: it can support better judgement and more informed planning, but it should
 not replace human interpretation.
 
+### Business Conclusions
+
+The **Business Conclusions** page explains the final practical
+meaning of the project and explains what the predictive tool could
+support in a real booking context.
+
+This page shows how the final findings can be translated into
+decision making value. Rather than stopping at technical
+performance, the page explains what the results may mean for a business
+that wants to assess cancellation risk in a more structured way.
+
+The page also reinforces an important point seen throughout the tool:
+the final model can support judgement, but it should not be treated as a
+certainty system.
+
+#### Business Conclusions - page introduction
+
+The image below shows the opening section of the **Business Conclusions**
+page. This introduction gives the user a clear overview of the main
+items covered on the page, including cancellation risk patterns,
+practical use of the tool, decision support, and responsible
+interpretation.
+
+| Business Conclusions - page introduction |
+|---|
+| ![Business Conclusions introduction](documentation/screenshots/bus-intro.png) |
+
+This opening section is useful because it prepares the user for the
+final interpretation stage of the dashboard and makes it clear that the
+page is focused on practical meaning, not just technical outputs.
+
+#### Practical use of the predictive tool
+
+This section xplains how the final predictive tool could be used in a hotel
+setting to support more focused review of higher-risk bookings.
+
+The image below shows the **Practical use of the predictive tool**
+section.
+
+| Practical use of the predictive tool |
+|---|
+| ![Practical use of the predictive tool](documentation/screenshots/bus-pract.png) |
+
+This section links the model output to realistic business use.
+It explains that the predicitve tool could help highlight bookings
+that may need closer attention, such as bookings that might benefit from
+reminder messages, deposit policies, or other interventions aimed at
+reducing cancellations.
+
+It also makes it clear that the predicitve tool is not meant to treat every 
+higher risk booking in the same way. Instead, its value lies in helping a business
+focus attention where risk appears more likely, rather than treating all
+bookings as equally uncertain.
+
+#### What the results suggest for decision making
+
+This section focuses on what the final results mean for business
+decision making.
+
+The image below shows the **What the results suggest for
+decision-making** section.
+
+| What the results suggest for decision-making |
+|---|
+| ![What the results suggest for decision-making](documentation/screenshots/bus-result.png) |
+
+This section strengthens the practical interpretation of the tool by
+explaining why the final model balance matters. It shows that a useful
+cancellation risk tool must identify higher risk bookings without
+creating too many unnecessary false alerts.
+
+This is especially relevant in a business setting, because false
+positives could lead to unnecessary interventions, while false
+negatives could mean missing bookings that may genuinely be at
+greater cancellation risk. The page therefore helps explain why
+**Gradient Boosting** was the most suitable final choice: it provided a
+reasonable middle ground for decision support on unseen data.
+
+The **Business Conclusions** page helps show that the final
+predictive tool has practical value beyond the modelling stage. It
+brings together the key findings from the project and presents them in a
+way that is more relevant to real booking risk review, while still keeping
+the interpretation responsible and evidence based.
+
 ## Agile Methodology
 The GitHub Projects board used to plan and track development can be
 viewed [here](https://github.com/users/moranjohn-95/projects/11).
