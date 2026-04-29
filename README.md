@@ -708,15 +708,19 @@ The **EDA Insights** page showcases the main patterns found during the
 exploratory analysis stage and shows which booking features were most
 closely linked to cancellation behaviour before modelling began.
 
-This was important because it really helped move the tool towards an evidence based prediction. 
-By identifying which booking features showed the clearest differences in cancellation
-behaviour, the exploratory analysis helped support later hypothesis
-validation, feature selection, and final model development.
+This was important because it helped move the tool towards a more
+evidence-based prediction workflow. By identifying which booking
+features showed the clearest differences in cancellation behaviour, the
+exploratory analysis supported later hypothesis validation, feature
+selection, and final model development.
 
-The EDA Insights page combines written explanations with supporting charts so
-that the findings are easy to follow for all.
+The EDA Insights page combines written explanations with supporting
+charts so that the findings are clear and easy to follow.
 
-In the below image the opening section of the EDA Insights page can be seen, this first section gives an overview of each section on the page as to guide the user more effectively. This is so the user can better understand the strucutre and meaning of this page. 
+The image below shows the opening section of the EDA Insights page. This
+introductory section gives the user a clear overview of the main findings
+presented on the page and helps explain the purpose and structure of the
+section.
 
 | EDA Insights - page introduction |
 |---|
@@ -724,20 +728,48 @@ In the below image the opening section of the EDA Insights page can be seen, thi
 
 The strongest patterns identified during EDA were longer lead times,
 clear deposit-type differences, lower cancellation rates among repeated
-guests and meaningful variation across market segments. 
+guests, and meaningful variation across market segments.
 
-| Lead time and cancellation | Deposit type and cancellation |
-|---|---|
-| ![EDA lead time section](documentation/screenshots/eda-leadtime.png) | ![EDA deposit type section](documentation/screenshots/eda-deposittype.png) |
+#### Lead time and cancellation
 
-| Repeat guests and cancellation | Market segment and cancellation |
-|---|---|
-| ![EDA repeat guest section](documentation/screenshots/eda-repeatguest.png) | ![EDA market segment section](documentation/screenshots/eda-marketsegment.png) |
+One of the clearest early patterns in the data was that bookings made
+further in advance were more likely to be cancelled. Cancelled bookings
+showed a noticeably higher average lead time than non-cancelled
+bookings, suggesting that longer planning horizons may create more time
+for plans to change.
 
-The EDA page helped prove that cancellation behaviour was
-not random. It highlighted clear behavioural and booking related
-patterns in the dataset, which later supported the hypothesis testing
-stage and helped justify the final predictive workflow.
+![EDA lead time section](documentation/screenshots/eda-leadtime.png)
+
+#### Deposit type and cancellation
+
+Deposit type also showed one of the strongest relationships with
+cancellation behaviour. In particular, non-refundable bookings had a far
+higher cancellation rate than the other deposit categories, making
+deposit type an important feature to examine before modelling.
+
+![EDA deposit type section](documentation/screenshots/eda-deposittype.png)
+
+#### Repeat guests and cancellation
+
+Repeat guests were much less likely to cancel than non-repeat guests.
+This suggested that previous customer history and booking loyalty could
+act as useful behavioural signals when assessing cancellation risk.
+
+![EDA repeat guest section](documentation/screenshots/eda-repeatguest.png)
+
+#### Market segment and cancellation
+
+Cancellation behaviour also varied across market segments. While some
+categories needed cautious interpretation because of small sample size,
+the page still showed that booking channel and customer context could
+add useful information for prediction.
+
+![EDA market segment section](documentation/screenshots/eda-marketsegment.png)
+
+The EDA page helped show that cancellation behaviour was not random. It
+highlighted clear behavioural and booking-related patterns in the
+dataset, which later supported the hypothesis testing stage and helped
+justify the final predictive workflow.
 
 ## Agile Methodology
 The GitHub Projects board used to plan and track development can be
