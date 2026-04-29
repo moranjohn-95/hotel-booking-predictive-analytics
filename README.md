@@ -771,6 +771,81 @@ highlighted clear behavioural and booking-related patterns in the
 dataset, which later supported the hypothesis testing stage and helped
 justify the final predictive workflow.
 
+### Model Comparison
+
+The **Model Comparison** page explains how the classification models
+tested were compared and why **Gradient Boosting** was
+selected as the final deployed model.
+
+This was important because the final predictive tool needed more
+than a single strong metric. We had to consider overall
+performance on unseen data, the balance between precision and recall,
+and whether a model generalised well rather than overfitting.
+
+This page combines a summary, comparison visuals, and final model
+metrics so that the user can clearly see why the final model was chosen.
+
+The image below shows the opening section of the Model Comparison page.
+This introduction explains the purpose of the page and gives the user a
+clear overview of the main comparison sections that follow.
+
+| Model Comparison - page introduction |
+|---|
+| ![Model Comparison introduction](documentation/screenshots/model-intro.png) |
+
+The page brings together the main model comparison evidence, including
+the comparison table, ROC-AUC scores, F1 Score comparison, and the final
+selected model metrics.
+
+#### Model comparison table
+
+The comparison table gives a clear summary of the main test set metrics
+across all models. This helps the user compare each model side by side
+rather than relying on a single chart or score in isolation.
+
+![Model comparison table](documentation/screenshots/model-comptable.png)
+
+#### ROC-AUC comparison across models
+
+The ROC-AUC chart shows how well each model separates cancelled and
+non-cancelled bookings across different thresholds. This matters because
+the predictive tool returns a risk probability, so good ranking and
+separation performance are important.
+
+Gradient Boosting achieved the highest ROC-AUC, showing the strongest
+overall separation performance on unseen data.
+
+![Model ROC-AUC comparison](documentation/screenshots/model-roc.png)
+
+#### F1 Score comparison across models
+
+The F1 Score comparison is very useful because it balances precision and
+recall. This makes it a strong measure when cancellation prediction
+involves a trade off between catching risky bookings and avoiding too
+many false alerts.
+
+Gradient Boosting also achieved the strongest F1 Score, which supported
+its stronger overall balance compared with the other tested models.
+
+![Model F1 Score comparison](documentation/screenshots/model-f1.png)
+
+#### Final model selection
+
+The final model selection section summarises why Gradient Boosting was
+chosen for deployment. Although Random Forest achieved slightly higher
+recall, Gradient Boosting provided the better overall balance and showed
+more stable performance on unseen data.
+
+This made it the safer and more reliable choice for the final predictive
+tool.
+
+![Final model selection metrics](documentation/screenshots/model-finalselection.png)
+
+The Model Comparison page helped show that the final model choice was
+not arbitrary. It provided clear evidence that Gradient Boosting offered
+the strongest balance for deployment, which supported the reliability
+of the finished predictive tool.
+
 ## Agile Methodology
 The GitHub Projects board used to plan and track development can be
 viewed [here](https://github.com/users/moranjohn-95/projects/11).
