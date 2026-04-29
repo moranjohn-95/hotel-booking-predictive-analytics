@@ -792,6 +792,7 @@ if page == "Model Comparison":
     )
     st.divider()
 
+    st.subheader("Model comparison table")
     st.dataframe(model_results)
     st.divider()
 
