@@ -19,6 +19,7 @@ from sklearn.model_selection import train_test_split
 
 st.set_page_config(
     page_title="Hotel Booking Cancellation Analytics",
+    page_icon="documentation/design/android-chrome-192x192.png.png",
     layout="wide",
 )
 
