@@ -1,5 +1,7 @@
 # hotel-booking-predictive-analytics
-Predictive analytics project using hotel booking demand data, Jupyter notebooks, and Streamlit
+A machine learning powered web application for exploring hotel booking
+cancellation patterns and predicting cancellation risk using historical
+hotel booking data.
 
 ## Table of Contents
 1. [Project Overview](#project-overview)
