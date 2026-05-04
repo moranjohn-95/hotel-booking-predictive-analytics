@@ -469,6 +469,19 @@ data and selected booking features.
 | **Use case** | Support booking risk review and more informed decision making |
 | **Primary focus** | Balanced performance on unseen data rather than one metric alone |
 
+### Pipeline Summary
+
+The predictive workflow followed a clear sequence from data preparation
+through to the final deployment.
+
+| Stage | What was done | Why it mattered |
+|---|---|---|
+| Data cleaning | The booking data was reviewed, cleaned, and checked for issues such as unsuitable fields and deployment misalignment | This helped make sure the final workflow was realistic and based on reliable inputs |
+| Feature engineering | The selected booking features were prepared for modelling, including encoding categorical variables into numeric form | This created the final feature structure needed for machine learning |
+| Model comparison | Multiple classification models were trained and compared using shared test set metrics | This made model selection more evidence based and reduced the risk of choosing a model based on one score alone |
+| Final model selection | Gradient Boosting was selected as the final model because it showed the best overall balance on unseen data | This supported a more reliable deployment choice |
+| Deployment-aligned prediction tool | The final Streamlit app was built using only the selected deployment ready inputs | This kept the live app aligned with the final trained model and avoided unrealistic or leakage prone inputs |
+
 ### Why a Classification Model Was Suitable
 
 This tool needed to predict one of two possible outcomes:
