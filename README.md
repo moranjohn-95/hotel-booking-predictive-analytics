@@ -1730,6 +1730,7 @@ The following resources were used during development:
 | [Heroku Documentation](https://devcenter.heroku.com/) | Deployment guidance |
 | [Code Institute Python Linter](https://pep8ci.herokuapp.com/) | Python code validation |
 | [Credit Card Fraud Detection README](https://github.com/Code-Institute-Submissions/credit-card-fraud-detection#technologies-used) | README structure and section layout reference |
+| ChatGPT | Used for debugging, README structure guidance, and wording refinement during development |
 
 ### Tools Used
 
