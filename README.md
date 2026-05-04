@@ -1729,6 +1729,7 @@ The following resources were used during development:
 | [Joblib Documentation](https://joblib.readthedocs.io/en/latest/) | Model serialisation and loading |
 | [Heroku Documentation](https://devcenter.heroku.com/) | Deployment guidance |
 | [Code Institute Python Linter](https://pep8ci.herokuapp.com/) | Python code validation |
+| [Credit Card Fraud Detection README](https://github.com/Code-Institute-Submissions/credit-card-fraud-detection#technologies-used) | README structure and section layout reference |
 
 ### Tools Used
 
