@@ -1546,3 +1546,20 @@ its deployed environment.
 
 Testing showed that the final predictive analytics dashboard is stable,
 consistent, and aligned with the final deployed model.
+
+## Bugs
+
+### Resolved Issues
+
+During development, a number of issues were found and fixed as the tool
+was improved. The table below summarises the main problems that came up
+and how they were resolved.
+
+| Bug / Issue | Cause | Fix | Status |
+|---|---|---|---|
+| App inputs did not fully match the final model | Earlier versions of the app still reflected a wider feature set than the final deployed model | The prediction inputs were updated so the app only used the final deployment aligned features | Resolved |
+| Some unsuitable fields were still present in earlier modelling stages | A few fields were not realistic for deployment or risked leaking outcome information | These fields were removed and a cleaned deployment ready dataset was created | Resolved |
+| Final model references were not fully updated across the app | Some content still reflected earlier model choices after Gradient Boosting became the final model | The dashboard wording and related sections were updated so the final model was shown consistently throughout | Resolved |
+| Page styling became inconsistent during content updates | Sections were added and revised page by page, which caused some formatting differences | Intro boxes, section dividers, and explanation blocks were standardised across the dashboard | Resolved |
+| Heroku deployment files were missing at the start | The repository did not yet include the files needed for Heroku deployment | A `Procfile` and `.python-version` file were added and the app was prepared properly for deployment | Resolved |
+| A Windows only dependency was still in the requirements file | The requirements list included a package that was not suitable for Linuxb ased deployment | The deployment requirements were reviewed and the unsuitable dependency was removed | Resolved |
