@@ -1563,3 +1563,138 @@ and how they were resolved.
 | Page styling became inconsistent during content updates | Sections were added and revised page by page, which caused some formatting differences | Intro boxes, section dividers, and explanation blocks were standardised across the dashboard | Resolved |
 | Heroku deployment files were missing at the start | The repository did not yet include the files needed for Heroku deployment | A `Procfile` and `.python-version` file were added and the app was prepared properly for deployment | Resolved |
 | A Windows only dependency was still in the requirements file | The requirements list included a package that was not suitable for Linuxb ased deployment | The deployment requirements were reviewed and the unsuitable dependency was removed | Resolved |
+
+## Deployment
+
+### Heroku
+
+The application is deployed on **Heroku**.
+
+**Live App:** [Hotel Booking Analytics](https://hotel-booking-analytics-25ff54f64cf5.herokuapp.com/)
+
+### Deployment Steps
+
+#### Create the Heroku App
+
+1. Log in to the **Heroku Dashboard**
+2. Click **New** → **Create new app**
+3. Enter an app name
+4. Select the region (**Europe** was used for this project)
+5. Click **Create app**
+
+#### Connect the GitHub Repository
+
+1. Open the **Deploy** tab in Heroku
+2. Select **GitHub** as the deployment method
+3. Connect the GitHub account if prompted
+4. Search for the repository:
+   - `hotel-booking-predictive-analytics`
+5. Click **Connect**
+
+#### Deploy the Application
+
+1. Scroll to the **Manual deploy** section
+2. Select the `main` branch
+3. Click **Deploy Branch**
+4. Wait for the build to complete
+5. Open the live app once deployment finishes
+
+### Configuration Files
+
+| File | Purpose |
+|---|---|
+| `Procfile` | Defines the Heroku start command for the Streamlit app |
+| `.python-version` | Specifies the Python version used for deployment |
+| `requirements.txt` | Lists the Python packages needed to run the app |
+
+### Local Development
+
+#### Prerequisites
+
+- Python 3.12 or a similar compatible version
+- Git
+- A virtual environment tool such as `venv`
+
+#### Clone the Repository
+
+    git clone https://github.com/moranjohn-95/hotel-booking-predictive-analytics
+    cd hotel-booking-predictive-analytics
+
+#### Create and Activate a Virtual Environment
+
+    python -m venv venv
+
+**Mac / Linux**
+
+    source venv/bin/activate
+
+**Windows**
+
+    venv\Scripts\activate
+
+#### Install Dependencies
+
+    pip install -r requirements.txt
+
+#### Run the Application
+
+    streamlit run app.py
+
+### Forking the Repository
+
+1. Go to the GitHub repository
+2. Click the **Fork** button in the top right corner
+3. This creates a copy of the repository under your GitHub account
+
+### Clone Your Fork
+
+    git clone https://github.com/YOUR-USERNAME/hotel-booking-predictive-analytics
+    cd hotel-booking-predictive-analytics
+
+## Credits
+
+### Dataset
+
+This predictive tool uses the **Hotel Booking Demand** dataset from
+**Kaggle**.
+
+The dataset contains booking records for both a **City Hotel** and a
+**Resort Hotel**, and was used as the basis for the exploratory
+analysis, hypothesis validation, and machine learning workflow in this
+tool.
+
+The dataset is based on the **Hotel Booking Demand Datasets** research
+work by **Nuno Antonio, Ana de Almeida, and Luis Nunes**.
+
+### Documentation and References
+
+The following resources were used during development:
+
+| Resource | Usage |
+|---|---|
+| [Streamlit Documentation](https://docs.streamlit.io/) | Dashboard development |
+| [scikit-learn Documentation](https://scikit-learn.org/stable/) | Model training, preprocessing, and evaluation |
+| [Pandas Documentation](https://pandas.pydata.org/docs/) | Data handling and analysis |
+| [NumPy Documentation](https://numpy.org/doc/) | Numerical operations |
+| [Matplotlib Documentation](https://matplotlib.org/stable/) | Static visualisations |
+| [Plotly Documentation](https://plotly.com/python/) | Interactive charts |
+| [Joblib Documentation](https://joblib.readthedocs.io/en/latest/) | Model serialisation and loading |
+| [Heroku Documentation](https://devcenter.heroku.com/) | Deployment guidance |
+| [Code Institute Python Linter](https://pep8ci.herokuapp.com/) | Python code validation |
+
+### Tools Used
+
+| Tool | Purpose |
+|---|---|
+| VS Code | Code editor |
+| Jupyter Notebook | Exploratory analysis and modelling |
+| Git | Version control |
+| GitHub | Repository hosting |
+| GitHub Projects | Agile project planning |
+| Heroku | Cloud deployment |
+
+## Acknowledgements
+
+- **Code Institute** for the learning materials and project brief.
+- The creators of the **Hotel Booking Demand** dataset on kaggle for making the
+  data available for analysis.
