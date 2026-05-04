@@ -3,6 +3,8 @@ A machine learning powered web application for exploring hotel booking
 cancellation patterns and predicting cancellation risk using historical
 hotel booking data.
 
+The live site can be viewed [here](https://hotel-booking-analytics-25ff54f64cf5.herokuapp.com/).
+
 ## Table of Contents
 1. [Project Overview](#project-overview)
 2. [Dataset Content](#dataset-content)
