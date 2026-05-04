@@ -10,12 +10,13 @@ Predictive analytics project using hotel booking demand data, Jupyter notebooks,
 6. [ML Business Case](#ml-business-case)
 7. [Dashboard Design](#dashboard-design)
 8. [Features](#features)
-9. [Agile Methodology](#agile-methodology)
-10. [Testing](#testing)
-11. [Bugs](#bugs)
-12. [Deployment](#deployment)
-13. [Credits](#credits)
-14. [Acknowledgements](#acknowledgements)
+9. [Technologies Used](#technologies-used)
+10. [Agile Methodology](#agile-methodology)
+11. [Testing](#testing)
+12. [Bugs](#bugs)
+13. [Deployment](#deployment)
+14. [Credits](#credits)
+15. [Acknowledgements](#acknowledgements)
 
 ## Project Overview
 
@@ -1308,6 +1309,49 @@ predictive tool has practical value beyond the modelling stage. It
 brings together the key findings from the project and presents them in a
 way that is more relevant to real booking risk review, while still keeping
 the interpretation responsible and evidence based.
+
+## Technologies Used
+
+### Languages
+
+| Technology | Purpose |
+|---|---|
+| Python | Main programming language for the predictive analytics workflow and deployed application |
+| Markdown | Project documentation and README writing |
+
+### Frameworks, Libraries, and Packages
+
+| Technology | Purpose |
+|---|---|
+| Pandas | Data cleaning, exploration, and manipulation |
+| NumPy | Numerical operations |
+| Matplotlib | Static charts and model evaluation plots |
+| Plotly | Interactive dashboard visualisations |
+| scikit-learn | Preprocessing, train/test splitting, model training, and performance evaluation |
+| Joblib | Saving and loading the trained model |
+| Streamlit | Building and deploying the interactive dashboard |
+
+### Development Tools and Platforms
+
+| Technology | Purpose |
+|---|---|
+| Jupyter Notebook | Exploratory analysis, feature engineering, and model development |
+| VS Code | Main code editor |
+| Git | Version control |
+| GitHub | Repository hosting |
+| GitHub Projects | Agile planning with epics and user stories |
+| Heroku | Live deployment of the application |
+
+### Validation and Testing Tools
+
+| Technology | Purpose |
+|---|---|
+| Code Institute Python Linter (PEP8CI) | Python code validation for `app.py` |
+
+### Dataset Source
+
+The **Hotel Booking Demand** dataset was accessed through **Kaggle**
+and used as the data source for the predictive tool.
 
 ## Agile Methodology
 The GitHub Projects board used to plan and track development can be
